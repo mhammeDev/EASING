@@ -1,0 +1,85 @@
+{
+  "pieces": [
+    {
+      "nom": "Chambre parentale",
+      "superficie": "7.27 m²",
+      "position": {"x": 10, "y": 20, "largeur": 100, "hauteur": 50},
+      "capteurs": [
+        { "type": "Capteur de présence", "quantite": 1 }
+      ],
+      "actionneurs": [
+        { "type": "Ampoule connectée", "quantite": 1 },
+        { "type": "Assistant vocal", "quantite": 1 }
+      ]
+    },
+    {
+      "nom": "Chambre",
+      "superficie": "14.09 m²",
+      "position": {"x": 120, "y": 20, "largeur": 80, "hauteur": 50},
+      "capteurs": [
+        { "type": "Capteur de présence", "quantite": 1 }
+      ],
+      "actionneurs": [
+        { "type": "Prise connectée", "quantite": 1 },
+        { "type": "Store motorisé", "quantite": 1 }
+      ]
+    },
+    {
+      "nom": "Salle de bain",
+      "superficie": "5.49 m²",
+      "capteurs": [
+        { "type": "Capteur de présence", "quantite": 1 },
+        { "type": "Détecteur de fuite d'eau", "quantite": 1 }
+      ],
+      "actionneurs": [
+        { "type": "Ampoule connectée", "quantite": 1 }
+      ]
+    },
+    {
+      "nom": "Cuisine",
+      "superficie": "18.0 m²",
+      "position": {"x": 10, "y": 100, "largeur": 120, "hauteur": 60},
+      "capteurs": [
+        { "type": "Capteur de présence", "quantite": 1 }
+      ],
+      "actionneurs": [
+        { "type": "Thermostat connecté", "quantite": 1 }
+      ]
+    },
+    {
+      "nom": "Salle à manger",
+      "superficie": "40.0 m²",
+      "position": {"x": 10, "y": 100, "largeur": 120, "hauteur": 60},
+      "capteurs": [
+        { "type": "Capteur de présence", "quantite": 1 }
+      ],
+      "actionneurs": [
+        { "type": "Ampoule connectée", "quantite": 1 },
+        { "type": "Store motorisé", "quantite": 1 }
+      ]
+    },
+    {
+      "nom": "Salon",
+      "superficie": "16.94 m²",
+      "position": {"x": 10, "y": 100, "largeur": 120, "hauteur": 60},
+      "capteurs": [
+        { "type": "Capteur de présence", "quantite": 1 }
+      ],
+      "actionneurs": [
+        { "type": "Ampoule connectée", "quantite": 1 },
+        { "type": "Prise connectée pour TV", "quantite": 1 }
+      ]
+    },
+    {
+      "nom": "Hall d'entrée",
+      "superficie": "14.29 m²",
+      "position": {"x": 10, "y": 100, "largeur": 120, "hauteur": 60},
+      "capteurs": [
+        { "type": "Capteur de présence", "quantite": 1 }
+      ],
+      "actionneurs": [
+        { "type": "Assistant vocal", "quantite": 1 }
+      ]
+    }
+  ]
+}

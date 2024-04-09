@@ -13,7 +13,7 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false }
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false }
     ],
     "actionneurs": [
     ]
@@ -31,7 +31,7 @@ export const pieces = [
       ]
     },"etage":1,
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" :false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" :false },
       {"type": "Détecteur de fuite d'eau", "quantite" : 1, "etat" : false}
     ],
     "actionneurs": [
@@ -52,7 +52,7 @@ export const pieces = [
             {"x": 0, "y": 900},
           ]},
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false }
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false }
     ],
     "actionneurs": [
       { "type": "Prise connectée", "quantite": 1 },
@@ -79,7 +79,7 @@ export const pieces = [
     },
     "etage": 1,
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false }
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false }
     ],
     "actionneurs": [
       {"type": "Lumière connectée", "quantite": 1},
@@ -101,7 +101,7 @@ export const pieces = [
 
       ]
     },    "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
       //{ "type": "Détecteur de fuite d'eau", "quantite": 1 }
     ],
     "actionneurs": [
@@ -122,7 +122,7 @@ export const pieces = [
       ]
     },"etage":1,
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
     //  { "type": "Ampoule connectée", "quantite": 1 },
@@ -145,7 +145,7 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
     ]
@@ -163,7 +163,7 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
     ]
@@ -183,7 +183,7 @@ export const pieces = [
 
       ]
     },    "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
       { "type": "Ampoule connectée", "quantite": 1 },
@@ -206,7 +206,7 @@ export const pieces = [
 
       ]
     },    "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": []
   },
@@ -224,7 +224,7 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
       { "type": "Prise connectée pour TV", "quantite": 1 },
@@ -244,7 +244,7 @@ export const pieces = [
         {"x": 950, "y": 0},
       ]
     }, "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1, "etat" : false },
+      { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
       { "type": "Ampoule connectée", "quantite": 1 },
@@ -256,6 +256,9 @@ export const pieces = [
 export const type_capteur = [
   { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce" },
   { "_id": "sensor-water-leak", "type": "Détecteur de fuite d'eau", "description": "Détecte les fuites d'eau" },
+]
+
+export const type_actionneur = [
   { "_id": "sensor-light", "type": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce" },
   { "_id": "sensor-smart-plug", "type": "Prise connectée", "description": "Permet de contrôler les appareils électriques" },
   { "_id": "sensor-motorized-blind", "type": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores" }
@@ -268,7 +271,7 @@ export const  test = [
     "position": {"x": 10, "y": 100, "largeur": 480, "hauteur": 240},
     "etage":0,
     "capteurs": [
-      { "type": "Capteur de présence", "quantite": 1 }
+      { "typeId": "sensor-presence", "quantite": 1 }
     ],
     "actionneurs": [
       { "type": "Ampoule connectée", "quantite": 1 },

@@ -32,10 +32,10 @@ export const pieces = [
     },"etage":1,
     "capteurs": [
       { "typeId": "sensor-presence", "quantite": 1, "etat" :false },
-      {"type": "Détecteur de fuite d'eau", "quantite" : 1, "etat" : false}
+      {"typeId": "sensor-water-leak", "quantite" : 1, "etat" : false}
     ],
     "actionneurs": [
-    //  { "type": "Ampoule connectée", "quantite": 1 },
+    //  { "type": "sensor-light", "quantite": 1 },
       //{ "type": "Assistant vocal", "quantite": 1 }
     ]
   },
@@ -55,8 +55,8 @@ export const pieces = [
       { "typeId": "sensor-presence", "quantite": 1, "etat" : false }
     ],
     "actionneurs": [
-      { "type": "Prise connectée", "quantite": 1 },
-      { "type": "Store motorisé", "quantite": 1 }
+      { "typeId": "sensor-smart-plug", "quantite": 1 },
+      { "typeId": "sensor-motorized-blind", "quantite": 1 }
     ]
   },  {
     id:4,
@@ -82,8 +82,8 @@ export const pieces = [
       { "typeId": "sensor-presence", "quantite": 1, "etat" : false }
     ],
     "actionneurs": [
-      {"type": "Lumière connectée", "quantite": 1},
-      {"type": "Lumière connectée prise intelligente", "quantite": 1}
+      {"typeId": "sensor-light", "quantite": 1},
+      {"typeId": "sensor-light prise intelligente", "quantite": 1}
     ]
   },
   {
@@ -105,7 +105,7 @@ export const pieces = [
       //{ "type": "Détecteur de fuite d'eau", "quantite": 1 }
     ],
     "actionneurs": [
-     // { "type": "Ampoule connectée", "quantite": 1 }
+     // { "type": "sensor-light", "quantite": 1 }
     ]
   },
   {
@@ -125,7 +125,7 @@ export const pieces = [
       { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
-    //  { "type": "Ampoule connectée", "quantite": 1 },
+    //  { "type": "sensor-light", "quantite": 1 },
      // { "type": "Assistant vocal", "quantite": 1 }
     ]
   },  {
@@ -186,9 +186,9 @@ export const pieces = [
       { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
-      { "type": "Ampoule connectée", "quantite": 1 },
-      { "type": "Prise connectée pour TV", "quantite": 1 },
-      { "type": "Store motorisé", "quantite": 3 }
+      { "typeId": "sensor-light", "quantite": 1 },
+      { "typeId": "sensor-smart-plug pour TV", "quantite": 1 },
+      { "typeId": "sensor-motorized-blind", "quantite": 3 }
     ]
   },
   {
@@ -227,8 +227,8 @@ export const pieces = [
       { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
-      { "type": "Prise connectée pour TV", "quantite": 1 },
-      { "type": "Thermostat connecté", "quantite": 1 }
+      { "typeId": "sensor-smart-plug pour TV", "quantite": 1 },
+      { "typeId": "Thermostat connecté", "quantite": 1 }
     ]
   },
   {
@@ -247,7 +247,7 @@ export const pieces = [
       { "typeId": "sensor-presence", "quantite": 1, "etat" : false },
     ],
     "actionneurs": [
-      { "type": "Ampoule connectée", "quantite": 1 },
+      { "typeId": "sensor-light", "quantite": 1 },
     ]
   },
 
@@ -256,12 +256,19 @@ export const pieces = [
 export const type_capteur = [
   { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce" },
   { "_id": "sensor-water-leak", "type": "Détecteur de fuite d'eau", "description": "Détecte les fuites d'eau" },
+  {"_id": "sensor-luminosity", "type" : "Détecteur de luminsosité", "description":"Détecle la luminosité"},
+  { "_id": "sensor-temperature", "type": "Détecteur de température", "description": "Détecte les variations de température" },
+
 ]
 
 export const type_actionneur = [
   { "_id": "sensor-light", "type": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce" },
   { "_id": "sensor-smart-plug", "type": "Prise connectée", "description": "Permet de contrôler les appareils électriques" },
-  { "_id": "sensor-motorized-blind", "type": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores" }
+  { "_id": "sensor-motorized-blind", "type": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores" },
+  { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce" },
+  { "_id": "sensor-water-leak", "type": "Détecteur de fuite d'eau", "description": "Détecte les fuites d'eau" },
+  {"_id": "sensor-luminosity", "type" : "Détecteur de luminsosité", "description":"Détecle la luminosité"},
+  { "_id": "sensor-temperature", "type": "Détecteur de température", "description": "Détecte les variations de température" },
 ]
 
 export const  test = [
@@ -274,8 +281,8 @@ export const  test = [
       { "typeId": "sensor-presence", "quantite": 1 }
     ],
     "actionneurs": [
-      { "type": "Ampoule connectée", "quantite": 1 },
-      { "type": "Prise connectée pour TV", "quantite": 1 }
+      { "type": "sensor-light", "quantite": 1 },
+      { "type": "sensor-smart-plug pour TV", "quantite": 1 }
     ]
   }
 ]

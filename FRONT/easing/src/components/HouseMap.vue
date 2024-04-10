@@ -1,5 +1,7 @@
 <template>
-
+  <v-btn  class="" variant="tonal" @click="pushCaptorActionneur" color="primary">
+    Push the captor/actionneur floor
+  </v-btn>
           <v-stage :config="{ width: stageWidth, height: stageHeight }">
            <v-layer>
            <v-group  v-for="piece in tabPiece" :key="piece.id"
@@ -23,24 +25,56 @@
                       @dragend="dragEnd">
 
                 <v-circle :config="headConfig()"></v-circle>
-
               </v-group>
-
-
             </v-layer>
 
-            <v-layer v-if="showMenu">
-              <v-rect :config="menuConfig"></v-rect>
+
+            <v-layer>
+              <v-rect :config="menuConfig">
+              </v-rect>
               <v-text  v-for="(item, index) in captorActionneur" :key="item._id" :config="getMenuItemConfig(item,index)"></v-text>
+              <template v-for="(item, index) in captorActionneur" :key="index">
+                <v-circle v-if="getMenuItemSquareConfig(index, item).shape === 'circle'"
+                          :config="getMenuItemSquareConfig(index, item)"
+                          :draggable="mode === 2"
+                          @dragstart="startMenu($event, index, item)"
+                          @dragend="endMenu($event, item)">
+                </v-circle>
 
-              <v-rect v-for="(index) in captorActionneur.length" :key="index"
-                        :config="getMenuItemSquareConfig(index)"
-                        :draggable="true"
-                        @dragstart="startMenu($event, index)"
+                <v-rect v-else-if="getMenuItemSquareConfig(index, item).shape === 'rect'"
+                        :config="getMenuItemSquareConfig(index, item)"
+                        :draggable="mode === 2"
+                        @dragstart="startMenu($event, index, item)"
+                        @dragend="endMenu($event, item)">
 
-                ></v-rect>
+                </v-rect>
+
+                <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, item).shape === 'regularPolygon'"
+                                   :config="getMenuItemSquareConfig(index, item)"
+                                   :draggable="mode === 2"
+                                   @dragstart="startMenu($event, index, item)"
+                                   @dragend="endMenu($event, item)">
+                </v-regular-polygon>
+              </template>
+
+              <template v-if="mode === 2">
+                <template v-for="(item, index) in captAdd" :key="index">
+
+                  <v-circle v-if="getMenuItemSquareConfig(index, item, item.points).shape === 'circle'"
+                            :config="getMenuItemSquareConfig(index, item,  item.points)">
+                  </v-circle>
+
+                  <v-rect v-else-if="getMenuItemSquareConfig(index, item,  item.points).shape === 'rect'"
+                          :config="getMenuItemSquareConfig(index, item,  item.points)">
+
+                  </v-rect>
+
+                  <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, item, item.points).shape === 'regularPolygon'"
+                                     :config="getMenuItemSquareConfig(index, item,  item.points)">
+                  </v-regular-polygon>
+                </template>
+              </template>
             </v-layer>
-
           </v-stage>
 </template>
 
@@ -66,19 +100,19 @@ export default defineComponent({
     const stageHeight = ref(window.innerHeight);
     const scaleFactor = ref(0);
     const store = useRoomsStore();
-    const{pieces, currentFloor, captorActionneur} = storeToRefs(store)
-    const {getPieces, getCaptorandSensor } = store;
+    const{pieces, currentFloor, captorActionneur, captorActioneurToAdd} = storeToRefs(store)
+    const {getPieces, getCaptorandSensor, addCaptorActionneur, pushCaptorActionneur } = store;
 
     const menuX = ref(1250 );
     const menuY =ref(0);
 
-    const showMenu = ref(true);
+    const mode = ref(2);
 
     const menuConfig = computed(() => ({
       x: menuX.value,
       y: menuY.value,
       width: 400,
-      height: 470,
+      height: captorActionneur.value.length * 100 *scaleFactor.value,
       fill: 'transparent',
       stroke: 'black',
       strokeWidth: 1
@@ -92,29 +126,71 @@ export default defineComponent({
       fill: 'black'
     });
 
-    const getMenuItemSquareConfig = (index) => ({
-      x: menuX.value + 20 * scaleFactor.value,
-      y: menuY.value + (index * 60) *  scaleFactor.value,
-      width: 40 * scaleFactor.value,
-      height: 40 *scaleFactor.value,
-      fill: 'blue',
-      stroke: 'black',
-      strokeWidth: 1,
-    });
+    const getMenuItemSquareConfig = (index, item, coord) => {
+      let shapeConfig;
+      let x =menuX.value + 30 * scaleFactor.value;
+      let y =menuY.value + 60 + (index * 60) *  scaleFactor.value;
+
+      if(coord !== undefined){
+        x = coord.x;
+        y = coord.y;
+      }
+
+      switch (item._id) {
+        case 'sensor-light':
+          shapeConfig = {
+            shape: 'circle',
+            fill: 'yellow'
+          };
+          break;
+        case 'sensor-smart-plug':
+          shapeConfig = {
+            shape: 'circle',
+            fill: 'lightblue'
+          };
+          break;
+        case 'sensor-motorized-blind':
+          shapeConfig = {
+            shape: 'regularPolygon',
+            sides: 6,
+            fill: 'pink'
+          };
+          break;
+        case 'sensor-water-leak':
+          shapeConfig = {
+            shape: 'regularPolygon',
+            sides: 4,
+            rotate:90,
+            fill: 'blue'
+          };
+          break;
+        default:
+          shapeConfig = null;
+      }
+
+      return {
+        x: x,
+        y: y,
+        stroke: 'black',
+        strokeWidth: 1,
+        width: 30 * scaleFactor.value,
+        height: 30 * scaleFactor.value,
+        ...shapeConfig
+      };
+    };
+
 
     const setMenusSizeAndPos = () =>{
       menuConfig.value.x = menuX.value;
       menuConfig.value.y = menuY.value;
       menuConfig.value.width *= scaleFactor.value;
-      menuConfig.value.height *= scaleFactor.value;
+      menuConfig.value.height = captorActionneur.value.length * 100 *scaleFactor.value;
 
     }
 
     const setSize = () =>{
       if(window.innerWidth < 501){
         scaleFactor.value = 0.30
-        menuX.value = 0;
-        menuY.value = 400;
         setMenusSizeAndPos();
       } else if(window.innerWidth < 800){
         scaleFactor.value = 0.40;
@@ -237,6 +313,13 @@ export default defineComponent({
           ? pieces.value.filter(piece => piece.etage === 0)
           : pieces.value.filter(piece => piece.etage !== 0);
     });
+
+    const captAdd = computed(() => {
+      return currentFloor.value === 'first'
+          ? captorActioneurToAdd.value.filter(piece => piece.etage === 0)
+          : captorActioneurToAdd.value.filter(piece => piece.etage !== 0);
+    });
+
     const getSensorCaptorState = (piece) => {
       return piece.capteurs.some(e => e.typeId === "sensor-presence" && e.etat === true);
     };
@@ -256,7 +339,7 @@ export default defineComponent({
           context.closePath();
           context.fillStrokeShape(shape);
         },
-        fill: getSensorCaptorState(piece) === true ? 'red' :'gray',
+        fill: getSensorCaptorState(piece) === true ? 'red' :'lightgray',
         stroke: 'black',
         strokeWidth: 2
       };
@@ -314,11 +397,11 @@ export default defineComponent({
     }
 
     const handleMouseOut = (event) => {
-      event.target.fill('gray');
+      event.target.fill('lightgray');
       event.target.getLayer().draw();
     };
 
-    const startMenu = (event, index) => {
+    const startMenu = (event, index, item) => {
       const node = event.target;
       const layer = node.getLayer();
 
@@ -327,18 +410,40 @@ export default defineComponent({
       });
 
       clone.on('dragstart', (e) => {
-        startMenu(e, index);
+        startMenu(e, index, item);
       });
 
-      clone.position(node.position());
+      clone.on('dragend', (e) => {
+        endMenu(e, item);
+      })
+
+      const { x, y } = getMenuItemSquareConfig(index, item);
+
+      clone.position({ x, y });
 
       layer.add(clone);
       layer.draw();
     };
 
+    const endMenu = async (event, item) => {
 
+      const droppedOnPiece = tabPiece.value.find( p => {
+        return pointInPolygon({x: event.target.getStage().getPointerPosition().x, y:event.target.getStage().getPointerPosition().y} ,p.position.points)
+      });
 
-
+      if(droppedOnPiece) {
+        console.log(item)
+        await addCaptorActionneur({"nom": droppedOnPiece.nom,
+          "_id": item._id, "etage": droppedOnPiece.etage,
+          "points":{"x":event.target.getStage().getPointerPosition().x,
+            'y':event.target.getStage().getPointerPosition().y
+        }})
+        console.log(captorActioneurToAdd.value)
+        event.target.destroy()
+      } else{
+        event.target.destroy()
+      }
+    }
 
 
     return {
@@ -355,12 +460,15 @@ export default defineComponent({
       handleMouseOver,
       handleMouseOut,
       dragMove,
-      showMenu,
+      mode,
       menuConfig,
       getMenuItemConfig,
       getMenuItemSquareConfig,
       captorActionneur,
-      startMenu
+      startMenu,
+      endMenu,
+      captAdd,
+      pushCaptorActionneur
     };
   }
 });

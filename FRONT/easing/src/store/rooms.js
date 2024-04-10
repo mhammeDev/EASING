@@ -5,6 +5,7 @@ export const useRoomsStore = defineStore('rooms', {
     state: () => ({
         pieces : [],
         captorActionneur: [],
+        captorActioneurToAdd: [],
         currentFloor: 'first',
         hours:12,
         temperature: 5,
@@ -22,6 +23,12 @@ export const useRoomsStore = defineStore('rooms', {
             this.temperature = temp;
         } ,async getCaptorandSensor(){
             this.captorActionneur = await roomService.getAllSensorAndActionnor();
+        }, addCaptorActionneur(captor){
+            this.captorActioneurToAdd.push(captor);
+
+        }, pushCaptorActionneur(){
+            roomService.addCaptorActionneur(this.captorActioneurToAdd)
+
         }
     }
 

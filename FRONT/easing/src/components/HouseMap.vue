@@ -1,5 +1,5 @@
 <template>
-  <v-btn  class="" variant="tonal" @click="pushCaptorActionneur" color="primary">
+  <v-btn  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">
     Push the captor/actionneur floor
   </v-btn>
           <v-stage :config="{ width: stageWidth, height: stageHeight }">
@@ -12,11 +12,24 @@
                 <v-text
                     :config="getTextConfig(piece)" />
 
-          <v-regular-polygon
-                :config="getPolygonConfig()"
-                ></v-regular-polygon>
-
               </v-group>
+             <template v-for="piece in tabPiece" :key="piece._id">
+               <template v-for="(pieces,index) in piece.capteurs" :key="index">
+                 <v-circle v-if="getMenuItemSquareConfig(index, pieces, pieces.points).shape === 'circle'"
+                           :config="getMenuItemSquareConfig(index, pieces, pieces.points)">
+                 </v-circle>
+
+                 <v-rect v-else-if="getMenuItemSquareConfig(index, pieces, pieces.points).shape === 'rect'"
+                         :config="getMenuItemSquareConfig(index, pieces, pieces.points)">
+
+                 </v-rect>
+
+                 <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, pieces, pieces.points).shape === 'regularPolygon'"
+                                    :config="getMenuItemSquareConfig(index, pieces, pieces.points)">
+                 </v-regular-polygon>
+
+               </template>
+             </template>
             </v-layer>
             <v-layer>
               <v-group :draggable="true"
@@ -60,17 +73,17 @@
               <template v-if="mode === 2">
                 <template v-for="(item, index) in captAdd" :key="index">
 
-                  <v-circle v-if="getMenuItemSquareConfig(index, item, item.points).shape === 'circle'"
-                            :config="getMenuItemSquareConfig(index, item,  item.points)">
+                  <v-circle v-if="getMenuItemSquareConfig(index, item, item.points, 'red').shape === 'circle'"
+                            :config="getMenuItemSquareConfig(index, item,  item.points, 'red')">
                   </v-circle>
 
-                  <v-rect v-else-if="getMenuItemSquareConfig(index, item,  item.points).shape === 'rect'"
-                          :config="getMenuItemSquareConfig(index, item,  item.points)">
+                  <v-rect v-else-if="getMenuItemSquareConfig(index, item,  item.points, 'red').shape === 'rect'"
+                          :config="getMenuItemSquareConfig(index, item,  item.points, 'red')">
 
                   </v-rect>
 
-                  <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, item, item.points).shape === 'regularPolygon'"
-                                     :config="getMenuItemSquareConfig(index, item,  item.points)">
+                  <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, item, item.points, 'red').shape === 'regularPolygon'"
+                                     :config="getMenuItemSquareConfig(index, item,  item.points, 'red')">
                   </v-regular-polygon>
                 </template>
               </template>
@@ -111,7 +124,7 @@ export default defineComponent({
     const menuConfig = computed(() => ({
       x: menuX.value,
       y: menuY.value,
-      width: 400,
+      width: 500,
       height: captorActionneur.value.length * 100 *scaleFactor.value,
       fill: 'transparent',
       stroke: 'black',
@@ -126,21 +139,37 @@ export default defineComponent({
       fill: 'black'
     });
 
-    const getMenuItemSquareConfig = (index, item, coord) => {
+    const getMenuItemSquareConfig = (index, item, coord, color) => {
       let shapeConfig;
       let x =menuX.value + 30 * scaleFactor.value;
       let y =menuY.value + 60 + (index * 60) *  scaleFactor.value;
+      let c = 'black'
+      let strockWidth = 1;
 
-      if(coord !== undefined){
-        x = coord.x;
-        y = coord.y;
+      if(color !== undefined){
+        c = color
+        strockWidth = 2;
       }
 
-      switch (item._id) {
+      if(coord !== undefined){
+        x = coord.x * scaleFactor.value;
+        y = coord.y * scaleFactor.value;
+      }
+
+      const itemId = item._id || item.typeId;
+
+
+      switch (itemId) {
         case 'sensor-light':
           shapeConfig = {
             shape: 'circle',
             fill: 'yellow'
+          };
+          break;
+        case "sensor-light-socket":
+          shapeConfig = {
+            shape: 'circle',
+            fill: 'orange'
           };
           break;
         case 'sensor-smart-plug':
@@ -166,13 +195,14 @@ export default defineComponent({
           break;
         default:
           shapeConfig = null;
+          break;
       }
 
       return {
         x: x,
         y: y,
-        stroke: 'black',
-        strokeWidth: 1,
+        stroke: c,
+        strokeWidth: strockWidth,
         width: 30 * scaleFactor.value,
         height: 30 * scaleFactor.value,
         ...shapeConfig
@@ -299,8 +329,6 @@ export default defineComponent({
         });
 
         tabPiece.value.splice(droppedOnPieceIndex, 1, updatedPiece);
-        console.log(tabPiece.value)
-
 
         console.log('Dropped on piece:', droppedOnPiece.nom);
       } else {
@@ -345,18 +373,6 @@ export default defineComponent({
       };
     };
 
-    const getPolygonConfig = () => {
-      return {
-        x: 300 * scaleFactor.value,
-        y: 300 * scaleFactor.value,
-        sides: 6,
-        radius: 15  * scaleFactor.value,
-        fill:'purple',
-        stroke: 'black',
-        strokeWidth: 2
-      };
-    };
-
     const getCenterPoint = (points) => {
       let sumX = 0;
       let sumY = 0;
@@ -383,8 +399,8 @@ export default defineComponent({
 
     const headConfig = () => {
       return{
-        x: 200,
-        y: 200,
+        x: 800,
+        y: 600,
         radius: 8,
         fill: '#ED7F10'
       }
@@ -419,26 +435,26 @@ export default defineComponent({
 
       const { x, y } = getMenuItemSquareConfig(index, item);
 
-      clone.position({ x, y });
+
+      clone.position({ x : x , y: y });
 
       layer.add(clone);
       layer.draw();
     };
 
     const endMenu = async (event, item) => {
+      console.log(event.currentTarget)
 
       const droppedOnPiece = tabPiece.value.find( p => {
         return pointInPolygon({x: event.target.getStage().getPointerPosition().x, y:event.target.getStage().getPointerPosition().y} ,p.position.points)
       });
 
       if(droppedOnPiece) {
-        console.log(item)
         await addCaptorActionneur({"nom": droppedOnPiece.nom,
           "_id": item._id, "etage": droppedOnPiece.etage,
-          "points":{"x":event.target.getStage().getPointerPosition().x,
-            'y':event.target.getStage().getPointerPosition().y
+          "points":{"x": event.target.getStage().getPointerPosition().x / scaleFactor.value,
+            'y':event.target.getStage().getPointerPosition().y / scaleFactor.value
         }})
-        console.log(captorActioneurToAdd.value)
         event.target.destroy()
       } else{
         event.target.destroy()
@@ -453,7 +469,6 @@ export default defineComponent({
       currentFloor,
       tabPiece,
       getTextConfig,
-      getPolygonConfig,
       headConfig,
       dragStart,
       dragEnd,
@@ -468,7 +483,8 @@ export default defineComponent({
       startMenu,
       endMenu,
       captAdd,
-      pushCaptorActionneur
+      pushCaptorActionneur,
+      captorActioneurToAdd
     };
   }
 });

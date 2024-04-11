@@ -177,16 +177,51 @@ export const pieces = [
         {"x": 500, "y": 0},
         {"x": 500, "y": 850},
         {"x": 0, "y": 850},
-
-
       ]
     },    "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
+      // { "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-light",
+        "points": {
+          "x": 216,
+          "y": 361.8000030517578
+        },
+        "etat": false
+      },
+      {
+        "typeId": "sensor-smart-plug",
+        "points": {
+          "x": 13,
+          "y": 359.8000030517578
+        },
+        "etat": false
+      },{
+        "typeId": "sensor-motorized-blind",
+        "points": {
+          "x": 178.82352941176472,
+          "y": 847.5294135598575
+        },
+        "etat": false
+      },{
+        "typeId": "sensor-motorized-blind",
+        "points": {
+          "x": 8,
+          "y": 520.1999969482422
+        },
+        "etat": false
+      },{
+        "typeId": "sensor-motorized-blind",
+        "points": {
+          "x": 7,
+          "y": 156.1999969482422
+        },
+        "etat": false
+      }
     ],
     "actionneurs": [
-      { "typeId": "sensor-light" },
-      { "typeId": "sensor-smart-plug pour TV" },
-      { "typeId": "sensor-motorized-blind" }
+   //   { "typeId": "sensor-light" },
+     // { "typeId": "sensor-smart-plug pour TV" },
+      //{ "typeId": "sensor-motorized-blind" }
     ]
   },
   {
@@ -204,8 +239,7 @@ export const pieces = [
 
       ]
     },    "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
-    ],
+      ],
     "actionneurs": []
   },
   {
@@ -222,11 +256,17 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
+      //{ "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-light-socket",
+        "points":
+            {"x": 719.9999999999999, "y": 203.63636363636363},
+        "etat": false
+      }
     ],
     "actionneurs": [
-      { "typeId": "sensor-smart-plug pour TV"},
-      { "typeId": "Thermostat connecté" }
+        // { "typeId": "sensor-smart-plug pour TV"},
+      //{ "typeId": "Thermostat connecté" }
     ]
   },
   {
@@ -243,6 +283,20 @@ export const pieces = [
       ]
     }, "capteurs": [
       //{ "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-light",
+        "points": {
+          "x": 1143.6363636363635,
+          "y": 252.72727272727272,
+        }, "etat" : false
+      },
+      {
+        "typeId": "sensor-water-leak",
+        "points": {
+          "x": 1296.3636363636363,
+          "y": 49.090909090909086,
+        }, "etat":false
+      }
 
     ],
     "actionneurs": [
@@ -262,6 +316,7 @@ export const type_capteur = [
 
 export const type_actionneur = [
   { "_id": "sensor-light", "type": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce" },
+  { "_id": "sensor-light-socket", "type": "Ampoule connecté prise intelligente", "description": "Contrôle l'éclairage de la pièce" },
   { "_id": "sensor-smart-plug", "type": "Prise connectée", "description": "Permet de contrôler les appareils électriques" },
   { "_id": "sensor-motorized-blind", "type": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores" },
   { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce" },

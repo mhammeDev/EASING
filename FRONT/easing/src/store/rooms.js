@@ -28,6 +28,7 @@ export const useRoomsStore = defineStore('rooms', {
 
         }, pushCaptorActionneur(){
             roomService.addCaptorActionneur(this.captorActioneurToAdd)
+            this.captorActioneurToAdd = [];
 
         }
     }

@@ -5,7 +5,7 @@ async function getPieces(){
 }
 
 async function getAllSensorAndActionnor(){
-    return type_actionneur.filter(e => e._id !== "sensor-luminosity" && e._id !== "sensor-temperature" && e._id !== "sensor-presence");
+    return type_actionneur;
 
 }
 

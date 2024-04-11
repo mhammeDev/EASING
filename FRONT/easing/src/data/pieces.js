@@ -6,10 +6,10 @@ export const pieces = [
     "superficie": "9.71 m²",
     "position": {
       "points": [
-        {"x": 0, "y": 0},
-        {"x": 350, "y": 0},
-        {"x": 350, "y": 350},
-        {"x": 0, "y": 350}
+        {"x": 30, "y": 30},
+        {"x": 380, "y": 30},
+        {"x": 380, "y": 380},
+        {"x": 30, "y": 380}
       ]
     },
     "capteurs": [
@@ -24,10 +24,10 @@ export const pieces = [
     "superficie": "7.27 m²",
     "position": {
       "points": [
-        {"x": 0, "y": 350},
-        {"x": 350, "y": 350},
-        {"x": 350, "y": 600},
-        {"x": 0, "y": 600}
+        {"x": 30, "y": 380},
+        {"x": 380, "y": 380},
+        {"x": 380, "y": 630},
+        {"x": 30, "y": 630}
       ]
     },"etage":1,
     "capteurs": [
@@ -54,10 +54,10 @@ export const pieces = [
     "superficie": "14.09 m²",
     "position":
         {"points": [
-            {"x": 0, "y": 600},
-            {"x": 500, "y": 600},
-            {"x": 500, "y": 900},
-            {"x": 0, "y": 900},
+            {"x": 30, "y": 630},
+            {"x": 530, "y": 630},
+            {"x": 530, "y": 930},
+            {"x": 30, "y": 930},
           ]},
     "capteurs": [
       { "typeId": "sensor-presence", "etat" : false },
@@ -88,17 +88,17 @@ export const pieces = [
     "superficie": "10.0 m²",
     "position": {
       "points": [
-        {"x": 350, "y": 600},
-        {"x": 500, "y": 600},
-        {"x": 500, "y": 300},
-        {"x": 600, "y": 300},
-        {"x": 600, "y": 200},
-        {"x": 1050, "y": 200},
-        {"x": 1050, "y": 0},
-        {"x": 500, "y": 0},
-        {"x": 500, "y": 150},
-        {"x": 350, "y": 150},
-        {"x": 350, "y": 600},
+        {"x": 380, "y": 630},
+        {"x": 530, "y": 630},
+        {"x": 530, "y": 330},
+        {"x": 630, "y": 330},
+        {"x": 630, "y": 230},
+        {"x": 1080, "y": 230},
+        {"x": 1080, "y": 30},
+        {"x": 530, "y": 30},
+        {"x": 530, "y": 180},
+        {"x": 380, "y": 180},
+        {"x": 380, "y": 630},
       ]
     },
     "etage": 1,
@@ -134,11 +134,11 @@ export const pieces = [
     "etage":1,
     "position": {
       "points": [
-        {"x": 1050, "y": 200},
-        {"x": 1350, "y": 200},
-        {"x": 1350, "y": 0},
-        {"x": 1050, "y": 0},
-        {"x": 1050, "y": 200},
+        {"x": 1080, "y": 230},
+        {"x": 1380, "y": 230},
+        {"x": 1380, "y": 30},
+        {"x": 1080, "y": 30},
+        {"x": 1080, "y": 230},
 
       ]
     },    "capteurs": [
@@ -155,10 +155,10 @@ export const pieces = [
     "superficie": "1.9 m²",
     "position": {
       "points": [
-        {"x": 350, "y": 0},
-        {"x": 500, "y": 0},
-        {"x": 500, "y": 150},
-        {"x": 350, "y": 150}
+        {"x": 380, "y": 30},
+        {"x": 530, "y": 30},
+        {"x": 530, "y": 180},
+        {"x": 380, "y": 180}
 
       ]
     },"etage":1,
@@ -174,13 +174,13 @@ export const pieces = [
     "superficie": "12.93 m²",
     "position": {
       "points": [
-        {"x": 500, "y": 600},
-        {"x": 950, "y": 600},
-        {"x": 950, "y": 200},
-        {"x": 600, "y": 200},
-        {"x": 600, "y": 300},
-        {"x": 500, "y": 300},
-        {"x": 500, "y": 600},
+        {"x": 530, "y": 630},
+        {"x": 980, "y": 630},
+        {"x": 980, "y": 230},
+        {"x": 630, "y": 230},
+        {"x": 630, "y": 330},
+        {"x": 530, "y": 330},
+        {"x": 530, "y": 630},
       ]
     },
     "capteurs": [
@@ -195,10 +195,10 @@ export const pieces = [
     "superficie": "12.93 m²",
     "position": {
       "points": [
-        {"x": 950, "y": 600},
-        {"x": 1350, "y": 600},
-        {"x": 1350, "y": 200},
-        {"x": 950, "y": 200},
+        {"x": 980, "y": 630},
+        {"x": 1380, "y": 630},
+        {"x": 1380, "y": 230},
+        {"x": 980, "y": 230},
       ]
     },
     "capteurs": [
@@ -214,13 +214,13 @@ export const pieces = [
     "etage":0,
     "position": {
       "points": [
-        {"x": 0, "y": 0},
-        {"x": 500, "y": 0},
-        {"x": 500, "y": 850},
-        {"x": 0, "y": 850},
+        {"x": 30, "y": 30},
+        {"x": 530, "y": 30},
+        {"x": 530, "y": 880},
+        {"x": 30, "y": 880},
       ]
     },    "capteurs": [
-      // { "typeId": "sensor-presence", "etat" : false },
+      { "typeId": "sensor-presence", "etat" : false },
       {
         "typeId": "sensor-light",
         "points": {
@@ -272,15 +272,16 @@ export const pieces = [
     "etage":0,
     "position": {
       "points": [
-        {"x": 500, "y": 0},
-        {"x": 950, "y": 0},
-        {"x": 950, "y": 200},
-        {"x": 500, "y": 200},
+        {"x": 530, "y": 30},
+        {"x": 980, "y": 30},
+        {"x": 980, "y": 230},
+        {"x": 530, "y": 230},
 
 
       ]
     },    "capteurs": [
-      ],
+      { "typeId": "sensor-presence", "etat" : false },
+    ],
     "actionneurs": []
   },
   {
@@ -290,14 +291,14 @@ export const pieces = [
     "etage":0,
     "position": {
       "points": [
-        {"x": 500, "y": 200},
-        {"x": 950, "y": 200},
-        {"x": 950, "y": 550},
-        {"x": 500, "y": 550},
+        {"x": 530, "y": 230},
+        {"x": 980, "y": 230},
+        {"x": 980, "y": 580},
+        {"x": 530, "y": 580},
       ]
     },
     "capteurs": [
-      //{ "typeId": "sensor-presence", "etat" : false },
+      { "typeId": "sensor-presence", "etat" : false },
       {
         "typeId": "sensor-light-socket",
         "points":
@@ -317,13 +318,13 @@ export const pieces = [
     "etage":0,
     "position": {
       "points": [
-        {"x": 950, "y": 550},
-        {"x": 1350, "y": 550},
-        {"x": 1350, "y": 0},
-        {"x": 950, "y": 0},
+        {"x": 980, "y": 580},
+        {"x": 1380, "y": 580},
+        {"x": 1380, "y": 30},
+        {"x": 980, "y": 30},
       ]
     }, "capteurs": [
-      //{ "typeId": "sensor-presence", "etat" : false },
+      { "typeId": "sensor-presence", "etat" : false },
       {
         "typeId": "sensor-light",
         "points": {
@@ -356,14 +357,14 @@ export const type_capteur = [
 ]
 
 export const type_actionneur = [
-  { "_id": "sensor-light", "type": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce" },
-  { "_id": "sensor-light-socket", "type": "Ampoule connecté prise intelligente", "description": "Contrôle l'éclairage de la pièce" },
-  { "_id": "sensor-smart-plug", "type": "Prise connectée", "description": "Permet de contrôler les appareils électriques" },
-  { "_id": "sensor-motorized-blind", "type": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores" },
-  { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce" },
-  { "_id": "sensor-water-leak", "type": "Détecteur de fuite d'eau", "description": "Détecte les fuites d'eau" },
-  {"_id": "sensor-luminosity", "type" : "Détecteur de luminsosité", "description":"Détecle la luminosité"},
-  { "_id": "sensor-temperature", "type": "Détecteur de température", "description": "Détecte les variations de température" },
+  { "_id": "sensor-light", "type": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce", "show":true },
+  { "_id": "sensor-light-socket", "type": "Ampoule connecté prise intelligente", "description": "Contrôle l'éclairage de la pièce", "show":true  },
+  { "_id": "sensor-smart-plug", "type": "Prise connectée", "description": "Permet de contrôler les appareils électriques", "show":true  },
+  { "_id": "sensor-motorized-blind", "type": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores", "show":true  },
+  { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce", "show":false  },
+  { "_id": "sensor-water-leak", "type": "Détecteur de fuite d'eau", "description": "Détecte les fuites d'eau", "show":true  },
+  {"_id": "sensor-luminosity", "type" : "Détecteur de luminsosité", "description":"Détecle la luminosité", "show":false },
+  { "_id": "sensor-temperature", "type": "Détecteur de température", "description": "Détecte les variations de température", "show":false  },
 ]
 
 export const  test = [

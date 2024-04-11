@@ -6,9 +6,7 @@
            <v-layer>
            <v-group  v-for="piece in tabPiece" :key="piece.id"
            >
-                <v-shape @mouseover="handleMouseOver"
-                         @mouseout="handleMouseOut"
-                         :config="getShapeConfig(piece)"/>
+                <v-shape :config="getShapeConfig(piece)"/>
                 <v-text
                     :config="getTextConfig(piece)" />
 
@@ -55,8 +53,8 @@
             <v-layer>
               <v-rect :config="menuConfig">
               </v-rect>
-              <v-text  v-for="(item, index) in captorActionneur" :key="item._id" :config="getMenuItemConfig(item,index)"></v-text>
-              <template v-for="(item, index) in captorActionneur" :key="index">
+              <v-text  v-for="(item, index) in captorActionneur.filter(e => e.show === true)" :key="item._id" :config="getMenuItemConfig(item,index)"></v-text>
+              <template v-for="(item, index) in captorActionneur.filter(e => e.show === true)" :key="index">
                 <v-circle v-if="getMenuItemSquareConfig(index, item).shape === 'circle'"
                           :config="getMenuItemSquareConfig(index, item)"
                           :draggable="mode === 2"
@@ -124,7 +122,7 @@ export default defineComponent({
     const scaleFactor = ref(0);
     const store = useRoomsStore();
     const{pieces, currentFloor, captorActionneur, captorActioneurToAdd} = storeToRefs(store)
-    const {getPieces, getCaptorandSensor, addCaptorActionneur, pushCaptorActionneur } = store;
+    const {getPieces, getCaptorandSensor, addCaptorActionneur, pushCaptorActionneur, updateCaptor } = store;
 
     const menuX = ref(1250 );
     const menuY =ref(0);
@@ -134,11 +132,13 @@ export default defineComponent({
     const XHead = ref(600);
     const YHead = ref(600);
 
+    const nom = ref(null);
+
     const menuConfig = computed(() => ({
       x: menuX.value,
       y: menuY.value,
-      width: 500,
-      height: captorActionneur.value.length * 100 *scaleFactor.value,
+      width: 600,
+      height: captorActionneur.value.filter(e => e.show === true).length * 100 *scaleFactor.value,
       fill: 'transparent',
       stroke: 'black',
       strokeWidth: 1
@@ -147,15 +147,15 @@ export default defineComponent({
     const getMenuItemConfig = (item, index) => ({
       text: item.type,
       fontSize: 25 * scaleFactor.value,
-      x: menuX.value + 80 * scaleFactor.value,
-      y: menuY.value + 55 + (index * 60) *  scaleFactor.value,
+      x: menuX.value + 50 * scaleFactor.value,
+      y: menuY.value + 25 *scaleFactor.value + (index * 60) *  scaleFactor.value,
       fill: 'black'
     });
 
     const getMenuItemSquareConfig = (index, item, coord, color) => {
       let shapeConfig;
-      let x =menuX.value + 30 * scaleFactor.value;
-      let y =menuY.value + 63 + (index * 60) *  scaleFactor.value;
+      let x =menuX.value + 25 * scaleFactor.value;
+      let y =menuY.value + 35 *scaleFactor.value + (index * 60) *  scaleFactor.value;
       let c = 'black'
       let strockWidth = 1;
 
@@ -227,22 +227,22 @@ export default defineComponent({
       menuConfig.value.x = menuX.value;
       menuConfig.value.y = menuY.value;
       menuConfig.value.width *= scaleFactor.value;
-      menuConfig.value.height = captorActionneur.value.length * 100 *scaleFactor.value;
+      menuConfig.value.height = captorActionneur.value.filter(e => !e.show=== true).length * 100 *scaleFactor.value + 40 * scaleFactor.value;
 
     }
 
     const setSize = () =>{
       if(window.innerWidth < 501){
-        scaleFactor.value = 0.30
+        scaleFactor.value = 0.25
         setMenusSizeAndPos();
       } else if(window.innerWidth < 800){
-        scaleFactor.value = 0.40;
+        scaleFactor.value = 0.30;
         menuX.value = 0;
-        menuY.value = 400;
+        menuY.value = 300;
         setMenusSizeAndPos();
       } else if(window.innerWidth < 1200){
-        scaleFactor.value = 0.55;
-        menuX.value = 800;
+        scaleFactor.value = 0.45;
+        menuX.value = 700;
         menuY.value = 0;
         setMenusSizeAndPos()
       } else if(window.innerWidth < 1600){
@@ -251,8 +251,8 @@ export default defineComponent({
         menuY.value = 0;
         setMenusSizeAndPos()
       } else {
-        scaleFactor.value = 0.85;
-        menuX.value = 1250;
+        scaleFactor.value = 0.75;
+        menuX.value = 1150;
         menuY.value =0;
         setMenusSizeAndPos()
 
@@ -278,12 +278,17 @@ export default defineComponent({
       // stageHeight.value = window.innerHeight;
     });
 
-    const dragStart = (event) =>{
-      console.log(event)
-      document.body.style.cursor = "grab";
+    const dragStart = async () =>{
+      document.body.style.cursor = 'grabbing';
+
 
       limbsState.armRotation = 80;
       limbsState.legRotation = -20;
+
+
+      if (nom.value !== null) {
+        await updateCaptor(nom.value, false)
+      }
     }
 
     const dragMove = (event) => {
@@ -291,7 +296,6 @@ export default defineComponent({
       const box = node.getClientRect();
       const stage = node.getStage();
 
-      // Limitez le déplacement à l'intérieur de la zone du stage
       let x = event.target.x();
       let y = event.target.y();
 
@@ -321,10 +325,11 @@ export default defineComponent({
       return isInside;
     };
 
-    const dragEnd = (event) => {
+    const dragEnd =async (event) => {
       document.body.style.cursor = 'default';
       const stage = event.target.getStage();
       const pointerPosition = stage.getPointerPosition();
+
       limbsState.armRotation = 0;
       limbsState.legRotation = 0;
 
@@ -332,26 +337,14 @@ export default defineComponent({
         return pointInPolygon(pointerPosition, piece.position.points);
       });
 
-      const droppedOnPieceIndex = tabPiece.value.findIndex(piece =>
-          pointInPolygon(pointerPosition, piece.position.points)
-      );
 
       if (droppedOnPiece) {
-
-        const updatedPiece = { ...tabPiece.value[droppedOnPieceIndex] };
-
-        updatedPiece.capteurs.forEach(capteur => {
-          if (capteur.typeId === "sensor-presence") {
-            capteur.etat = true;
-          }
-        });
-
-        tabPiece.value.splice(droppedOnPieceIndex, 1, updatedPiece);
-
-      event.target.getLayer().draw();
+        nom.value = droppedOnPiece.nom;
+        await updateCaptor(nom.value, true)
 
         console.log('Dropped on piece:', droppedOnPiece.nom);
       } else {
+        nom.value = null;
         console.log('Dropped outside of the pieces');
       }
 
@@ -389,7 +382,7 @@ export default defineComponent({
           context.closePath();
           context.fillStrokeShape(shape);
         },
-        fill: getSensorCaptorState(piece) === true ? 'red' :'lightgray',
+        fill: getSensorCaptorState(piece) ? 'red' :'lightgray',
         stroke: 'black',
         strokeWidth: 2
       };
@@ -472,7 +465,7 @@ export default defineComponent({
     };
 
 
-    const handleMouseOver = (event) => {
+/*  const handleMouseOver = (event) => {
       event.target.fill('red');
       event.target.getLayer().draw();
     }
@@ -480,7 +473,7 @@ export default defineComponent({
     const handleMouseOut = (event) => {
       event.target.fill('lightgray');
       event.target.getLayer().draw();
-    };
+    }; */
 
     const startMenu = (event, index, item) => {
       const node = event.target;
@@ -542,8 +535,6 @@ export default defineComponent({
       headConfig,
       dragStart,
       dragEnd,
-      handleMouseOver,
-      handleMouseOut,
       dragMove,
       mode,
       menuConfig,

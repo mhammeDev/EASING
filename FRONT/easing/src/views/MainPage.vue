@@ -55,11 +55,11 @@ export default {
 
   </v-container>
 
-  <v-container class="flex-column ml-4 mr-4">
+  <v-container class="flex-column ml-4 mr-4" >
     <v-btn variant="tonal" @click="toggleFloor" color="primary">
       Move from the {{currentFloor}} floor
     </v-btn>
-    <HouseMap class="pa-lg-7"  ></HouseMap>
+    <HouseMap></HouseMap>
   </v-container>
 
 </template>

@@ -32,7 +32,15 @@ export const pieces = [
     },"etage":1,
     "capteurs": [
       { "typeId": "sensor-presence", "etat" :false },
-      {"typeId": "sensor-water-leak", "etat" : false}
+
+      {
+        "typeId": "sensor-water-leak",
+        "points": {
+          "x": 115.29411764705883,
+          "y": 397.4117682961857
+        },
+        "etat": false
+      },
     ],
     "actionneurs": [
     //  { "type": "sensor-light", "quantite": 1 },
@@ -52,11 +60,27 @@ export const pieces = [
             {"x": 0, "y": 900},
           ]},
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false }
+      { "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-light-socket",
+        "points": {
+          "x": 123.52941176470588,
+          "y": 857.4117682961856
+        },
+        "etat": false
+      },
+      {
+        "typeId": "sensor-motorized-blind",
+        "points": {
+          "x": 249.41176470588235,
+          "y": 889.1764741785386
+        },
+        "etat": false
+      },
     ],
     "actionneurs": [
-      { "typeId": "sensor-smart-plug" },
-      { "typeId": "sensor-motorized-blind" }
+      //{ "typeId": "sensor-smart-plug" },
+      //{ "typeId": "sensor-motorized-blind" }
     ]
   },  {
     id:4,
@@ -79,11 +103,28 @@ export const pieces = [
     },
     "etage": 1,
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false }
+      { "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-light",
+        "points": {
+          "x": 418.8235294117647,
+          "y": 403.29412123736216
+        },
+        "etat": false
+      },{
+        "typeId": "sensor-light-socket",
+        "points": {
+          "x": 881.1764705882354,
+          "y": 182.11765064912683
+        },
+        "etat": false
+      }
+
+
     ],
     "actionneurs": [
-      {"typeId": "sensor-light"},
-      {"typeId": "sensor-light prise intelligente"}
+    //  {"typeId": "sensor-light"},
+    //  {"typeId": "sensor-light prise intelligente"}
     ]
   },
   {
@@ -183,36 +224,36 @@ export const pieces = [
       {
         "typeId": "sensor-light",
         "points": {
-          "x": 216,
-          "y": 361.8000030517578
+          "x": 239.99999999999997,
+          "y": 401.8181818181818
         },
         "etat": false
       },
       {
         "typeId": "sensor-smart-plug",
         "points": {
-          "x": 13,
-          "y": 359.8000030517578
+          "x": 12.727272727272727,
+          "y": 399.99999999999994
         },
         "etat": false
       },{
         "typeId": "sensor-motorized-blind",
         "points": {
-          "x": 178.82352941176472,
+          "x": 234.54545454545453,
           "y": 847.5294135598575
         },
         "etat": false
       },{
         "typeId": "sensor-motorized-blind",
         "points": {
-          "x": 8,
-          "y": 520.1999969482422
+          "x": 12.941176470588236,
+          "y": 714.3529375861673
         },
         "etat": false
       },{
         "typeId": "sensor-motorized-blind",
         "points": {
-          "x": 7,
+          "x": 12.941176470588236,
           "y": 156.1999969482422
         },
         "etat": false
@@ -260,7 +301,7 @@ export const pieces = [
       {
         "typeId": "sensor-light-socket",
         "points":
-            {"x": 719.9999999999999, "y": 203.63636363636363},
+            {"x": 605.8823529411765, "y": 207.2941176330342},
         "etat": false
       }
     ],

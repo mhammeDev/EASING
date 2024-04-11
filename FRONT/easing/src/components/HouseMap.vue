@@ -38,6 +38,16 @@
                       @dragend="dragEnd">
 
                 <v-circle :config="headConfig()"></v-circle>
+                <v-rect :config="bodyConfig()"></v-rect>
+
+                <v-rect :config="armConfig(-12, 45)"></v-rect>
+                <v-rect :config="armConfig(12, -45)"></v-rect>
+
+
+
+                <v-rect :config="legConfig(-5, 0)"></v-rect>
+                <v-rect :config="legConfig(10, 0)"></v-rect>
+
               </v-group>
             </v-layer>
 
@@ -92,7 +102,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, computed } from 'vue';
+import { defineComponent, onMounted, ref, computed, reactive } from 'vue';
 import { VStage, VLayer, VShape,VText, VGroup, VRegularPolygon,VCircle, VRect  } from 'vue-konva';
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
@@ -121,6 +131,9 @@ export default defineComponent({
 
     const mode = ref(2);
 
+    const XHead = ref(600);
+    const YHead = ref(600);
+
     const menuConfig = computed(() => ({
       x: menuX.value,
       y: menuY.value,
@@ -142,7 +155,7 @@ export default defineComponent({
     const getMenuItemSquareConfig = (index, item, coord, color) => {
       let shapeConfig;
       let x =menuX.value + 30 * scaleFactor.value;
-      let y =menuY.value + 60 + (index * 60) *  scaleFactor.value;
+      let y =menuY.value + 63 + (index * 60) *  scaleFactor.value;
       let c = 'black'
       let strockWidth = 1;
 
@@ -189,7 +202,7 @@ export default defineComponent({
           shapeConfig = {
             shape: 'regularPolygon',
             sides: 4,
-            rotate:90,
+            rotation:45,
             fill: 'blue'
           };
           break;
@@ -203,8 +216,8 @@ export default defineComponent({
         y: y,
         stroke: c,
         strokeWidth: strockWidth,
-        width: 30 * scaleFactor.value,
-        height: 30 * scaleFactor.value,
+        width: 33 * scaleFactor.value,
+        height: 33 * scaleFactor.value,
         ...shapeConfig
       };
     };
@@ -268,6 +281,9 @@ export default defineComponent({
     const dragStart = (event) =>{
       console.log(event)
       document.body.style.cursor = "grab";
+
+      limbsState.armRotation = 80;
+      limbsState.legRotation = -20;
     }
 
     const dragMove = (event) => {
@@ -309,6 +325,8 @@ export default defineComponent({
       document.body.style.cursor = 'default';
       const stage = event.target.getStage();
       const pointerPosition = stage.getPointerPosition();
+      limbsState.armRotation = 0;
+      limbsState.legRotation = 0;
 
       const droppedOnPiece = tabPiece.value.find(piece => {
         return pointInPolygon(pointerPosition, piece.position.points);
@@ -330,10 +348,14 @@ export default defineComponent({
 
         tabPiece.value.splice(droppedOnPieceIndex, 1, updatedPiece);
 
+      event.target.getLayer().draw();
+
         console.log('Dropped on piece:', droppedOnPiece.nom);
       } else {
         console.log('Dropped outside of the pieces');
       }
+
+      console.log()
     };
 
     const tabPiece = computed(() => {
@@ -399,12 +421,55 @@ export default defineComponent({
 
     const headConfig = () => {
       return{
-        x: 800,
-        y: 600,
-        radius: 8,
+        x: XHead.value * scaleFactor.value,
+        y: YHead.value *  scaleFactor.value,
+        radius: 8 * scaleFactor.value,
         fill: '#ED7F10'
       }
     }
+
+    const bodyConfig = () => {
+      return{
+        x: XHead.value *  scaleFactor.value - 10 * scaleFactor.value,
+        y: YHead.value *  scaleFactor.value + 6  * scaleFactor.value,
+        width: 20 * scaleFactor.value,
+        height: 30 * scaleFactor.value,
+        cornerRadius: [15, 15, 10, 10],
+        fill: '#ED7F10'
+
+      }
+    }
+
+    const limbsState = reactive({
+      armRotation: 0,
+      legRotation: 0
+    });
+
+    const armConfig = (dec,rot) => {
+      return {
+        x: XHead.value *  scaleFactor.value + dec  * scaleFactor.value,
+        y: YHead.value *  scaleFactor.value + 17  * scaleFactor.value,
+        width: 6 * scaleFactor.value,
+        height: 20 * scaleFactor.value,
+        cornerRadius: [15, 15, 10, 10],
+        rotation: rot + limbsState.armRotation,
+        offsetX: 2.5 * scaleFactor.value,
+        offsetY: 10 * scaleFactor.value,
+        fill: '#ED7F10'
+      };
+    };
+
+    const legConfig = (dec,rot) => {
+      return {
+        x: XHead.value *  scaleFactor.value - dec  * scaleFactor.value,
+        y: YHead.value *  scaleFactor.value  + 25  * scaleFactor.value,
+        width: 5 * scaleFactor.value,
+        height: 20 * scaleFactor.value,
+        cornerRadius: 20,
+        fill: '#ED7F10',
+        rotation: rot + limbsState.legRotation,
+      };
+    };
 
 
     const handleMouseOver = (event) => {
@@ -430,6 +495,7 @@ export default defineComponent({
       });
 
       clone.on('dragend', (e) => {
+        console.log(e)
         endMenu(e, item);
       })
 
@@ -445,19 +511,23 @@ export default defineComponent({
     const endMenu = async (event, item) => {
       console.log(event.currentTarget)
 
-      const droppedOnPiece = tabPiece.value.find( p => {
-        return pointInPolygon({x: event.target.getStage().getPointerPosition().x, y:event.target.getStage().getPointerPosition().y} ,p.position.points)
-      });
+      try{
+        const droppedOnPiece = tabPiece.value.find( p => {
+          return pointInPolygon({x: event.target.getStage().getPointerPosition().x, y:event.target.getStage().getPointerPosition().y} ,p.position.points)
+        });
 
-      if(droppedOnPiece) {
-        await addCaptorActionneur({"nom": droppedOnPiece.nom,
-          "_id": item._id, "etage": droppedOnPiece.etage,
-          "points":{"x": event.target.getStage().getPointerPosition().x / scaleFactor.value,
-            'y':event.target.getStage().getPointerPosition().y / scaleFactor.value
-        }})
-        event.target.destroy()
-      } else{
-        event.target.destroy()
+        if(droppedOnPiece) {
+          await addCaptorActionneur({"nom": droppedOnPiece.nom,
+            "_id": item._id, "etage": droppedOnPiece.etage,
+            "points":{"x": event.target.getStage().getPointerPosition().x / scaleFactor.value,
+              'y':event.target.getStage().getPointerPosition().y / scaleFactor.value
+            }})
+          event.target.destroy()
+        } else{
+          event.target.destroy()
+        }
+      }catch(er){
+        console.log(event.target)
       }
     }
 
@@ -484,7 +554,10 @@ export default defineComponent({
       endMenu,
       captAdd,
       pushCaptorActionneur,
-      captorActioneurToAdd
+      captorActioneurToAdd,
+      bodyConfig,
+      armConfig,
+      legConfig
     };
   }
 });

@@ -5,8 +5,8 @@ async function getPieces(){
 }
 
 async function getAllSensorAndActionnor(){
-    let table = type_actionneur.filter(e => e._id !== "sensor-luminosity" && e._id !== "sensor-temperature" && e._id !== "sensor-presence");
-    return table;
+    return type_actionneur.filter(e => e._id !== "sensor-luminosity" && e._id !== "sensor-temperature" && e._id !== "sensor-presence");
+
 }
 
 function addCaptorActionneur(captor){

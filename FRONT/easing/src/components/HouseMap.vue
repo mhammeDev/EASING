@@ -23,7 +23,11 @@
                  </v-rect>
 
                  <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, pieces, pieces.points).shape === 'regularPolygon'"
-                                    :config="getMenuItemSquareConfig(index, pieces, pieces.points)">
+                                    :config="getMenuItemSquareConfig(index, pieces, pieces.points)"
+                                    @mouseover="BeforecaptorEvent($event,pieces)"
+                                    @mouseout="AfterCaptorEvent($event, pieces)"
+                                    @click="captorEvent($event,pieces)">
+                   >
                  </v-regular-polygon>
 
                </template>
@@ -130,9 +134,13 @@ export default defineComponent({
     const mode = ref(2);
 
     const XHead = ref(600);
-    const YHead = ref(600);
+    const YHead = ref(700);
 
     const nom = ref(null);
+
+    const bonhmXPos = ref(0);
+    const bonhmYPos = ref(0);
+
 
     const menuConfig = computed(() => ({
       x: menuX.value,
@@ -242,18 +250,18 @@ export default defineComponent({
         setMenusSizeAndPos();
       } else if(window.innerWidth < 1200){
         scaleFactor.value = 0.45;
-        menuX.value = 700;
-        menuY.value = 0;
+        menuX.value = 630;
+        menuY.value = 25;
         setMenusSizeAndPos()
       } else if(window.innerWidth < 1600){
-        scaleFactor.value = 0.75;
-        menuX.value = 1050;
-        menuY.value = 0;
+        scaleFactor.value = 0.70;
+        menuX.value = 980;
+        menuY.value = 25;
         setMenusSizeAndPos()
       } else {
-        scaleFactor.value = 0.75;
-        menuX.value = 1150;
-        menuY.value =0;
+        scaleFactor.value = 0.80;
+        menuX.value = 1140;
+        menuY.value =25;
         setMenusSizeAndPos()
 
 
@@ -299,12 +307,20 @@ export default defineComponent({
       let x = event.target.x();
       let y = event.target.y();
 
+      //console.log(box.x + box.width)
+      console.log(stage.children[0].children[0].parent)
+      console.log( box.x + box.width)
+
       if (box.x < 0 || box.x + box.width > stage.width()) {
-        x = node.startX;
+        x = bonhmXPos.value;
+      } else {
+        bonhmXPos.value = event.target.x();
       }
 
-      if (box.y < 0 || box.y + box.height > stage.height()) {
-        y = node.startY;
+      if(box.y < 0 || box.y + box.height > stage.height()){
+        y = bonhmYPos.value;
+      }else{
+        bonhmYPos.value = event.target.y();
       }
 
       node.position({ x, y });
@@ -382,7 +398,7 @@ export default defineComponent({
           context.closePath();
           context.fillStrokeShape(shape);
         },
-        fill: getSensorCaptorState(piece) ? 'red' :'lightgray',
+        fill: getSensorCaptorState(piece) ? 'lightgreen' :'#D3D3D3',
         stroke: 'black',
         strokeWidth: 2
       };
@@ -505,6 +521,7 @@ export default defineComponent({
       console.log(event.currentTarget)
 
       try{
+        console.log(event.target.getStage())
         const droppedOnPiece = tabPiece.value.find( p => {
           return pointInPolygon({x: event.target.getStage().getPointerPosition().x, y:event.target.getStage().getPointerPosition().y} ,p.position.points)
         });
@@ -524,6 +541,27 @@ export default defineComponent({
       }
     }
 
+    const BeforecaptorEvent = (event, piece) => {
+      if(piece.typeId === "sensor-water-leak"){
+        document.body.style.cursor = 'pointer';
+        console.log(event.target)
+
+      }
+
+    }
+
+
+    const captorEvent = (event, pieces) =>{
+      console.log(event + pieces)
+
+    }
+
+    const AfterCaptorEvent = (event, pieces) =>{
+      console.log(event, pieces)
+      document.body.style.cursor = 'default';
+
+
+    }
 
     return {
       getShapeConfig,
@@ -548,7 +586,10 @@ export default defineComponent({
       captorActioneurToAdd,
       bodyConfig,
       armConfig,
-      legConfig
+      legConfig,
+      captorEvent,
+      BeforecaptorEvent,
+      AfterCaptorEvent
     };
   }
 });

@@ -6,7 +6,7 @@
             pieces : [],
             captorActionneur: [],
             captorActioneurToAdd: [],
-            currentFloor: 'second',
+            currentFloor: 'first',
             hours:12,
             temperature: 5,
         }),

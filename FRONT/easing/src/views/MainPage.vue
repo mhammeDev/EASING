@@ -30,6 +30,12 @@ export default {
 </script>
 
 <template>
+  <v-alert class="mx-10"
+      text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque porro libero rerum unde voluptatem!"
+      title="Alert title"
+      type="info"
+      density="compact"
+  ></v-alert>
   <v-container>
     <v-sheet class="d-flex justify-start flex-column">
       <p class="text-h2 text-center mb-4">Prototype Easiling</p>

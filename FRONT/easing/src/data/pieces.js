@@ -13,7 +13,10 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false }
+      { "typeId": "sensor-presence",
+        "points": [],
+        "valeur" : false
+      }
     ],
     "actionneurs": [
     ]
@@ -31,7 +34,11 @@ export const pieces = [
       ]
     },"etage":1,
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" :false },
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      },
 
       {
         "typeId": "sensor-water-leak",
@@ -39,12 +46,10 @@ export const pieces = [
           "x": 115.29411764705883,
           "y": 397.4117682961857
         },
-        "etat": false
+        "valeur": false
       },
     ],
     "actionneurs": [
-    //  { "type": "sensor-light", "quantite": 1 },
-      //{ "type": "Assistant vocal", "quantite": 1 }
     ]
   },
   {
@@ -60,14 +65,19 @@ export const pieces = [
             {"x": 30, "y": 930},
           ]},
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
+      { "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false
+      }
+    ],
+    "actionneurs": [
       {
         "typeId": "sensor-light-socket",
         "points": {
           "x": 123.52941176470588,
           "y": 857.4117682961856
         },
-        "etat": false
+        "valeur": true
       },
       {
         "typeId": "sensor-motorized-blind",
@@ -75,12 +85,8 @@ export const pieces = [
           "x": 249.41176470588235,
           "y": 889.1764741785386
         },
-        "etat": false
-      },
-    ],
-    "actionneurs": [
-      //{ "typeId": "sensor-smart-plug" },
-      //{ "typeId": "sensor-motorized-blind" }
+        "valeur": false
+      }
     ]
   },  {
     id:4,
@@ -103,28 +109,30 @@ export const pieces = [
     },
     "etage": 1,
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      },
+
+
+    ],
+    "actionneurs": [
       {
         "typeId": "sensor-light",
         "points": {
           "x": 418.8235294117647,
           "y": 403.29412123736216
         },
-        "etat": false
+        "valeur": true
       },{
         "typeId": "sensor-light-socket",
         "points": {
           "x": 881.1764705882354,
           "y": 182.11765064912683
         },
-        "etat": false
+        "valeur": false
       }
-
-
-    ],
-    "actionneurs": [
-    //  {"typeId": "sensor-light"},
-    //  {"typeId": "sensor-light prise intelligente"}
     ]
   },
   {
@@ -142,11 +150,13 @@ export const pieces = [
 
       ]
     },    "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
-      //{ "type": "Détecteur de fuite d'eau" }
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      }
     ],
     "actionneurs": [
-     // { "type": "sensor-light" }
     ]
   },
   {
@@ -163,10 +173,12 @@ export const pieces = [
       ]
     },"etage":1,
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
-    ],
-    "actionneurs": [
-    ]
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      }    ],
+    "actionneurs": []
   },  {
     id:7,
     "nom": "Pièce 1",
@@ -184,10 +196,12 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
-    ],
-    "actionneurs": [
-    ]
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      }    ],
+    "actionneurs": []
   },{
     id:8,
     "nom": "Pièce 2",
@@ -202,10 +216,12 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
-    ],
-    "actionneurs": [
-    ]
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      }    ],
+    "actionneurs": []
   },
   {
     id:9,
@@ -220,14 +236,20 @@ export const pieces = [
         {"x": 30, "y": 880},
       ]
     },    "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      },
+    ],
+    "actionneurs": [
       {
         "typeId": "sensor-light",
         "points": {
           "x": 239.99999999999997,
           "y": 401.8181818181818
         },
-        "etat": false
+        "valeur": false
       },
       {
         "typeId": "sensor-smart-plug",
@@ -235,34 +257,29 @@ export const pieces = [
           "x": 12.727272727272727,
           "y": 399.99999999999994
         },
-        "etat": false
+        "valeur": false
       },{
         "typeId": "sensor-motorized-blind",
         "points": {
           "x": 234.54545454545453,
           "y": 847.5294135598575
         },
-        "etat": false
+        "valeur": false
       },{
         "typeId": "sensor-motorized-blind",
         "points": {
           "x": 12.941176470588236,
           "y": 714.3529375861673
         },
-        "etat": false
+        "valeur": false
       },{
         "typeId": "sensor-motorized-blind",
         "points": {
           "x": 12.941176470588236,
           "y": 156.1999969482422
         },
-        "etat": false
+        "valeur": false
       }
-    ],
-    "actionneurs": [
-   //   { "typeId": "sensor-light" },
-     // { "typeId": "sensor-smart-plug pour TV" },
-      //{ "typeId": "sensor-motorized-blind" }
     ]
   },
   {
@@ -280,8 +297,11 @@ export const pieces = [
 
       ]
     },    "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
-    ],
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      }    ],
     "actionneurs": []
   },
   {
@@ -298,17 +318,19 @@ export const pieces = [
       ]
     },
     "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      }
+    ],
+    "actionneurs": [
       {
         "typeId": "sensor-light-socket",
         "points":
             {"x": 605.8823529411765, "y": 207.2941176330342},
-        "etat": false
+        "valeur": false
       }
-    ],
-    "actionneurs": [
-        // { "typeId": "sensor-smart-plug pour TV"},
-      //{ "typeId": "Thermostat connecté" }
     ]
   },
   {
@@ -324,47 +346,46 @@ export const pieces = [
         {"x": 980, "y": 30},
       ]
     }, "capteurs": [
-      { "typeId": "sensor-presence", "etat" : false },
+      {
+        "typeId": "sensor-presence",
+        "points":[],
+        "valeur" : false,
+      }  ,      {
+        "typeId": "sensor-water-leak",
+        "points": {
+          "x": 1296.3636363636363,
+          "y": 49.090909090909086,
+        }, "valeur":false
+      }
+
+    ],
+    "actionneurs": [
       {
         "typeId": "sensor-light",
         "points": {
           "x": 1143.6363636363635,
           "y": 252.72727272727272,
-        }, "etat" : false
-      },
-      {
-        "typeId": "sensor-water-leak",
-        "points": {
-          "x": 1296.3636363636363,
-          "y": 49.090909090909086,
-        }, "etat":false
+        },
+        "valeur" : false
       }
-
-    ],
-    "actionneurs": [
-      { "typeId": "sensor-light"},
-    ]
+      ]
   },
 
 ]
 
 export const type_capteur = [
-  { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce" },
-  { "_id": "sensor-water-leak", "type": "Détecteur de fuite d'eau", "description": "Détecte les fuites d'eau" },
-  {"_id": "sensor-luminosity", "type" : "Détecteur de luminsosité", "description":"Détecle la luminosité"},
-  { "_id": "sensor-temperature", "type": "Détecteur de température", "description": "Détecte les variations de température" },
+  { "_id": "sensor-presence", "name":"Détecteur de présence", "type_value": "boolean", "description": "Détecte la présence dans la pièce", "show":false  },
+  { "_id": "sensor-water-leak","name":"Détecteur de fuite d'eau" ,"type_value": "boolean", "description": "Détecte les fuites d'eau", "show":true  },
+  {"_id": "sensor-luminosity","name":"Détecteur de luminosité" ,"type_value" : "numeric", "description":"Détecle la luminosité", "show":false },
+  { "_id": "sensor-temperature", "name":"Détecteur de temperatire","type_value": "numeric", "description": "Détecte les variations de température", "show":false  },
 
 ]
 
 export const type_actionneur = [
-  { "_id": "sensor-light", "type": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce", "show":true },
-  { "_id": "sensor-light-socket", "type": "Ampoule connecté prise intelligente", "description": "Contrôle l'éclairage de la pièce", "show":true  },
-  { "_id": "sensor-smart-plug", "type": "Prise connectée", "description": "Permet de contrôler les appareils électriques", "show":true  },
-  { "_id": "sensor-motorized-blind", "type": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores", "show":true  },
-  { "_id": "sensor-presence", "type": "Capteur de présence", "description": "Détecte la présence dans la pièce", "show":false  },
-  { "_id": "sensor-water-leak", "type": "Détecteur de fuite d'eau", "description": "Détecte les fuites d'eau", "show":true  },
-  {"_id": "sensor-luminosity", "type" : "Détecteur de luminsosité", "description":"Détecle la luminosité", "show":false },
-  { "_id": "sensor-temperature", "type": "Détecteur de température", "description": "Détecte les variations de température", "show":false  },
+  { "_id": "sensor-light", "name": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce", "show":true },
+  { "_id": "sensor-light-socket", "name": "Ampoule connecté prise intelligente", "description": "Contrôle l'éclairage de la pièce", "show":true  },
+  { "_id": "sensor-smart-plug", "name": "Prise connectée", "description": "Permet de contrôler les appareils électriques", "show":true  },
+  { "_id": "sensor-motorized-blind", "name": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores", "show":true  }
 ]
 
 export const  test = [

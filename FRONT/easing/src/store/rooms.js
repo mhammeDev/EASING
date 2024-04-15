@@ -15,14 +15,18 @@
                this.currentFloor = this.currentFloor === 'first' ? 'second' : 'first'        },
             async getPieces(){
                 this.pieces = await roomService.getPieces();
+                console.log(this.pieces)
             },
             setHours(hour){
                 this.hours = hour;
             },
             setTemperature(temp){
                 this.temperature = temp;
-            } ,async getCaptorandSensor(){
-                this.captorActionneur = await roomService.getAllSensorAndActionnor();
+            } ,async getCaptorandSensor()
+            {
+                const captors = await roomService.getAllCaptor();
+                const actuators = await roomService.getAllActuor();
+                this.captorActionneur = [...captors, ...actuators];
             }, addCaptorActionneur(captor){
                 this.captorActioneurToAdd.push(captor);
 

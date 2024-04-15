@@ -1,13 +1,17 @@
-import {pieces, type_actionneur} from '@/data/pieces'
+import {pieces, type_actionneur, type_capteur} from '@/data/pieces'
 
 async function getPieces(){
     return pieces;
 }
 
-async function getAllSensorAndActionnor(){
-    return type_actionneur;
-
+async function getAllActuor(){
+    return type_actionneur.map(e => ({ ...e, type: 'actuator' }));
 }
+
+async function getAllCaptor(){
+    return type_capteur.map(e => ({ ...e, type: 'captor' }));
+}
+
 
 function addCaptorActionneur(captor){
     captor.forEach(ex => {
@@ -25,6 +29,7 @@ function addCaptorActionneur(captor){
 
 export default {
     getPieces,
-    getAllSensorAndActionnor,
+    getAllActuor,
+    getAllCaptor,
     addCaptorActionneur
 }

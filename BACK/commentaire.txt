@@ -1,0 +1,4 @@
+nvm use 18
+npm init -y
+
+npm install express mongodb dotenv socket.io @langchain/azure-openai

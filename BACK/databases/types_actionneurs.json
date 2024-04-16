@@ -3,42 +3,25 @@
         "id": 1,
         "name": "Lumière connectée",
         "description": "Contrôle l'éclairage de la pièce",
-        "actions_possible": [
-            1,
-            2
-        ]
     },
     {
         "id": 2,
         "name": "Ampoule connecté prise intelligente",
         "description": "Contrôle l'éclairage de la pièce",
-        "actions_possible": [
-            1,
-            2
-        ]
     },
     {
         "id": 3,
         "name": "TV connectée",
         "description": "Permet de contrôler les appareils électriques",
-        "actions_possible": [
-            8,
-            9
-        ]
     },
     {
         "id": 4,
         "name": "Store motorisé",
         "description": "Contrôle l'ouverture et la fermeture des stores",
-        "actions_possible": [
-            3,
-            4
-        ]
     },
     {
         "id": 5,
         "name": "Machine à café",
         "description": "Lance automatiquement la machine à café",
-        "actions_possible": []
     }
 ]

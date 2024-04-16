@@ -193,7 +193,7 @@ export default defineComponent({
         y = coord.y * scaleFactor.value;
       }
 
-      const itemId = item.id || item.typeId; // For the rooms the devices id are like foreign key, so the name is different
+      const itemId = item._id || item.typeId; // For the rooms the devices id are like foreign key, so the name is different
 
       // and the form depend of the type of devices so each devices had different form
       switch (itemId) {
@@ -202,7 +202,7 @@ export default defineComponent({
             shape: 'circle',
             fill: 'yellow',
             strokeWidth: 1,
-            stroke: 'black',
+            stroke: c,
             shadowColor: item.valeur ? 'orange' : 'transparent',
             shadowBlur: item.valeur ? 20 : 0,
             shadowOffset: { x: 0, y: 0 },
@@ -214,7 +214,7 @@ export default defineComponent({
             shape: 'circle',
             fill: 'orange',
             strokeWidth: 1,
-            stroke: 'black',
+            stroke: c,
             shadowColor: item.valeur ? 'orange' : 'transparent',
             shadowBlur: item.valeur ? 20 : 0,
             shadowOffset: { x: 0, y: 0 },

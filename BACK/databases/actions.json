@@ -1,72 +1,60 @@
 [
     {
-        "id": 1,
         "nomAction": "Allumer la lumière",
         "type_result": "action",
         "result": "bulb_on"
     },
     {
-        "id": 2,
         "nomAction": "Eteindre la lumière",
         "type_result": "action",
         "result": "bulb_off"
     },
     {
-        "id": 3,
         "nomAction": "Monter le store",
         "type_result": "action",
         "result": "blind_up"
     },
     {
-        "id": 4,
         "nomAction": "Descendre le store",
         "type_result": "action",
         "result": "blind_down"
     },
     {
-        "id": 5,
         "nomAction": "Notification fuite d'eau",
         "type_result": "notification",
         "result": "water-leak"
     },
     {
-        "id": 6,
         "nomAction": "Notification augmentation de la temperature",
         "type_result": "notification",
         "result": "temp_up"
     },
     {
-        "id": 7,
         "nomAction": "Notification chute de la temperature",
         "type_result": "notification",
         "result": "temp_down"
     },
     {
-        "id": 8,
         "nomAction": "Allumer télévision",
         "type_result": "action",
         "result": "tv_on"
     },
     {
-        "id": 9,
         "nomAction": "Eteindre télévision",
         "type_result": "action",
         "result": "tv_off"
     },
     {
-        "id": 10,
         "nomAction": "Notification intrusion",
         "type_result": "notification",
         "result": "intrusion"
     },
     {
-        "id": 11,
         "nomAction": "Allumer la machine à café",
         "type_result": "action",
         "result": "coffee_on"
     },
     {
-        "id": 12,
         "nomAction": "Eteindre la machine à café",
         "type_result": "action",
         "result": "coffee_off"

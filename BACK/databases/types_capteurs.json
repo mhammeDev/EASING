@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "Détecteur de présence",
+        "type_value": "boolean",
+        "description": "Détecte la présence dans la pièce",
+        "show": false
+    },
+    {
+        "id": 2,
+        "name": "Détecteur de fuite d'eau",
+        "type_value": "boolean",
+        "description": "Détecte les fuites d'eau",
+        "show": true
+    },
+    {
+        "id": 3,
+        "name": "Détecteur de luminosité externe",
+        "type_value": "numeric",
+        "description": "Détecle la luminosité",
+        "show": false
+    },
+    {
+        "id": 4,
+        "name": "Détecteur de temperature",
+        "type_value": "numeric",
+        "description": "Détecte les variations de température",
+        "show": false
+    },
+    {
+        "id": 5,
+        "name": "Détecteur de luminosité interne",
+        "type_value": "numeric",
+        "description": "Détecte la luminosité dans la pièce",
+        "show": true
+    }
+]

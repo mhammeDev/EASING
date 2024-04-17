@@ -44,12 +44,11 @@ class DaoController{
             let table = [];
 
             type_actuors.forEach(t => {
-                table.push(t.nomAction)
+                table.push(t.name)
             })
             return table;
         } catch(e){
             console.log(e)
-            return
         }
     }
 

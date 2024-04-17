@@ -1,8 +1,7 @@
 [
   {
-    "nom": "Chambre 1",
-    "etage": 1,
-    "superficie": "9.71 m²",
+    "name": "Bedroom 1",
+    "floor": 1,
     "position": {
       "points": [
         {
@@ -23,18 +22,17 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": []
+    "actuors": []
   },
   {
-    "nom": "Salle parentale",
-    "superficie": "7.27 m²",
+    "name": "Parental bathroom",
     "position": {
       "points": [
         {
@@ -55,12 +53,12 @@
         }
       ]
     },
-    "etage": 1,
-    "capteurs": [
+    "floor": 1,
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       },
       {
         "typeId": "sensor-water-leak",
@@ -68,15 +66,14 @@
           "x": 115.29411764705883,
           "y": 397.4117682961857
         },
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": []
+    "actuors": []
   },
   {
-    "nom": "Chambre 2",
-    "etage": 1,
-    "superficie": "14.09 m²",
+    "name": "Bedroom 2",
+    "floor": 1,
     "position": {
       "points": [
         {
@@ -97,14 +94,14 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": [
+    "actuors": [
       {
         "typeId": "smart-connected-light",
         "points": {
@@ -124,8 +121,7 @@
     ]
   },
   {
-    "nom": "",
-    "superficie": "10.0 m²",
+    "name": " ",
     "position": {
       "points": [
         {
@@ -174,15 +170,15 @@
         }
       ]
     },
-    "etage": 1,
-    "capteurs": [
+    "floor": 1,
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": [
+    "actuors": [
       {
         "typeId": "connected-light",
         "points": {
@@ -202,9 +198,8 @@
     ]
   },
   {
-    "nom": "Salle de bain",
-    "superficie": "5.49 m²",
-    "etage": 1,
+    "name": "Bathroom",
+    "floor": 1,
     "position": {
       "points": [
         {
@@ -229,18 +224,17 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": []
+    "actuors": []
   },
   {
-    "nom": "WC",
-    "superficie": "1.9 m²",
+    "name": "WC",
     "position": {
       "points": [
         {
@@ -261,20 +255,19 @@
         }
       ]
     },
-    "etage": 1,
-    "capteurs": [
+    "floor": 1,
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": []
+    "actuors": []
   },
   {
-    "nom": "Pièce 1",
-    "etage": 1,
-    "superficie": "12.93 m²",
+    "name": "Bedroom 1",
+    "floor": 1,
     "position": {
       "points": [
         {
@@ -307,19 +300,18 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": []
+    "actuors": []
   },
   {
-    "nom": "Pièce 2",
-    "etage": 1,
-    "superficie": "12.93 m²",
+    "name": "Room 2",
+    "floor": 1,
     "position": {
       "points": [
         {
@@ -340,19 +332,18 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": []
+    "actuors": []
   },
   {
-    "nom": "Salle à manger",
-    "superficie": "40.0 m²",
-    "etage": 0,
+    "name": "Dining room",
+    "floor": 0,
     "position": {
       "points": [
         {
@@ -373,14 +364,14 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": [
+    "actuors": [
       {
         "typeId": "connected-light",
         "points": {
@@ -424,9 +415,8 @@
     ]
   },
   {
-    "nom": "Pièce 3",
-    "superficie": "4.21 m²",
-    "etage": 0,
+    "name": "Room 3",
+    "floor": 0,
     "position": {
       "points": [
         {
@@ -447,19 +437,18 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": []
+    "actuors": []
   },
   {
-    "nom": "Hall d'entrée",
-    "superficie": "14.29 m²",
-    "etage": 0,
+    "name": "Entrance hall",
+    "floor": 0,
     "position": {
       "points": [
         {
@@ -480,14 +469,14 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": [
+    "actuors": [
       {
         "typeId": "smart-connected-light",
         "points": {
@@ -499,9 +488,8 @@
     ]
   },
   {
-    "nom": "Cuisine",
-    "superficie": "18.0 m²",
-    "etage": 0,
+    "name": "Kitchen",
+    "floor": 0,
     "position": {
       "points": [
         {
@@ -522,11 +510,11 @@
         }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
         "points": [],
-        "valeur": false
+        "value": false
       },
       {
         "typeId": "sensor-water-leak",
@@ -534,10 +522,10 @@
           "x": 1296.3636363636363,
           "y": 49.090909090909086
         },
-        "valeur": false
+        "value": false
       }
     ],
-    "actionneurs": [
+    "actuors": [
       {
         "typeId": "connected-light",
         "points": {

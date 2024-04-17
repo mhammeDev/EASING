@@ -1,61 +1,61 @@
 [
     {
-        "nomAction": "Allumer la lumière",
+        "name": "Turn on the light",
         "type_result": "action",
         "result": "bulb_on"
     },
     {
-        "nomAction": "Eteindre la lumière",
+        "name": "Turn off the light",
         "type_result": "action",
         "result": "bulb_off"
     },
     {
-        "nomAction": "Monter le store",
+        "name": "Mount the blind",
         "type_result": "action",
         "result": "blind_up"
     },
     {
-        "nomAction": "Descendre le store",
+        "name": "Lower the blind",
         "type_result": "action",
         "result": "blind_down"
     },
     {
-        "nomAction": "Notification fuite d'eau",
+        "name": "Water leak notification",
         "type_result": "notification",
         "result": "water-leak"
     },
     {
-        "nomAction": "Notification augmentation de la temperature",
+        "name": "Temperature increase notifaction",
         "type_result": "notification",
         "result": "temp_up"
     },
     {
-        "nomAction": "Notification chute de la temperature",
+        "name": "Temperature drop notification",
         "type_result": "notification",
         "result": "temp_down"
     },
     {
-        "nomAction": "Allumer télévision",
+        "name": "Turn on television",
         "type_result": "action",
         "result": "tv_on"
     },
     {
-        "nomAction": "Eteindre télévision",
+        "name": "Turn off television",
         "type_result": "action",
         "result": "tv_off"
     },
     {
-        "nomAction": "Notification intrusion",
+        "name": "Intrusion notification",
         "type_result": "notification",
         "result": "intrusion"
     },
     {
-        "nomAction": "Allumer la machine à café",
+        "name": "Turn on the coffee machine",
         "type_result": "action",
         "result": "coffee_on"
     },
     {
-        "nomAction": "Eteindre la machine à café",
+        "name": "Turn off the coffee machine",
         "type_result": "action",
         "result": "coffee_off"
     }

@@ -1,27 +1,27 @@
 [
     {
-        "id": 1,
+        "_id": "connected-light",
         "name": "Lumière connectée",
-        "description": "Contrôle l'éclairage de la pièce",
+        "description": "Contrôle l'éclairage de la pièce"
     },
     {
-        "id": 2,
+        "_id": "smart-connected-light",
         "name": "Ampoule connecté prise intelligente",
-        "description": "Contrôle l'éclairage de la pièce",
+        "description": "Contrôle l'éclairage de la pièce"
     },
     {
-        "id": 3,
+        "_id": "connected-tv",
         "name": "TV connectée",
-        "description": "Permet de contrôler les appareils électriques",
+        "description": "Permet de contrôler les appareils électriques"
     },
     {
-        "id": 4,
+        "_id": "motorized-blind",
         "name": "Store motorisé",
-        "description": "Contrôle l'ouverture et la fermeture des stores",
+        "description": "Contrôle l'ouverture et la fermeture des stores"
     },
     {
-        "id": 5,
+        "_id": "smart-coffee-machine",
         "name": "Machine à café",
-        "description": "Lance automatiquement la machine à café",
+        "description": "Lance automatiquement la machine à café"
     }
 ]

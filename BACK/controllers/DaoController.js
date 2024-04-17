@@ -38,6 +38,21 @@ class DaoController{
         }
     }
 
+    static async getListAllActions(){
+        try {
+            const type_actuors = await actionsDao.findAllActions();
+            let table = [];
+
+            type_actuors.forEach(t => {
+                table.push(t.nomAction)
+            })
+            return table;
+        } catch(e){
+            console.log(e)
+            return
+        }
+    }
+
     static async getAllTypeCaptors(req, res){
         try {
             const type_captors = await typeCaptor.findAllTypeCaptors();

@@ -27,6 +27,11 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
     "actuors": []
@@ -59,6 +64,11 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       },
       {
         "typeId": "sensor-water-leak",
@@ -99,6 +109,11 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 100
       }
     ],
     "actuors": [
@@ -176,9 +191,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actuors": [
+    "actuators": [
       {
         "typeId": "connected-light",
         "points": {
@@ -229,9 +249,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actuors": []
+    "actuators": []
   },
   {
     "name": "WC",
@@ -261,9 +286,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actuors": []
+    "actuators": []
   },
   {
     "name": "Bedroom 1",
@@ -305,9 +335,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actuors": []
+    "actuators": []
   },
   {
     "name": "Room 2",
@@ -337,9 +372,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actuors": []
+    "actuators": []
   },
   {
     "name": "Dining room",
@@ -369,9 +409,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 100
       }
     ],
-    "actuors": [
+    "actuators": [
       {
         "typeId": "connected-light",
         "points": {
@@ -442,9 +487,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actuors": []
+    "actuators": []
   },
   {
     "name": "Entrance hall",
@@ -474,9 +524,14 @@
         "typeId": "sensor-presence",
         "points": [],
         "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actuors": [
+    "actuators": [
       {
         "typeId": "smart-connected-light",
         "points": {
@@ -517,6 +572,11 @@
         "value": false
       },
       {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      },
+      {
         "typeId": "sensor-water-leak",
         "points": {
           "x": 1296.3636363636363,
@@ -525,7 +585,7 @@
         "value": false
       }
     ],
-    "actuors": [
+    "actuators": [
       {
         "typeId": "connected-light",
         "points": {

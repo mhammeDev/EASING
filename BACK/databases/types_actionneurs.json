@@ -2,26 +2,25 @@
     {
         "_id": "connected-light",
         "name": "Lumière connectée",
+        "dependecies": ["sensor-presence", "internal-light-sensor"],
         "description": "Contrôle l'éclairage de la pièce"
     },
     {
         "_id": "smart-connected-light",
         "name": "Ampoule connecté prise intelligente",
+        "dependecies": ["smart-socket"],
         "description": "Contrôle l'éclairage de la pièce"
     },
     {
         "_id": "connected-tv",
         "name": "TV connectée",
+        "dependecies": ["smart-socket"],
         "description": "Permet de contrôler les appareils électriques"
     },
     {
         "_id": "motorized-blind",
         "name": "Store motorisé",
+        "dependecies": ["external-light-sensor"],
         "description": "Contrôle l'ouverture et la fermeture des stores"
-    },
-    {
-        "_id": "smart-coffee-machine",
-        "name": "Machine à café",
-        "description": "Lance automatiquement la machine à café"
     }
 ]

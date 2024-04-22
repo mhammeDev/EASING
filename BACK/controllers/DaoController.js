@@ -40,11 +40,29 @@ class DaoController{
 
     static async getListAllActions(){
         try {
-            const type_actuors = await actionsDao.findAllActions();
+            const type_actions = await actionsDao.findAllActions();
+            let table = [];
+
+            type_actions.forEach(t => {
+                if(t.actuators){
+                    table.push({action : t.name, type_action : t.type_result, actuators : t.actuators});
+                } else if(t.sensors){
+                    table.push({action : t.name, type_action : t.type_result, sensors : t.sensors});
+                }
+            })
+            return table;
+        } catch(e){
+            console.log(e)
+        }
+    }
+
+    static async getListAllActuorsDependecies(){
+        try {
+            const type_actuors = await typeActuor.findAllTypeActuors();
             let table = [];
 
             type_actuors.forEach(t => {
-                table.push(t.name)
+                table.push({id : t._id, dependecies : t.dependecies})
             })
             return table;
         } catch(e){

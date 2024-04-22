@@ -7,7 +7,8 @@ module.exports = function(io) {
 
         socket.on('house-sensor-event', async (data) => {
             const actions = await DaoController.getListAllActions()
-            OpenAiController.getInstructionFromOpenAi(data, actions, (error, result) => {
+            const type_actuors = await DaoController.getListAllActuorsDependecies()
+            OpenAiController.getInstructionFromOpenAi(data, actions, type_actuors, (error, result) => {
                 if(error){
                     socket.emit("error", error);
                 } else {

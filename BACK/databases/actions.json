@@ -2,49 +2,68 @@
     {
         "name": "Turn on the light",
         "type_result": "action",
-        "actuators": ["connected-light", "smart-connected-light"],
+        "actuators": [
+            "connected-light",
+            "smart-connected-light"
+        ],
         "result": "bulb_on"
     },
     {
         "name": "Turn off the light",
         "type_result": "action",
-        "actuators": ["connected-light", "smart-connected-light"],
+        "actuators": [
+            "connected-light",
+            "smart-connected-light"
+        ],
         "result": "bulb_off"
     },
     {
         "name": "Raise the blind",
         "type_result": "action",
-        "actuators": ["motorized-blind"],
+        "actuators": [
+            "motorized-blind"
+        ],
         "result": "blind_up"
     },
     {
         "name": "Lower the blind",
         "type_result": "action",
-        "actuators": ["motorized-blind"],
+        "actuators": [
+            "motorized-blind"
+        ],
         "result": "blind_down"
     },
     {
         "name": "Water leak notification",
         "type_result": "notification",
-        "sensors": ["sensor-water-leak"],
+        "sensors": [
+            "sensor-water-leak"
+        ],
         "result": "water-leak"
     },
     {
         "name": "Turn on television",
         "type_result": "action",
-        "actuators": ["connected-tv"],
+        "actuators": [
+            "connected-tv"
+        ],
         "result": "tv_on"
     },
     {
         "name": "Turn off television",
         "type_result": "action",
-        "actuators": ["connected-tv"],
+        "actuators": [
+            "connected-tv"
+        ],
         "result": "tv_off"
     },
     {
         "name": "Intrusion notification",
         "type_result": "notification",
-        "sensors": ["security", "sensor-presence"],
+        "sensors": [
+            "security",
+            "sensor-presence"
+        ],
         "result": "intrusion"
     }, {
     "name": "Temperature increase notifaction",
@@ -55,7 +74,9 @@
     {
         "name": "Temperature drop notification",
         "type_result": "notification",
-        "sensors": ["temperature"],
+        "sensors": [
+            "temperature"
+        ],
         "result": "temp_down"
     }
 ]

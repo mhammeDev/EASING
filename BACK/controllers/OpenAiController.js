@@ -20,21 +20,21 @@ async function getInstructionFromOpenAi(content, actions, type_actuors, callback
 
        actions.forEach(a => {
         let state = false;
-           if(a.actuators){
+           if(a.actuators && content.actuators){
                a.actuators.forEach(s => {
-
                    if(content.actuators.some(ax => ax.typeId === s)){
                        state = true
-                   } else {state = false}
-
+                   }
                })
            }
 
-           if(a.sensors){
+           else if(a.sensors && content.sensors){
                    a.sensors.forEach(s => {
                        if(content.sensors.some(ax => ax.typeId === s)){
                            state = true
-                       } else {state = false}
+                       } else {
+                        state = false
+                    }
 
                    })
            }
@@ -43,7 +43,6 @@ async function getInstructionFromOpenAi(content, actions, type_actuors, callback
                 new_actions.push(a.action)
             }
         })
-
         const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, table);
         callback(null, result);
     } catch (error){

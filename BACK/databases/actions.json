@@ -42,7 +42,7 @@
         "result": "water-leak"
     },
     {
-        "name": "Turn on television",
+        "name": "Turn on the television",
         "type_result": "action",
         "actuators": [
             "connected-tv"
@@ -50,7 +50,7 @@
         "result": "tv_on"
     },
     {
-        "name": "Turn off television",
+        "name": "Turn off the television",
         "type_result": "action",
         "actuators": [
             "connected-tv"
@@ -65,12 +65,15 @@
             "sensor-presence"
         ],
         "result": "intrusion"
-    }, {
-    "name": "Temperature increase notifaction",
-    "type_result": "notification",
-    "sensors": ["temperature"],
-    "result": "temp_up"
-},
+    },
+    {
+        "name": "Temperature increase notifaction",
+        "type_result": "notification",
+        "sensors": [
+            "temperature"
+        ],
+        "result": "temp_up"
+    },
     {
         "name": "Temperature drop notification",
         "type_result": "notification",

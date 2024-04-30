@@ -34,7 +34,7 @@
         "value": 10
       }
     ],
-    "actuors": []
+    "actuators": []
   },
   {
     "name": "Parental bathroom",
@@ -79,7 +79,7 @@
         "value": false
       }
     ],
-    "actuors": []
+    "actuators": []
   },
   {
     "name": "Bedroom 2",
@@ -116,7 +116,7 @@
         "value": 100
       }
     ],
-    "actuors": [
+    "actuators": [
       {
         "typeId": "smart-connected-light",
         "points": {

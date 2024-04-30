@@ -6,24 +6,24 @@
            <v-layer>
            <v-group  v-for="piece in tabPiece" :key="piece.id"
            >
-                <v-shape :config="getShapeConfig(piece)"/>
+             <v-shape :config="getShapeConfig(piece)"/>
                 <v-text
                     :config="getTextConfig(piece)" />
 
               </v-group>
              <template v-for="piece in tabPiece" :key="piece._id">
-               <template v-for="(pieces, index) in [...piece.capteurs, ...piece.actionneurs]" :key="index">
-                 <v-circle v-if="getMenuItemSquareConfig(index, pieces, pieces.points).shape === 'circle'"
-                           :config="getMenuItemSquareConfig(index, pieces, pieces.points)">
+               <template v-for="(pieces, index) in [...piece.captors, ...piece.actuators]" :key="index">
+                 <v-circle v-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'circle'"
+                           :config="getHomeItemSquareConfig(index, pieces, pieces.points)">
                  </v-circle>
 
-                 <v-rect v-else-if="getMenuItemSquareConfig(index, pieces, pieces.points).shape === 'rect'"
-                         :config="getMenuItemSquareConfig(index, pieces, pieces.points)">
+                 <v-rect v-else-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'rect'"
+                         :config="getHomeItemSquareConfig(index, pieces, pieces.points)">
 
                  </v-rect>
 
-                 <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, pieces, pieces.points).shape === 'regularPolygon'"
-                                    :config="getMenuItemSquareConfig(index, pieces, pieces.points)"
+                 <v-regular-polygon v-else-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'regularPolygon'"
+                                    :config="getHomeItemSquareConfig(index, pieces, pieces.points)"
                                     @mouseover="BeforecaptorEvent($event,pieces)"
                                     @mouseout="AfterCaptorEvent($event, pieces)"
                                     @click="captorEvent($event,pieces)">
@@ -136,7 +136,7 @@ export default defineComponent({
     const XHead = ref(600); //
     const YHead = ref(700); // xhead and yhead is the start point of the stickman to keep always the same shape
 
-    const nom = ref(null);
+    const name = ref(null);
 
     const bonhmXPos = ref(0);// the start position of the stickman but we initialize it behind
     const bonhmYPos = ref(0);
@@ -197,37 +197,115 @@ export default defineComponent({
 
       // and the form depend of the type of devices so each devices had different form
       switch (itemId) {
-        case 'sensor-light':
+        case 'connected-light':
           shapeConfig = {
             shape: 'circle',
             fill: 'yellow',
             strokeWidth: 1,
             stroke: c,
-            shadowColor: item.valeur ? 'orange' : 'transparent',
-            shadowBlur: item.valeur ? 20 : 0,
+            shadowColor: item.value ? 'orange' : 'transparent',
+            shadowBlur: item.value ? 20 : 0,
             shadowOffset: { x: 0, y: 0 },
-            shadowOpacity: item.valeur ? 0.8 : 0
+            shadowOpacity: item.value ? 0.8 : 0
           };
           break;
-        case "sensor-light-socket":
+        case "smart-connected-light":
           shapeConfig = {
             shape: 'circle',
             fill: 'orange',
             strokeWidth: 1,
             stroke: c,
-            shadowColor: item.valeur ? 'orange' : 'transparent',
-            shadowBlur: item.valeur ? 20 : 0,
+            shadowColor: item.value ? 'orange' : 'transparent',
+            shadowBlur: item.value ? 20 : 0,
             shadowOffset: { x: 0, y: 0 },
-            shadowOpacity: item.valeur ? 0.8 : 0
+            shadowOpacity: item.value ? 0.8 : 0
           };
           break;
-        case 'sensor-smart-plug':
+        case 'connected-tv':
           shapeConfig = {
             shape: 'circle',
             fill: 'lightblue'
           };
           break;
-        case 'sensor-motorized-blind':
+        case 'motorized-blind':
+          shapeConfig = {
+            shape: 'regularPolygon',
+            sides: 6,
+            fill: 'pink'
+          };
+          break;
+        case 'sensor-water-leak':
+          shapeConfig = {
+            shape: 'regularPolygon',
+            sides: 4,
+            rotation:45,
+            fill: 'blue'
+          };
+          break;
+        default:
+          shapeConfig = null;
+          break;
+      }
+
+      return {
+        x: x,
+        y: y,
+        stroke: c,
+        strokeWidth: strockWidth,
+        width: 33 * scaleFactor.value,
+        height: 33 * scaleFactor.value,
+        ...shapeConfig
+      };
+    };
+
+    const getHomeItemSquareConfig = (index, item, coord) => {
+      let shapeConfig;
+      let x =menuX.value + 25 * scaleFactor.value; // like we can see for the menu the position is calculated at the beginning
+      let y =menuY.value + 35 *scaleFactor.value + (index * 60) *  scaleFactor.value;
+      let c = 'black'
+      let strockWidth = 1
+
+
+      if(coord !== undefined){
+        x = coord.x * scaleFactor.value; // And if we have position we take it
+        y = coord.y * scaleFactor.value;
+      }
+
+      const itemId = item._id || item.typeId; // For the rooms the devices id are like foreign key, so the name is different
+
+      // and the form depend of the type of devices so each devices had different form
+      switch (itemId) {
+        case 'connected-light':
+          shapeConfig = {
+            shape: 'circle',
+            fill: 'yellow',
+            strokeWidth: 1,
+            stroke: c,
+            shadowColor: item.value ? 'orange' : 'transparent',
+            shadowBlur: item.value ? 20 : 0,
+            shadowOffset: { x: 0, y: 0 },
+            shadowOpacity: item.value ? 0.8 : 0
+          };
+          break;
+        case "smart-connected-light":
+          shapeConfig = {
+            shape: 'circle',
+            fill: 'orange',
+            strokeWidth: 1,
+            stroke: c,
+            shadowColor: item.value ? 'orange' : 'transparent',
+            shadowBlur: item.value ? 20 : 0,
+            shadowOffset: { x: 0, y: 0 },
+            shadowOpacity: item.value ? 0.8 : 0
+          };
+          break;
+        case 'connected-tv':
+          shapeConfig = {
+            shape: 'circle',
+            fill: 'lightblue'
+          };
+          break;
+        case 'motorized-blind':
           shapeConfig = {
             shape: 'regularPolygon',
             sides: 6,
@@ -324,9 +402,9 @@ export default defineComponent({
       limbsState.legRotation = -20;
 
 
-      if (nom.value !== null) { // when we drop a stickman in a room the room's name is save, but we see the pointer position and not
+      if (name.value !== null) { // when we drop a stickman in a room the room's name is save, but we see the pointer position and not
         // the stickman so sometimes when we drop the stickman and take with the cursor but the cursor is in the limit with an other room the sensor-presence of the room stiil in true
-        await updateCaptor(nom.value, false)
+        await updateCaptor(name.value, false)
       }
     }
 
@@ -387,7 +465,7 @@ export default defineComponent({
     * We took the event of dropping
      */
 
-    const dragEnd =async (event) => {
+    const dragEnd = async (event) => {
       document.body.style.cursor = 'default';
       const stage = event.target.getStage();
       const pointerPosition = stage.getPointerPosition();
@@ -403,11 +481,12 @@ export default defineComponent({
 
       //if this is the case we update the captor for the room
       if (droppedOnPiece) {
-        nom.value = droppedOnPiece.nom;
-        await updateCaptor(nom.value, true)
-        console.log('Dropped on piece:', droppedOnPiece.nom);
+        console.log(droppedOnPiece);
+        name.value = droppedOnPiece.name;
+        await updateCaptor(name.value, true)
+        console.log('Dropped on piece:', droppedOnPiece.name);
       } else {
-        nom.value = null;
+        name.value = null;
         console.log('Dropped outside of the pieces');
       }
 
@@ -417,8 +496,8 @@ export default defineComponent({
     // We filter the room with the floor
     const tabPiece = computed(() => {
       return currentFloor.value === 'first'
-          ? pieces.value.filter(piece => piece.etage === 0)
-          : pieces.value.filter(piece => piece.etage !== 0);
+          ? pieces.value.filter(piece => piece.floor === 0)
+          : pieces.value.filter(piece => piece.floor !== 0);
     });
 
     /*
@@ -427,8 +506,8 @@ export default defineComponent({
      */
     const captAdd = computed(() => {
       return currentFloor.value === 'first'
-          ? captorActioneurToAdd.value.filter(piece => piece.etage === 0)
-          : captorActioneurToAdd.value.filter(piece => piece.etage !== 0);
+          ? captorActioneurToAdd.value.filter(piece => piece.floor === 0)
+          : captorActioneurToAdd.value.filter(piece => piece.floor !== 0);
     });
 
     /*
@@ -436,7 +515,7 @@ export default defineComponent({
     * piece is the room that we wanted to check
      */
     const getSensorCaptorState = (piece) => {
-      return piece.capteurs.some(e => e.typeId === "sensor-presence" && e.etat === true);
+      return piece.captors.some(e => e.typeId === "sensor-presence" && e.value === true);
     };
 
     /*
@@ -485,10 +564,10 @@ export default defineComponent({
     const getTextConfig = (piece) => {
       const center = getCenterPoint(piece.position.points);
       return {
-        text: piece.nom,
+        text: piece.name,
         fontSize: 30 * scaleFactor.value,
         fontFamily: 'Mono',
-        x: center.x - piece.nom.length - (40 * scaleFactor.value) ,
+        x: center.x - piece.name.length - (40 * scaleFactor.value) ,
         y: center.y,
         align: 'center',
         verticalAlign: 'middle',
@@ -620,8 +699,8 @@ export default defineComponent({
 
         if(droppedOnPiece) {
           // if an element is dropped in a room we add the
-          await addCaptorActionneur({"nom": droppedOnPiece.nom,
-            "_id": item._id, "type" : droppedOnPiece.type,"etage": droppedOnPiece.etage,
+          await addCaptorActionneur({"name": droppedOnPiece.name,
+            "_id": item._id, "type" : droppedOnPiece.type,"floor": droppedOnPiece.floor,
             "points":{"x": event.target.getStage().getPointerPosition().x / scaleFactor.value,
               'y':event.target.getStage().getPointerPosition().y / scaleFactor.value
             }}) // we add the drag's device in our state table
@@ -668,6 +747,7 @@ export default defineComponent({
       menuConfig,
       getMenuItemConfig,
       getMenuItemSquareConfig,
+      getHomeItemSquareConfig,
       captorActionneur,
       startMenu,
       endMenu,

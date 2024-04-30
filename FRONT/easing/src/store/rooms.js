@@ -15,7 +15,6 @@
                this.currentFloor = this.currentFloor === 'first' ? 'second' : 'first'        },
             async getPieces(){
                 this.pieces = await roomService.getPieces();
-                console.log(this.pieces)
             },
             setHours(hour){
                 this.hours = hour;
@@ -29,24 +28,21 @@
                 this.captorActionneur = [...captors, ...actuators];
             }, addCaptorActionneur(captor){
                 this.captorActioneurToAdd.push(captor);
-
             }, pushCaptorActionneur(){
                 roomService.addCaptorActionneur(this.captorActioneurToAdd)
                 this.captorActioneurToAdd = [];
             },    updateCaptor(nom, etat) {
-                const IndexPiece = this.pieces.findIndex(p => p.nom === nom);
+                const IndexPiece = this.pieces.findIndex(p => p.name === nom);
 
                 if (IndexPiece !== -1) {
                     const updatedPiece = { ...this.pieces[IndexPiece] };
-                    updatedPiece.capteurs.forEach(capteur => {
+                    console.log("ici")
+                    updatedPiece.captors.forEach(capteur => {
                         if (capteur.typeId === "sensor-presence") {
-                            capteur.etat = etat;
+                            capteur.value = etat;
                         }
                     });
                         this.pieces.splice(IndexPiece, 1, updatedPiece);
-
-                        console.log(this.pieces[IndexPiece]);
-
 
                 }
             },

@@ -5,8 +5,7 @@ async function getPieces(){
 }
 
 async function getAllActuor(){
-    return type_actionneur.map(e => ({ ...e, type: 'actuator' }));
-}
+    return type_actionneur.map(e => ({ ...e, type: 'actuator' }));}
 
 async function getAllCaptor(){
     return type_capteur.map(e => ({ ...e, type: 'captor' }));
@@ -18,7 +17,7 @@ function addCaptorActionneur(captor){
         const pieceIndex = pieces.findIndex(p => p.nom === ex.nom);
         if(pieceIndex !== -1){
             console.log(pieces[pieceIndex].nom, {"typeId": ex._id,"points": ex.points, "etat": false})
-            pieces[pieceIndex].capteurs.push({
+            pieces[pieceIndex].captors.push({
                 "typeId": ex._id,
                 "points": ex.points,
                 "etat": false

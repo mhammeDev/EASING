@@ -1,406 +1,675 @@
 export const pieces = [
   {
-    id:1,
-    "nom": "Chambre 1",
-    "etage":1,
-    "superficie": "9.71 m²",
+    "name": "Bedroom 1",
+    "floor": 1,
     "position": {
       "points": [
-        {"x": 30, "y": 30},
-        {"x": 380, "y": 30},
-        {"x": 380, "y": 380},
-        {"x": 30, "y": 380}
+        {
+          "x": 30,
+          "y": 30
+        },
+        {
+          "x": 380,
+          "y": 30
+        },
+        {
+          "x": 380,
+          "y": 380
+        },
+        {
+          "x": 30,
+          "y": 380
+        }
       ]
     },
-    "capteurs": [
-      { "typeId": "sensor-presence",
-        "points": [],
-        "valeur" : false
-      }
-    ],
-    "actionneurs": [
-    ]
-  },
-  {
-    id:2,
-    "nom": "Salle parentale",
-    "superficie": "7.27 m²",
-    "position": {
-      "points": [
-        {"x": 30, "y": 380},
-        {"x": 380, "y": 380},
-        {"x": 380, "y": 630},
-        {"x": 30, "y": 630}
-      ]
-    },"etage":1,
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
+        "points": [],
+        "value": false
       },
-
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      }
+    ],
+    "actuators": []
+  },
+  {
+    "name": "Parental bathroom",
+    "position": {
+      "points": [
+        {
+          "x": 30,
+          "y": 380
+        },
+        {
+          "x": 380,
+          "y": 380
+        },
+        {
+          "x": 380,
+          "y": 630
+        },
+        {
+          "x": 30,
+          "y": 630
+        }
+      ]
+    },
+    "floor": 1,
+    "captors": [
+      {
+        "typeId": "sensor-presence",
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      },
       {
         "typeId": "sensor-water-leak",
         "points": {
           "x": 115.29411764705883,
           "y": 397.4117682961857
         },
-        "valeur": false
-      },
-    ],
-    "actionneurs": [
-    ]
-  },
-  {
-    id:3,
-    "nom": "Chambre 2",
-    "etage":1,
-    "superficie": "14.09 m²",
-    "position":
-        {"points": [
-            {"x": 30, "y": 630},
-            {"x": 530, "y": 630},
-            {"x": 530, "y": 930},
-            {"x": 30, "y": 930},
-          ]},
-    "capteurs": [
-      { "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false
+        "value": false
       }
     ],
-    "actionneurs": [
+    "actuators": []
+  },
+  {
+    "name": "Bedroom 2",
+    "floor": 1,
+    "position": {
+      "points": [
+        {
+          "x": 30,
+          "y": 630
+        },
+        {
+          "x": 530,
+          "y": 630
+        },
+        {
+          "x": 530,
+          "y": 930
+        },
+        {
+          "x": 30,
+          "y": 930
+        }
+      ]
+    },
+    "captors": [
       {
-        "typeId": "sensor-light-socket",
+        "typeId": "sensor-presence",
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 100
+      }
+    ],
+    "actuators": [
+      {
+        "typeId": "smart-connected-light",
         "points": {
           "x": 123.52941176470588,
           "y": 857.4117682961856
         },
-        "valeur": true
+        "currentAction": ""
       },
       {
-        "typeId": "sensor-motorized-blind",
+        "typeId": "motorized-blind",
         "points": {
           "x": 249.41176470588235,
           "y": 889.1764741785386
         },
-        "valeur": false
+        "currentAction": ""
       }
     ]
-  },  {
-    id:4,
-    "nom": "",
-    "superficie": "10.0 m²",
+  },
+  {
+    "name": " ",
     "position": {
       "points": [
-        {"x": 380, "y": 630},
-        {"x": 530, "y": 630},
-        {"x": 530, "y": 330},
-        {"x": 630, "y": 330},
-        {"x": 630, "y": 230},
-        {"x": 1080, "y": 230},
-        {"x": 1080, "y": 30},
-        {"x": 530, "y": 30},
-        {"x": 530, "y": 180},
-        {"x": 380, "y": 180},
-        {"x": 380, "y": 630},
+        {
+          "x": 380,
+          "y": 630
+        },
+        {
+          "x": 530,
+          "y": 630
+        },
+        {
+          "x": 530,
+          "y": 330
+        },
+        {
+          "x": 630,
+          "y": 330
+        },
+        {
+          "x": 630,
+          "y": 230
+        },
+        {
+          "x": 1080,
+          "y": 230
+        },
+        {
+          "x": 1080,
+          "y": 30
+        },
+        {
+          "x": 530,
+          "y": 30
+        },
+        {
+          "x": 530,
+          "y": 180
+        },
+        {
+          "x": 380,
+          "y": 180
+        },
+        {
+          "x": 380,
+          "y": 630
+        }
       ]
     },
-    "etage": 1,
-    "capteurs": [
+    "floor": 1,
+    "captors": [
       {
         "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
+        "points": [],
+        "value": false
       },
-
-
-    ],
-    "actionneurs": [
       {
-        "typeId": "sensor-light",
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      }
+    ],
+    "actuators": [
+      {
+        "typeId": "connected-light",
         "points": {
           "x": 418.8235294117647,
           "y": 403.29412123736216
         },
-        "valeur": true
-      },{
-        "typeId": "sensor-light-socket",
+        "currentAction": ""
+      },
+      {
+        "typeId": "smart-connected-light",
         "points": {
           "x": 881.1764705882354,
           "y": 182.11765064912683
         },
-        "valeur": false
+        "currentAction": ""
       }
     ]
   },
   {
-    id:5,
-    "nom": "Salle de bain",
-    "superficie": "5.49 m²",
-    "etage":1,
+    "name": "Bathroom",
+    "floor": 1,
     "position": {
       "points": [
-        {"x": 1080, "y": 230},
-        {"x": 1380, "y": 230},
-        {"x": 1380, "y": 30},
-        {"x": 1080, "y": 30},
-        {"x": 1080, "y": 230},
-
-      ]
-    },    "capteurs": [
-      {
-        "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
-      }
-    ],
-    "actionneurs": [
-    ]
-  },
-  {
-    id:6,
-    "nom": "WC",
-    "superficie": "1.9 m²",
-    "position": {
-      "points": [
-        {"x": 380, "y": 30},
-        {"x": 530, "y": 30},
-        {"x": 530, "y": 180},
-        {"x": 380, "y": 180}
-
-      ]
-    },"etage":1,
-    "capteurs": [
-      {
-        "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
-      }    ],
-    "actionneurs": []
-  },  {
-    id:7,
-    "nom": "Pièce 1",
-    "etage":1,
-    "superficie": "12.93 m²",
-    "position": {
-      "points": [
-        {"x": 530, "y": 630},
-        {"x": 980, "y": 630},
-        {"x": 980, "y": 230},
-        {"x": 630, "y": 230},
-        {"x": 630, "y": 330},
-        {"x": 530, "y": 330},
-        {"x": 530, "y": 630},
+        {
+          "x": 1080,
+          "y": 230
+        },
+        {
+          "x": 1380,
+          "y": 230
+        },
+        {
+          "x": 1380,
+          "y": 30
+        },
+        {
+          "x": 1080,
+          "y": 30
+        },
+        {
+          "x": 1080,
+          "y": 230
+        }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
-      }    ],
-    "actionneurs": []
-  },{
-    id:8,
-    "nom": "Pièce 2",
-    "etage":1,
-    "superficie": "12.93 m²",
-    "position": {
-      "points": [
-        {"x": 980, "y": 630},
-        {"x": 1380, "y": 630},
-        {"x": 1380, "y": 230},
-        {"x": 980, "y": 230},
-      ]
-    },
-    "capteurs": [
-      {
-        "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
-      }    ],
-    "actionneurs": []
-  },
-  {
-    id:9,
-    "nom": "Salle à manger",
-    "superficie": "40.0 m²",
-    "etage":0,
-    "position": {
-      "points": [
-        {"x": 30, "y": 30},
-        {"x": 530, "y": 30},
-        {"x": 530, "y": 880},
-        {"x": 30, "y": 880},
-      ]
-    },    "capteurs": [
-      {
-        "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
+        "points": [],
+        "value": false
       },
-    ],
-    "actionneurs": [
       {
-        "typeId": "sensor-light",
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      }
+    ],
+    "actuators": []
+  },
+  {
+    "name": "WC",
+    "position": {
+      "points": [
+        {
+          "x": 380,
+          "y": 30
+        },
+        {
+          "x": 530,
+          "y": 30
+        },
+        {
+          "x": 530,
+          "y": 180
+        },
+        {
+          "x": 380,
+          "y": 180
+        }
+      ]
+    },
+    "floor": 1,
+    "captors": [
+      {
+        "typeId": "sensor-presence",
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      }
+    ],
+    "actuators": []
+  },
+  {
+    "name": "Bedroom 1",
+    "floor": 1,
+    "position": {
+      "points": [
+        {
+          "x": 530,
+          "y": 630
+        },
+        {
+          "x": 980,
+          "y": 630
+        },
+        {
+          "x": 980,
+          "y": 230
+        },
+        {
+          "x": 630,
+          "y": 230
+        },
+        {
+          "x": 630,
+          "y": 330
+        },
+        {
+          "x": 530,
+          "y": 330
+        },
+        {
+          "x": 530,
+          "y": 630
+        }
+      ]
+    },
+    "captors": [
+      {
+        "typeId": "sensor-presence",
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      }
+    ],
+    "actuators": []
+  },
+  {
+    "name": "Room 2",
+    "floor": 1,
+    "position": {
+      "points": [
+        {
+          "x": 980,
+          "y": 630
+        },
+        {
+          "x": 1380,
+          "y": 630
+        },
+        {
+          "x": 1380,
+          "y": 230
+        },
+        {
+          "x": 980,
+          "y": 230
+        }
+      ]
+    },
+    "captors": [
+      {
+        "typeId": "sensor-presence",
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      }
+    ],
+    "actuators": []
+  },
+  {
+    "name": "Dining room",
+    "floor": 0,
+    "position": {
+      "points": [
+        {
+          "x": 30,
+          "y": 30
+        },
+        {
+          "x": 530,
+          "y": 30
+        },
+        {
+          "x": 530,
+          "y": 880
+        },
+        {
+          "x": 30,
+          "y": 880
+        }
+      ]
+    },
+    "captors": [
+      {
+        "typeId": "sensor-presence",
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 100
+      }
+    ],
+    "actuators": [
+      {
+        "typeId": "connected-light",
         "points": {
           "x": 239.99999999999997,
           "y": 401.8181818181818
         },
-        "valeur": false
+        "currentAction": ""
       },
       {
-        "typeId": "sensor-smart-plug",
+        "typeId": "connected-tv",
         "points": {
           "x": 12.727272727272727,
           "y": 399.99999999999994
         },
-        "valeur": false
-      },{
-        "typeId": "sensor-motorized-blind",
+        "currentAction": ""
+      },
+      {
+        "typeId": "motorized-blind",
         "points": {
           "x": 234.54545454545453,
           "y": 847.5294135598575
         },
-        "valeur": false
-      },{
-        "typeId": "sensor-motorized-blind",
+        "currentAction": ""
+      },
+      {
+        "typeId": "motorized-blind",
         "points": {
           "x": 12.941176470588236,
           "y": 714.3529375861673
         },
-        "valeur": false
-      },{
-        "typeId": "sensor-motorized-blind",
+        "currentAction": ""
+      },
+      {
+        "typeId": "motorized-blind",
         "points": {
           "x": 12.941176470588236,
           "y": 156.1999969482422
         },
-        "valeur": false
+        "currentAction": ""
       }
     ]
   },
   {
-    id:10,
-    "nom": "Pièce 3",
-    "superficie": "4.21 m²",
-    "etage":0,
+    "name": "Room 3",
+    "floor": 0,
     "position": {
       "points": [
-        {"x": 530, "y": 30},
-        {"x": 980, "y": 30},
-        {"x": 980, "y": 230},
-        {"x": 530, "y": 230},
-
-
-      ]
-    },    "capteurs": [
-      {
-        "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
-      }    ],
-    "actionneurs": []
-  },
-  {
-    id:11,
-    "nom": "Hall d'entrée",
-    "superficie": "14.29 m²",
-    "etage":0,
-    "position": {
-      "points": [
-        {"x": 530, "y": 230},
-        {"x": 980, "y": 230},
-        {"x": 980, "y": 580},
-        {"x": 530, "y": 580},
+        {
+          "x": 530,
+          "y": 30
+        },
+        {
+          "x": 980,
+          "y": 30
+        },
+        {
+          "x": 980,
+          "y": 230
+        },
+        {
+          "x": 530,
+          "y": 230
+        }
       ]
     },
-    "capteurs": [
+    "captors": [
       {
         "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
       }
     ],
-    "actionneurs": [
+    "actuators": []
+  },
+  {
+    "name": "Entrance hall",
+    "floor": 0,
+    "position": {
+      "points": [
+        {
+          "x": 530,
+          "y": 230
+        },
+        {
+          "x": 980,
+          "y": 230
+        },
+        {
+          "x": 980,
+          "y": 580
+        },
+        {
+          "x": 530,
+          "y": 580
+        }
+      ]
+    },
+    "captors": [
       {
-        "typeId": "sensor-light-socket",
-        "points":
-            {"x": 605.8823529411765, "y": 207.2941176330342},
-        "valeur": false
+        "typeId": "sensor-presence",
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      }
+    ],
+    "actuators": [
+      {
+        "typeId": "smart-connected-light",
+        "points": {
+          "x": 605.8823529411765,
+          "y": 207.2941176330342
+        },
+        "currentAction": ""
       }
     ]
   },
   {
-    id:12,
-    "nom": "Cuisine",
-    "superficie": "18.0 m²",
-    "etage":0,
+    "name": "Kitchen",
+    "floor": 0,
     "position": {
       "points": [
-        {"x": 980, "y": 580},
-        {"x": 1380, "y": 580},
-        {"x": 1380, "y": 30},
-        {"x": 980, "y": 30},
+        {
+          "x": 980,
+          "y": 580
+        },
+        {
+          "x": 1380,
+          "y": 580
+        },
+        {
+          "x": 1380,
+          "y": 30
+        },
+        {
+          "x": 980,
+          "y": 30
+        }
       ]
-    }, "capteurs": [
+    },
+    "captors": [
       {
         "typeId": "sensor-presence",
-        "points":[],
-        "valeur" : false,
-      }  ,      {
+        "points": [],
+        "value": false
+      },
+      {
+        "typeId": "internal-light-sensor",
+        "points": [],
+        "value": 10
+      },
+      {
         "typeId": "sensor-water-leak",
         "points": {
           "x": 1296.3636363636363,
-          "y": 49.090909090909086,
-        }, "valeur":false
+          "y": 49.090909090909086
+        },
+        "value": false
       }
-
     ],
-    "actionneurs": [
+    "actuators": [
       {
-        "typeId": "sensor-light",
+        "typeId": "connected-light",
         "points": {
           "x": 1143.6363636363635,
-          "y": 252.72727272727272,
+          "y": 252.72727272727272
         },
-        "valeur" : false
+        "currentAction": ""
       }
-      ]
-  },
-
-]
-
-export const type_capteur = [
-  { "_id": "sensor-presence", "name":"Détecteur de présence", "type_value": "boolean", "description": "Détecte la présence dans la pièce", "show":false  },
-  { "_id": "sensor-water-leak","name":"Détecteur de fuite d'eau" ,"type_value": "boolean", "description": "Détecte les fuites d'eau", "show":true  },
-  {"_id": "sensor-luminosity","name":"Détecteur de luminosité" ,"type_value" : "numeric", "description":"Détecle la luminosité", "show":false },
-  { "_id": "sensor-temperature", "name":"Détecteur de temperatire","type_value": "numeric", "description": "Détecte les variations de température", "show":false  },
-
-]
-
-export const type_actionneur = [
-  { "_id": "sensor-light", "name": "Lumière connectée", "description": "Contrôle l'éclairage de la pièce", "show":true },
-  { "_id": "sensor-light-socket", "name": "Ampoule connecté prise intelligente", "description": "Contrôle l'éclairage de la pièce", "show":true  },
-  { "_id": "sensor-smart-plug", "name": "Prise connectée", "description": "Permet de contrôler les appareils électriques", "show":true  },
-  { "_id": "sensor-motorized-blind", "name": "Store motorisé", "description": "Contrôle l'ouverture et la fermeture des stores", "show":true  }
-]
-
-export const  test = [
-  {
-    "nom": "Salon",
-    "superficie": "16.94 m²",
-    "position": {"x": 10, "y": 100, "largeur": 480, "hauteur": 240},
-    "etage":0,
-    "capteurs": [
-      { "typeId": "sensor-presence" }
-    ],
-    "actionneurs": [
-      { "type": "sensor-light"},
-      { "type": "sensor-smart-plug pour TV"}
     ]
   }
 ]
 
+export const type_actionneur = [
+  {
+    "_id": "connected-light",
+    "name": "Lumière connectée",
+    "dependecies": ["sensor-presence", "internal-light-sensor"],
+    "description": "Contrôle l'éclairage de la pièce",
+    "show": true
+  },
+  {
+    "_id": "smart-connected-light",
+    "name": "Ampoule connecté prise intelligente",
+    "dependecies": ["smart-socket"],
+    "description": "Contrôle l'éclairage de la pièce",
+    "show": true
+  },
+  {
+    "_id": "connected-tv",
+    "name": "TV connectée",
+    "dependecies": ["smart-socket"],
+    "description": "Permet de contrôler les appareils électriques",
+    "show": true
+  },
+  {
+    "_id": "motorized-blind",
+    "name": "Store motorisé",
+    "dependecies": ["external-light-sensor"],
+    "description": "Contrôle l'ouverture et la fermeture des stores",
+    "show": true
+  }
+]
+
+export const type_capteur = [
+  {
+    "_id": "sensor-presence",
+    "name": "Détecteur de présence",
+    "type_value": "boolean",
+    "description": "Détecte la présence dans la pièce",
+    "show": false
+  },
+  {
+    "_id": "sensor-water-leak",
+    "name": "Détecteur de fuite d'eau",
+    "type_value": "boolean",
+    "description": "Détecte les fuites d'eau",
+    "show": true
+  },
+  {
+    "_id": "external-light-sensor",
+    "name": "Détecteur de luminosité externe",
+    "type_value": "numeric",
+    "description": "Détecle la luminosité",
+    "show": false
+  },
+  {
+    "_id": "temperature-sensor",
+    "name": "Détecteur de temperature",
+    "type_value": "numeric",
+    "description": "Détecte les variations de température",
+    "show": false
+  },
+  {
+    "_id": "internal-light-sensor",
+    "name": "Détecteur de luminosité interne",
+    "type_value": "numeric",
+    "description": "Détecte la luminosité dans la pièce",
+    "show": false
+  },
+  {
+    "_id": "smart-socket",
+    "name": "Prise intelligente",
+    "type_value": "boolean",
+    "description": "Etat de la prise",
+    "show": false
+  }
+]

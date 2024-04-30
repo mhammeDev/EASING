@@ -16,7 +16,7 @@ const model = new AzureChatOpenAI({
 
 
 
-async function getInstructionFromOpenAI(content, actions, type_actuors, train_1) {
+async function getInstructionFromOpenAI(content, actions, train_1) {
 
     try {
         let current_case = {

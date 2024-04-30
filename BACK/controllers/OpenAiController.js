@@ -1,6 +1,6 @@
 const OpenAiService = require('../services/OpenAiService');
 
-async function getInstructionFromOpenAi(content, actions, type_actuors, callback){
+async function getInstructionFromOpenAi(content, actions, callback){
     let table = [];
     let new_actions = [];
 
@@ -9,6 +9,7 @@ async function getInstructionFromOpenAi(content, actions, type_actuors, callback
         return;
     }
     try{
+        /* At the begining we sent all actuators dependecies to help gpt bu tit's useless
         if (content.actuators) {
 
             type_actuors.forEach(type => {
@@ -16,9 +17,19 @@ async function getInstructionFromOpenAi(content, actions, type_actuors, callback
                     table.push(type);
                 }
             });
-        }
+        }*/
+        new_actions = await getActionsList(actions, content);
+        let train_case = await getRightCase(content);
+        const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, train_case);
+        callback(null, result);
+    } catch (error){
+        callback('Failed to process the instruction request: ' + error.message)
+    }
+}
 
-       actions.forEach(a => {
+async function getActionsList(actions, content){
+    let new_actions = [];
+    actions.forEach(a => {
         let state = false;
            if(a.actuators && content.actuators){
                a.actuators.forEach(s => {
@@ -43,12 +54,7 @@ async function getInstructionFromOpenAi(content, actions, type_actuors, callback
                 new_actions.push(a.action)
             }
         })
-        let train_case = await getRightCase(content);
-        const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, table, train_case);
-        callback(null, result);
-    } catch (error){
-        callback('Failed to process the instruction request: ' + error.message)
-    }
+        return new_actions;
 }
 
 async function getRightCase(content) {
@@ -93,14 +99,14 @@ const train_1 = [
     {
         "cases": ["connected-light"],
         "examples":[
-            {"role": "user", "content":`data : [{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": 10}], "actuators": [{"typeId": "connected-light"}],"actions": ["Turn on the light", "Turn off the light"]}]`},
-            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on; the internal light sensor records 10 lux, which is LESS than the comfort lighting threshold of 210 lux (10 < 210), and a presence is detected (sensor presence is true), necessitating artificial lighting to ensure visibility and safety for the individual present."}]`},
+            {"role": "user", "content":`data : [{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": ["Turn on the light", "Turn off the light"]}]`},
+            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on; the internal light sensor records a low luminosity, and a presence is detected (sensor presence is true), necessitating artificial lighting to ensure visibility and safety for the individual present."}]`},
         
-          {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": 250}], "actuators": [{"typeId": "connected-light"}], "actions": ["Turn on the light", "Turn off the light"]}`},
-          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "explanations" : "Even if sensor presence is true, the internal light sensor indicates a light level of 250 lux, which greater than the threshold of 210 lux (250 > 210). This suggests there is enough natural light, and turning on the light is unnecessary, promoting energy conservation."}]`},
+          {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "high_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": ["Turn on the light", "Turn off the light"]}`},
+          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "explanations" : "Even if sensor presence is true, the internal light sensor indicates a high_luminosity. This suggests there is enough natural light, and turning on the light is unnecessary, promoting energy conservation."}]`},
       
-          {"role": "user", "content": `data : [{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": 70}], "actuators": [{"typeId": "connected-light"}], "actions": ["Turn on the light", "Turn off the light"]}]`},
-          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on; the internal light sensor records 70 lux, which is less than the comfort lighting threshold of 210 lux (70 < 210), and a presence is detected (sensor presence is true), necessitating artificial lighting to ensure visibility and safety for the individual present."}]`},   
+          {"role": "user", "content": `data : [{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": ["Turn on the light", "Turn off the light"]}]`},
+          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on; the internal light sensor records a low luminosity, and a presence is detected (sensor presence is true), necessitating artificial lighting to ensure visibility and safety for the individual present."}]`},   
         ]
 
     },
@@ -119,7 +125,7 @@ const train_1 = [
     {
         "cases": ["smart-connected-light", "connected-light"],
         "examples":[
-            {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId": "internal-light-sensor", "value": 100, "unit": "lux"}, {"typeId": "sensor-presence", "value": false}], "actuators": [{"typeId": "connected-light"}, {"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], "actions": ["Turn on the light", "Turn off the light"]}`},
+            {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId": "internal-light-sensor", "value": "low_luminosity"}, {"typeId": "sensor-presence", "value": false}], "actuators": [{"typeId": "connected-light"}, {"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], "actions": ["Turn on the light", "Turn off the light"]}`},
             {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "explanations": "The connected light is turned off because sensor presence is false, so nobody in the room."}, {"name": "smart-connected-light", "action": "Turn on the light", "explanations": "The smart socket of the smart-connected-light is true, so the smart connected light is turned on"}]`},      
         ]
 
@@ -153,15 +159,11 @@ const train_1 = [
     {
         "cases": ["motorized-blind"],
         "examples":[                
-            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": 5000}], "actuators": [{"typeId": "motorized-blind"}], "actions": ["Raise the blind", "Lower the blind"]}`},
-            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Raise the blind", "explanations": "The blind is raised to allow more natural light into the room because the external light value 5000 lux is greater than the 1900 lux threshold (5000 > 1900 so blind is raised)."}]`},
+            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": "high_luminosity"}], "actuators": [{"typeId": "motorized-blind"}], "actions": ["Raise the blind", "Lower the blind"]}`},
+            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Raise the blind", "explanations": "The blind is raised to allow more natural light into the room because the external light value indicate a high luminosity."}]`},
         
-            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": 1000}], "actuators": [{"typeId": "motorized-blind"}], "actions": ["Raise the blind", "Lower the blind"]}`},
-            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Lower the blind", "explanations": "The blind is lowered to make use of available artificial light because the external light value 1000 lux is less than the 1900 lux threshold (1000 < 1900 so blind is lowered)."}]`},
-        
-                    
-            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": 400}], "actuators": [{"typeId": "motorized-blind"}], "actions": ["Raise the blind", "Lower the blind"]}`},
-            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Lower the blind", "explanations": "The blind is lowered to make use of available artificial light because the external light value 400 lux is less than the 1900 lux threshold (1000 < 1900 so blind is lowered)."}]`},
+            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": "low_luminosity"}], "actuators": [{"typeId": "motorized-blind"}], "actions": ["Raise the blind", "Lower the blind"]}`},
+            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Lower the blind", "explanations": "The blind is lowered to make use of available artificial light because the external light value indicate a low luminosity."}]`},
         
         ]
 
@@ -169,8 +171,8 @@ const train_1 = [
     {
         "cases": ["motorized-blind", "connected-light"],
         "examples":[                
-            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": 2500}], "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": 420}], "actuators": [{"typeId": "connected-light"}, {"typeId": "motorized-blind"}], "actions": ["Turn on the light", "Turn off the light", "Lower the blind", "Raise the blind"]}`},
-            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on because the internal light sensor records 20 lux, which is below the comfort lighting threshold of 210 lux and there is someone in the room,  necessitating artificial lighting to ensure visibility and safety for the individual present.."}, {"name": "motorized-blind", "action": "Raise the blind", "explanations": "The blind is raised, allowing in natural light as the external light value 2500 lux is greater than the 1900 lux threshold (2500 > 1900 so blind is raised)"}]`},      
+            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": "low_luminosity"}], "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": 420}], "actuators": [{"typeId": "connected-light"}, {"typeId": "motorized-blind"}], "actions": ["Turn on the light", "Turn off the light", "Lower the blind", "Raise the blind"]}`},
+            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on because the internal light sensor records a low luminosity and there is someone in the room,  necessitating artificial lighting to ensure visibility and safety for the individual present.."}, {"name": "motorized-blind", "action": "Raise the blind", "explanations": "The blind is raised, allowing in natural light as the external light value indicate a high luminosity"}]`},      
         ]
 
     },

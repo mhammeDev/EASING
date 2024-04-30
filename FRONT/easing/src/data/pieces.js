@@ -31,7 +31,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": []
@@ -68,7 +68,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       },
       {
         "typeId": "sensor-water-leak",
@@ -113,7 +113,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 100
+        "value": "low_luminosity"
       }
     ],
     "actuators": [
@@ -195,7 +195,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": [
@@ -253,7 +253,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": []
@@ -290,7 +290,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": []
@@ -339,7 +339,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": []
@@ -376,7 +376,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": []
@@ -413,7 +413,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 100
+        "value": "low_luminosity"
       }
     ],
     "actuators": [
@@ -491,7 +491,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": []
@@ -528,7 +528,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       }
     ],
     "actuators": [
@@ -574,7 +574,7 @@ export const pieces = [
       {
         "typeId": "internal-light-sensor",
         "points": [],
-        "value": 10
+        "value": "low_luminosity"
       },
       {
         "typeId": "sensor-water-leak",

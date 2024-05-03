@@ -7,8 +7,7 @@ module.exports = function(io) {
 
         socket.on('house-sensor-event', async (data) => {
             const actions = await DaoController.getListAllActions()
-            const type_actuors = await DaoController.getListAllActuorsDependecies()
-            OpenAiController.getInstructionFromOpenAi(data, actions, type_actuors, (error, result) => {
+            OpenAiController.getInstructionFromOpenAi(data, actions, (error, result) => {
                 if(error){
                     socket.emit("error", error);
                 } else {
@@ -18,8 +17,22 @@ module.exports = function(io) {
             })
         });
 
-        socket.on('external-sensor-event', (data) => {
-            console.log('Evenement personnalisé externe reçu :', data)
+        socket.on('external-sensor-event', async (data) => {
+            const actions = await DaoController.getListAllActions()
+            const content = JSON.parse(data)
+            console.log(content.nom)
+            /*OpenAiController.getInstructionFromOpenAi(data, actions, (error, result) => {
+                if(error){
+                    socket.emit("error", error);
+                } else {
+                    socket.emit("update", result);
+                }
+
+            })*/
+        })
+
+        socket.on('socket-event', (data) => {
+
         })
 
         socket.on('disconnect', () => {

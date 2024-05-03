@@ -45,9 +45,9 @@ class DaoController{
 
             type_actions.forEach(t => {
                 if(t.actuators){
-                    table.push({action : t.name, type_action : t.type_result, actuators : t.actuators});
+                    table.push({action : t.name, type_action : t.type_result, actuators : t.actuators, result : t.result});
                 } else if(t.sensors){
-                    table.push({action : t.name, type_action : t.type_result, sensors : t.sensors});
+                    table.push({action : t.name, type_action : t.type_result, sensors : t.sensors, result : t.result});
                 }
             })
             return table;

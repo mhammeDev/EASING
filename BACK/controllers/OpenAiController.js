@@ -9,21 +9,12 @@ async function getInstructionFromOpenAi(content, actions, callback){
         return;
     }
     try{
-        /* At the begining we sent all actuators dependecies to help gpt bu tit's useless
-        if (content.actuators) {
-
-            type_actuors.forEach(type => {
-                if (content.actuators.some(actuator => type.id === actuator.typeId)) {
-                    table.push(type);
-                }
-            });
-        }*/
         new_actions = await getActionsList(actions, content);
         let train_case = await getRightCase(content);
-        const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, train_case);
-        callback(null, result);
+       const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, train_case);
+       callback(null, result);
     } catch (error){
-        callback('Failed to process the instruction request: ' + error.message)
+       callback('Failed to process the instruction request: ' + error.message)
     }
 }
 
@@ -51,7 +42,7 @@ async function getActionsList(actions, content){
            }
 
             if(state){
-                new_actions.push(a.action)
+                new_actions.push({action : a.action, result : a.result})
             }
         })
         return new_actions;
@@ -59,7 +50,7 @@ async function getActionsList(actions, content){
 
 async function getRightCase(content) {
     let table = [];
-    table.push({"role": "system", "content": "Evaluate sensor data and issue commands for actuators or notifications. Responses should be formatted as JSON ([{...},...]), be concise, and logically derived from the input."})
+    table.push({"role": "system", "content": "Evaluate sensor data and deduce commands for actuators or notifications. Responses should be formatted as JSON ([{...},...]), be concise, and logically derived from the input."})
 
     // Check and process sensor data if provided
     if (content.sensors) {
@@ -95,62 +86,79 @@ async function getRightCase(content) {
     return table; 
 }
 
+async function getRightReturn(result){
+    if(result.lenght === 0) return result
+    result.f
+
+}
+
+
 const train_1 = [
     {
         "cases": ["connected-light"],
         "examples":[
-            {"role": "user", "content":`data : [{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": ["Turn on the light", "Turn off the light"]}]`},
-            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on; the internal light sensor records a low luminosity, and a presence is detected (sensor presence is true), necessitating artificial lighting to ensure visibility and safety for the individual present."}]`},
+            {"role": "user", "content":`{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
+            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},
         
-          {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "high_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": ["Turn on the light", "Turn off the light"]}`},
-          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "explanations" : "Even if sensor presence is true, the internal light sensor indicates a high_luminosity. This suggests there is enough natural light, and turning on the light is unnecessary, promoting energy conservation."}]`},
+          {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "high_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
+          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "result" : "bulb_off"}]`},
       
-          {"role": "user", "content": `data : [{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": ["Turn on the light", "Turn off the light"]}]`},
-          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on; the internal light sensor records a low luminosity, and a presence is detected (sensor presence is true), necessitating artificial lighting to ensure visibility and safety for the individual present."}]`},   
+          {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
+          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},   
         ]
 
     },
     {
-        "cases": ["smart-connected-light", "smart-tv"],
+        "cases": ["smart-connected-light", "connected-tv"],
         "examples":[
-            {"role": "user", "content": `data : {"name": "", "actuators": [{"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}, {"typeId": "connected-tv", "dependencies": [{"typeId": "smart-socket", "value": false}]}], actions: ["Turn on the light", "Turn off the light", "Turn on the television", "Turn off the television"]}`},
-            {"role": "assistant", "content": `[{"name": "smart-connected-light", "action": "Turn on the light", "explanations": "The smart socket of the smart-connected-light is true (activated), so the smart connected light is turned on."}, {"name": "connected-tv", "action": "Turn off the television", "explanations": "The smart socket of the smart-connected-tv is false (off), so the TV is turned off"}]`},      
+            {"role": "user", "content": `{"name": "", "actuators": [{"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}, {"typeId": "connected-tv", "dependencies": [{"typeId": "smart-socket", "value": false}]}], actions: [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action" : "Turn on the television", "result": "tv_on"}, {"action" : "Turn off the television", "result" : "tv_off"}]}`},
+            {"role": "assistant", "content": `[{"name": "smart-connected-light", "action": "Turn on the light", "result" : "bulb_on"}, {"name": "connected-tv", "action": "Turn off the television", "result": "tv_off"}]`},      
 
-            {"role": "user", "content": `data : {"name": "", "actuators": [{"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], actions: ["Turn on the light", "Turn off the light"]}`},
-            {"role": "assistant", "content": `[{"name": "smart-connected-light", "action": "Turn on the light", "explanations": "The smart socket of the smart-connected-light is true (activated), so the smart connected light is turned on."}]`},
-            
+            {"role": "user", "content": `{"name": "", "actuators": [{"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], actions: [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
+            {"role": "assistant", "content": `[{"name": "smart-connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},
         ]
 
     },
     {
         "cases": ["smart-connected-light", "connected-light"],
         "examples":[
-            {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId": "internal-light-sensor", "value": "low_luminosity"}, {"typeId": "sensor-presence", "value": false}], "actuators": [{"typeId": "connected-light"}, {"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], "actions": ["Turn on the light", "Turn off the light"]}`},
-            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "explanations": "The connected light is turned off because sensor presence is false, so nobody in the room."}, {"name": "smart-connected-light", "action": "Turn on the light", "explanations": "The smart socket of the smart-connected-light is true, so the smart connected light is turned on"}]`},      
+            {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "internal-light-sensor", "value": "low_luminosity"}, {"typeId": "sensor-presence", "value": false}], "actuators": [{"typeId": "connected-light"}, {"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
+            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "result" : "bulb_off"}, {"name": "smart-connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},      
         ]
 
     },
     {
         "cases": ["sensor-water-leak"],
         "examples":[                
-      {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId":"sensor-water-leak", "value": true}], "actions": ["Water leak notification"]}`},
-      {"role": "assistant", "content": `[{"notification": "Water leak notification", "explanations": "A water leak notification is issued because the water leak sensor detected leakage, triggering immediate alerts to prevent potential damage and conserve water."}]`},
+      {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"sensor-water-leak", "value": true}], "actions": [{"action": "Water leak notification", "result" : "water-leak"}]}`},
+      {"role": "assistant", "content": `[{"notification": "Water leak notification", "result" : "water-leak"}]`},
   
-      {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId": "sensor-water-leak", "value": false}], "actions": ["Water leak notification"]}`},
-      {"role": "assistant", "content": "{}"},
+      {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-water-leak", "value": false}], "actions": [{"action": "Water leak notification", "result" : "water-leak"}]}`},
+      {"role": "assistant", "content": `{}`},
+        ]
+
+    },
+    {
+        "cases": ["security"],
+        "examples":[                
+      {"role": "user", "content": `{"name": "", "sensors": [{"security" :true},{"typeId":"sensor-presence", "value": true}], "actions": [{"action": "Intrusion notification", "result" : "intrusion"}]}`},
+      {"role": "assistant", "content": `[{"notification": "Intrusion notification", "result" : "intrusion"}]`},
+  
+      {"role": "user", "content": `{"name": "", "sensors": [{"security", "value":true},{"typeId":"sensor-presence", "value": false}], "actions": [{"action": "Intrusion notification", "result" : "intrusion"}]}`},
+      {"role": "assistant", "content": `{}`},
         ]
 
     },
     {
         "cases": ["temperature"],
         "examples":[                
-      {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId":"temperature", "old_value": 20, "new_value": 16}], "actions": ["Temperature increase notifaction", "Temperature drop notifaction"]}`},
-      {"role": "assistant", "content": `[{"notification": "Temperature drop notifaction", "explanations": "A temperature drop notifaction is issued because the old temperature value is less than the new one."}]`},
+      {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"temperature", "old_value": 20, "new_value": 16}], "actions": [{"action" : "Temperature increase notifaction", "result" : "temp_up"}, {"action" : "Temperature drop notifaction", "result": "temp_down"}]}`},
+      {"role": "assistant", "content": `[{"notification": "Temperature drop notifaction", "action": "temp_down"}]`},
   
-      {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId":"temperature", "old_value": 18, "new_value": 25}], "actions": ["Temperature increase notifaction", "Temperature drop notifaction"]}`},
-      {"role": "assistant", "content": `[{"notification": "Temperature increase notifaction", "explanations": "A temperature increase notifaction is issued because the old temperature value is greater than the new one."}]`},
+      {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"temperature", "old_value": 18, "new_value": 25}], "actions": [{"action" : "Temperature increase notifaction", "result" : "temp_up"}, {"action" : "Temperature drop notifaction", "result": "temp_down"}]}`},
+      {"role": "assistant", "content": `[{"notification": "Temperature increase notifaction", "result" : "temp_up"}]`},
   
-      {"role": "user", "content": `data : {"name": "", "sensors": [{"typeId":"temperature", "old_value": 15, "new_value": 15}], "actions": ["Temperature increase notifaction", "Temperature drop notifaction"]}`},
+      {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"temperature", "old_value": 15, "new_value": 15}], "actions": [{"action" : "Temperature increase notifaction", "result" : "temp_up"}, {"action" : "Temperature drop notifaction", "result": "temp_down"}]}`},
       {"role": "assistant", "content": `{}`},
   
         ]
@@ -159,25 +167,33 @@ const train_1 = [
     {
         "cases": ["motorized-blind"],
         "examples":[                
-            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": "high_luminosity"}], "actuators": [{"typeId": "motorized-blind"}], "actions": ["Raise the blind", "Lower the blind"]}`},
-            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Raise the blind", "explanations": "The blind is raised to allow more natural light into the room because the external light value indicate a high luminosity."}]`},
+            {"role": "user", "content": `{"name": "", "externals_sensors": [{"external-light-sensor": "high_luminosity"}], "actuators": [{"typeId": "motorized-blind"}], "actions": [{"action" : "Lower the blind", "result" : "blind_down"}, {"action" : "Raise the blind", "result" : "blind_up"}]}`},
+            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Raise the blind", "result" : "blind_up"}]`},
         
-            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": "low_luminosity"}], "actuators": [{"typeId": "motorized-blind"}], "actions": ["Raise the blind", "Lower the blind"]}`},
-            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Lower the blind", "explanations": "The blind is lowered to make use of available artificial light because the external light value indicate a low luminosity."}]`},
+            {"role": "user", "content": `{"name": "", "externals_sensors": [{"external-light-sensor": "low_luminosity"}], "actuators": [{"typeId": "motorized-blind"}], "actions": [{"action" : "Lower the blind", "result" : "blind_down"}, {"action" : "Raise the blind", "result" : "blind_up"}]}`},
+            {"role": "assistant", "content": `[{"name": "motorized-blind", "action": "Lower the blind", "result" : "blind_down"}]`},
         
         ]
 
     },
     {
-        "cases": ["motorized-blind", "connected-light"],
-        "examples":[                
-            {"role": "user", "content": `data : {"name": "", "externals_sensors": [{"external-light-sensor": "low_luminosity"}], "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": 420}], "actuators": [{"typeId": "connected-light"}, {"typeId": "motorized-blind"}], "actions": ["Turn on the light", "Turn off the light", "Lower the blind", "Raise the blind"]}`},
-            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "explanations": "The connected light is turned on because the internal light sensor records a low luminosity and there is someone in the room,  necessitating artificial lighting to ensure visibility and safety for the individual present.."}, {"name": "motorized-blind", "action": "Raise the blind", "explanations": "The blind is raised, allowing in natural light as the external light value indicate a high luminosity"}]`},      
+        "cases": ["connected-light", "security"],
+        "examples":[
+            {"role": "user", "content":`{"name": "", "sensors": [{"security":true},{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action": "Intrusion notification", "result" : "intrusion"}]}`},
+            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}, {"notification": "Intrusion notification", "result":"intrusion"}]`},
         ]
 
-    },
-      //{"role": "system", "content": "Evaluate sensor data and issue commands for actuators or notifications. Responses should be formatted as JSON ([{...},...]), be concise, and logically derived from the input."},
+    }
+   /* {
+        "cases": ["motorized-blind", "connected-light"],
+        "examples":[                
+            {"role": "user", "content": `{"name": "", "externals_sensors": [{"external-light-sensor": "low_luminosity"}], "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": 420}], "actuators": [{"typeId": "connected-light"}, {"typeId": "motorized-blind"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action" : "Lower the blind", "result" : "blind_down"}, {"action" : "Raise the blind", "result" : "blind_up"}]}`},
+            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}, {"name": "motorized-blind", "action": "Lower the blind", "result": "blind_dpwn"}]`},      
+        ]
+
+    },*/
   ];
+
 
 module.exports = {
     getInstructionFromOpenAi

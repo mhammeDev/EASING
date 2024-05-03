@@ -21,20 +21,21 @@ async function getInstructionFromOpenAI(content, actions, train_1) {
     try {
         let current_case = {
             "role": "user", 
-            "content": `data: ${JSON.stringify(content)}, actions: ${JSON.stringify(actions)}`
+            "content": `${JSON.stringify(content)}, actions: ${JSON.stringify(actions)}`
         };
         train_1.push(current_case)
         const prompt = train_1.map(p => `${p.role}: ${p.content}`).join("\n");
+      //  const prompt = JSON.stringify(train_1)
         const res = await model.invoke(prompt)
         try{
-            const JSONRes = JSON.parse(res.content)
-            console.log(JSONRes)
-            return JSONRes;
+          const JSONRes = JSON.parse(res.content)
+          console.log(JSONRes)
+          return JSONRes;
 
         }catch (e) {
-            console.log("erreur : " + e)
-            console.log(res.content)
-            return res
+          console.log("erreur : " + e)
+          console.log(res.content)
+          return res
 
         }
     } catch (error) {

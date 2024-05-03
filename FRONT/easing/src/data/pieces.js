@@ -296,7 +296,7 @@ export const pieces = [
     "actuators": []
   },
   {
-    "name": "Bedroom 1",
+    "name": "Room 1",
     "floor": 1,
     "position": {
       "points": [

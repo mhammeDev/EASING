@@ -1,16 +1,19 @@
 <script>
-import HouseMap from "@/components/HouseMap.vue";
+
+
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
+import MapAndMenu from "@/components/MapAndMenu.vue";
 
 
 export default {
   components:{
-    HouseMap
+    MapAndMenu,
+
   },
   setup(){
     const store = useRoomsStore();
-    const {currentFloor, hours, temperature} = storeToRefs(store);
+    const {currentFloor, hours, temperature, person} = storeToRefs(store);
     const {changeFloor} = store;
 
 
@@ -22,7 +25,8 @@ export default {
       currentFloor,
       toggleFloor,
       hours,
-      temperature
+      temperature,
+      person
     }
   }
 
@@ -30,46 +34,24 @@ export default {
 </script>
 
 <template>
-  <v-alert class="mx-10"
-      text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque porro libero rerum unde voluptatem!"
-      title="Alert title"
-      type="info"
-      density="compact"
-  ></v-alert>
-  <v-container>
-    <v-sheet class="d-flex justify-start flex-column">
-      <p class="text-h2 text-center mb-4">Prototype Easiling</p>
-      <v-text-field
-          type="number"
-          label="Température"
-          min="-12"
-          max="50"
-          :model-value="temperature"
-          outlined
-          class="mb-3"
-      ></v-text-field>
-      <v-slider
-          min="0"
-          max="24"
-          step="1"
-          :model-value="hours"
-          label="Heure"
-          thumb-label="always"
-          class="my-3"
-      ></v-slider>
-    </v-sheet>
-
-  </v-container>
-
-  <div class="ml-15">
-    <v-btn variant="tonal" @click="toggleFloor" color="primary">
-      Move from the {{currentFloor}} floor
-    </v-btn>
-    <HouseMap></HouseMap>
+  <div>
+  <div class="container">
+  <map-and-menu></map-and-menu>
+  </div>
   </div>
 
 
 </template>
 
 <style scoped>
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2% ;
+}
+
+
+
+
 </style>

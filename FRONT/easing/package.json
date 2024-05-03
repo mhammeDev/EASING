@@ -10,13 +10,14 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "core-js": "^3.8.3",
+    "konva": "^9.3.6",
     "pinia": "^2.1.7",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-konva": "^3.0.2",
     "vue-router": "^4.0.3",
-    "vuetify": "^3.0.0-beta.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "webpack": "^5.91.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -27,7 +28,6 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
-    "vue-cli-plugin-vuetify": "~2.5.8",
     "webpack-plugin-vuetify": "^2.0.0-alpha.0"
   }
 }

@@ -7,8 +7,9 @@
             captorActionneur: [],
             captorActioneurToAdd: [],
             currentFloor: 'first',
-            hours:12,
+            hours:"23:04",
             temperature: 5,
+            person: "Visually Imparaired"
         }),
         actions:{
             changeFloor(){

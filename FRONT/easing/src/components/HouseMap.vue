@@ -1,10 +1,11 @@
 <template>
-  <v-btn  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">
-    Push the captor/actionneur floor
-  </v-btn>
-          <v-stage :config="{ width: stageWidth, height: stageHeight }">
+  <input type="button"  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">
+
+          <v-stage :config="{ width: 1430 * scaleFactor, height: 940 * scaleFactor }">
            <v-layer>
-           <v-group  v-for="piece in tabPiece" :key="piece.id"
+             <v-rect :config="getGrasseConfig()"></v-rect>
+
+             <v-group  v-for="piece in tabPiece" :key="piece.id"
            >
              <v-shape :config="getShapeConfig(piece)"/>
                 <v-text
@@ -104,7 +105,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, computed, reactive } from 'vue';
+import { defineComponent, onMounted, ref, computed, reactive, } from 'vue';
 import { VStage, VLayer, VShape,VText, VGroup, VRegularPolygon,VCircle, VRect  } from 'vue-konva';
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
@@ -123,6 +124,8 @@ export default defineComponent({
   setup() {
     const stageWidth = ref(window.innerWidth);
     const stageHeight = ref(window.innerHeight);
+
+
     const scaleFactor = ref(0); // we need this variable for responsive, and because we need to keep the same space between point that why we need it
     const store = useRoomsStore();
     const{pieces, currentFloor, captorActionneur, captorActioneurToAdd} = storeToRefs(store)
@@ -169,6 +172,18 @@ export default defineComponent({
       fill: 'black'
     });
 
+    const getGrasseConfig= () =>{
+      return  {
+        x:0,
+        y:0,
+        width: 1430 * scaleFactor.value,
+        height: 940 * scaleFactor.value,
+        fill: '#12AE0F',
+        cornerRadius:[20, 0 , 0, 20]
+
+      }
+
+    }
     /*
     * Same than the methode under but this time this is for the shape
     * The first parameter allow to us for the space between each elements
@@ -372,8 +387,8 @@ export default defineComponent({
         menuY.value = 25;
         setMenusSizeAndPos()
       } else {
-        scaleFactor.value = 0.80;
-        menuX.value = 1140;
+        scaleFactor.value = 0.65;
+        menuX.value = 1050;
         menuY.value =25;
         setMenusSizeAndPos()
       }
@@ -734,6 +749,7 @@ export default defineComponent({
 
     return {
       getShapeConfig,
+      getGrasseConfig,
       stageWidth,
       stageHeight,
       currentFloor,
@@ -759,7 +775,8 @@ export default defineComponent({
       legConfig,
       captorEvent,
       BeforecaptorEvent,
-      AfterCaptorEvent
+      AfterCaptorEvent,
+      scaleFactor
     };
   }
 });

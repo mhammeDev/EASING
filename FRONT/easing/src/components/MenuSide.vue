@@ -1,0 +1,145 @@
+<script>
+import {defineComponent} from "vue";
+import {useRoomsStore} from "@/store/rooms";
+
+
+
+export default defineComponent({
+  name: "MenuSide",
+  setup(){
+    const store = useRoomsStore();
+    const {changeFloor} = store;
+
+
+    const toggleFloor = () =>{
+      changeFloor();
+    }
+
+    return{
+      toggleFloor
+    }
+
+  }
+})
+
+
+</script>
+
+
+<template>
+  <div class="container">
+    <div class="floor">
+      <p class="btn" @click="toggleFloor">Change floor</p>
+    </div>
+    <div class="list-icons">
+      <div class="group-devices" v-for="item in [{message:1},{message:1},{message:1},{message:1},{message:1},{message:1},{message:1},]" :key="item.message">
+        <i style="margin-right: 10%" class="fa-solid fa-lightbulb"></i>
+        <p class="text">Connected light</p>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<style scoped>
+.container{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 558px;
+  padding: 2% 0;
+  background-color: #067CB3;
+  border-radius: 0  20px 20px 0 ;
+}
+
+.floor{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1.2;
+  width: 100%;
+}
+
+.btn{
+  margin: auto;
+  color: #FFFF;
+  font-family: Syne;
+  font-size: 20px;
+  text-align: center;
+  padding: 2% 20%;
+  border-radius: 10px;
+  background-color: rgb(250,250,250,20%);
+}
+
+.btn:hover{
+  cursor: pointer;
+  background-color: rgb(250,250,250,60%);
+
+}
+
+.list-icons{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 3;
+  width: 100%;
+  overflow-y: scroll;
+
+
+}
+
+.group-devices{
+  justify-content: center;
+  font-family: Syne;
+  font-size: 25px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #FFFF;
+}
+
+.group-devices::after{
+  content:"";
+  display: block;
+  position: absolute;
+  height: 0.1px;
+  background-color: #FFFF;
+  margin-top: 15%;
+
+  width: 70%;
+}
+
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: #f1f1f1;
+  width: 5px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #eae7e7;;
+}
+
+.group-devices:hover{
+  cursor: default;
+  background-color: #eae7e7;
+}
+
+</style>

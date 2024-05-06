@@ -123,7 +123,7 @@ export const pieces = [
           "x": 123.52941176470588,
           "y": 857.4117682961856
         },
-        "currentAction": ""
+        "value": "bulb_on"
       },
       {
         "typeId": "motorized-blind",
@@ -131,7 +131,7 @@ export const pieces = [
           "x": 249.41176470588235,
           "y": 889.1764741785386
         },
-        "currentAction": ""
+        "value": "blind_up"
       }
     ]
   },
@@ -202,18 +202,18 @@ export const pieces = [
       {
         "typeId": "connected-light",
         "points": {
-          "x": 418.8235294117647,
-          "y": 403.29412123736216
+          "x": 448.8235294117647,
+          "y": 183.29412123736216
         },
-        "currentAction": ""
+        "value": "bulb_off"
       },
       {
         "typeId": "smart-connected-light",
         "points": {
-          "x": 881.1764705882354,
-          "y": 182.11765064912683
+          "x": 911.1764705882354,
+          "y": 152.11765064912683
         },
-        "currentAction": ""
+        "value": "bulb_on"
       }
     ]
   },
@@ -420,42 +420,42 @@ export const pieces = [
       {
         "typeId": "connected-light",
         "points": {
-          "x": 239.99999999999997,
-          "y": 401.8181818181818
+          "x": 269.99999999999997,
+          "y": 371.8181818181818
         },
-        "currentAction": ""
+        "value": "bulb_on"
       },
       {
         "typeId": "connected-tv",
         "points": {
-          "x": 12.727272727272727,
-          "y": 399.99999999999994
+          "x": 42.727272727272727,
+          "y": 369.99999999999994
         },
-        "currentAction": ""
+        "value": "tv_on"
       },
       {
         "typeId": "motorized-blind",
         "points": {
-          "x": 234.54545454545453,
-          "y": 847.5294135598575
+          "x": 264.54545454545453,
+          "y": 817.5294135598575
         },
-        "currentAction": ""
+        "value": "blind_up"
       },
       {
         "typeId": "motorized-blind",
         "points": {
-          "x": 12.941176470588236,
-          "y": 714.3529375861673
+          "x": 32.941176470588236,
+          "y": 684.3529375861673
         },
-        "currentAction": ""
+        "value": "blind_up"
       },
       {
         "typeId": "motorized-blind",
         "points": {
-          "x": 12.941176470588236,
-          "y": 156.1999969482422
+          "x": 42.941176470588236,
+          "y": 126.1999969482422
         },
-        "currentAction": ""
+        "value": "blind_up"
       }
     ]
   },
@@ -535,10 +535,10 @@ export const pieces = [
       {
         "typeId": "smart-connected-light",
         "points": {
-          "x": 605.8823529411765,
-          "y": 207.2941176330342
+          "x": 635.8823529411765,
+          "y": 177.2941176330342
         },
-        "currentAction": ""
+        "value": "bulb_on"
       }
     ]
   },
@@ -589,10 +589,10 @@ export const pieces = [
       {
         "typeId": "connected-light",
         "points": {
-          "x": 1143.6363636363635,
-          "y": 252.72727272727272
+          "x": 1173.6363636363635,
+          "y": 222.72727272727272
         },
-        "currentAction": ""
+        "value": "bulb_off"
       }
     ]
   }
@@ -604,28 +604,33 @@ export const type_actionneur = [
     "name": "Lumière connectée",
     "dependecies": ["sensor-presence", "internal-light-sensor"],
     "description": "Contrôle l'éclairage de la pièce",
-    "show": true
+    "show": true,
+    "img":"connected-light_off.png"
   },
   {
     "_id": "smart-connected-light",
     "name": "Ampoule connecté prise intelligente",
     "dependecies": ["smart-socket"],
     "description": "Contrôle l'éclairage de la pièce",
-    "show": true
+    "show": true,
+    "img":"smart-light_off.png"
+
   },
   {
     "_id": "connected-tv",
     "name": "TV connectée",
     "dependecies": ["smart-socket"],
     "description": "Permet de contrôler les appareils électriques",
-    "show": true
+    "show": true,
+    "img":"tv_off.png"
   },
   {
     "_id": "motorized-blind",
     "name": "Store motorisé",
     "dependecies": ["external-light-sensor"],
     "description": "Contrôle l'ouverture et la fermeture des stores",
-    "show": true
+    "show": true,
+    "img":"blind_down.png"
   }
 ]
 
@@ -642,7 +647,9 @@ export const type_capteur = [
     "name": "Détecteur de fuite d'eau",
     "type_value": "boolean",
     "description": "Détecte les fuites d'eau",
-    "show": true
+    "show": true,
+    "img":"water-leak.png"
+
   },
   {
     "_id": "external-light-sensor",

@@ -14,7 +14,7 @@
               </v-group>
              <template v-for="piece in tabPiece" :key="piece._id">
                <template v-for="(pieces, index) in [...piece.captors, ...piece.actuators]" :key="index">
-                 <v-circle v-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'circle'"
+                <!-- <v-circle v-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'circle'"
                            :config="getHomeItemSquareConfig(index, pieces, pieces.points)">
                  </v-circle>
 
@@ -30,6 +30,10 @@
                                     @click="captorEvent($event,pieces)">
                    >
                  </v-regular-polygon>
+                 -->
+                 <v-image :config="getHomeIcons(pieces,pieces.points)"></v-image>
+
+
 
                </template>
              </template>
@@ -55,7 +59,7 @@
             </v-layer>
 
 
-            <v-layer>
+         <!--   <v-layer>
               <v-rect :config="menuConfig">
               </v-rect>
               <v-text  v-for="(item, index) in captorActionneur.filter(e => e.show === true)" :key="item._id" :config="getMenuItemConfig(item,index)"></v-text>
@@ -101,26 +105,16 @@
                 </template>
               </template>
             </v-layer>
+            -->
           </v-stage>
 </template>
 
 <script>
 import { defineComponent, onMounted, ref, computed, reactive, } from 'vue';
-import { VStage, VLayer, VShape,VText, VGroup, VRegularPolygon,VCircle, VRect  } from 'vue-konva';
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
 
 export default defineComponent({
-  components: {
-    VStage,
-    VLayer,
-    VShape,
-    VText,
-    VGroup,
-    VRegularPolygon,
-    VCircle,
-    VRect
-  },
   setup() {
     const stageWidth = ref(window.innerWidth);
     const stageHeight = ref(window.innerHeight);
@@ -180,9 +174,7 @@ export default defineComponent({
         height: 940 * scaleFactor.value,
         fill: '#12AE0F',
         cornerRadius:[20, 0 , 0, 20]
-
       }
-
     }
     /*
     * Same than the methode under but this time this is for the shape
@@ -272,6 +264,51 @@ export default defineComponent({
         ...shapeConfig
       };
     };
+
+    const getHomeIcons = (p,points) => {
+      let path = getRightIcons(p.value,p.typeId)
+      if(path === '') return
+
+      const image = new Image();
+      console.log(`@/assets/icons/${path.toString()}`)
+      image.src = require('@/assets/icons/' + path)
+
+
+      return {
+        x: points.x * scaleFactor.value,
+        y: points.y * scaleFactor.value,
+        width: 50 * scaleFactor.value,
+        height: 50 * scaleFactor.value,
+        image: image,
+
+      };
+    };
+
+    const getRightIcons = (pieceValue, pieceId) => {
+      let result = '';
+
+        switch (pieceId) {
+        case 'connected-light':
+          result = pieceValue === "bulb_on" ? "connected-light_on.png" : "connected-light_off.png"
+          break;
+        case "smart-connected-light":
+          result = pieceValue === "bulb_on" ? "smart-light_on.png" : "connected-light_off.png"
+          break;
+        case 'connected-tv':
+          result = pieceValue === "tv_on" ? "tv_on.png" : "tv_off.png"
+          break;
+        case 'motorized-blind':
+          result = pieceValue === "blind_up" ? "blind_up.png" : "blind_down.png"
+          break;
+        case 'sensor-water-leak':
+          result = "water-leak.png"
+          break;
+        default:
+          break;
+      }
+      return result;
+
+    }
 
     const getHomeItemSquareConfig = (index, item, coord) => {
       let shapeConfig;
@@ -776,7 +813,8 @@ export default defineComponent({
       captorEvent,
       BeforecaptorEvent,
       AfterCaptorEvent,
-      scaleFactor
+      scaleFactor,
+      getHomeIcons
     };
   }
 });

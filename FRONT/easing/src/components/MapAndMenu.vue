@@ -28,6 +28,7 @@ export default defineComponent({
 
 <template>
   <div class="container">
+
       <div class="params">
         <ParamCard color="#588BEF" :size="50" title="Temperature" type_entry="number" image="fa-solid fa-temperature-low" :type_value="1" :value="temperature.toString()"></ParamCard>
         <ParamCard color="#067CB3" :size="50" title="Hours" type_entry="time" image="fa-regular fa-clock" :type_value="2" :value="hours.toString()"></ParamCard>
@@ -56,25 +57,27 @@ export default defineComponent({
 <style scoped>
 
 .container{
+  display: flex;
+  flex-direction: column;
 }
 
 .params{
   display: flex;
   flex-wrap: wrap;
   gap: 100px;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 10%;
   width: 100%;
 }
 
 .icons-params{
-  display: flex;
-  flex-wrap: wrap;
 
+  display: flex;
   justify-content: space-between;
   width: 100%;
   height: 40px;
-  margin-bottom: 1%;
+  margin: 2% 0;
 }
 
 .sec_icon{
@@ -82,7 +85,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   width: 80px;
   height: 100%;
   background-color:red;
@@ -98,7 +100,6 @@ export default defineComponent({
   width: 300px;
   height: 100%;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
 }
 
@@ -123,6 +124,41 @@ export default defineComponent({
 
   display: flex;
   flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+
+  .container{
+    display: flex;
+  }
+  .params{
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.icons-params{
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 8%;
+  margin-bottom: 25%;
+
+
+}
+
+  .brightness-icon{
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    flex-direction: column;
+
+
+  }
+  
 }
 
 </style>

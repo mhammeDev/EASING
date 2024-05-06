@@ -1,6 +1,9 @@
 <script>
 import {defineComponent} from "vue";
 import {useRoomsStore} from "@/store/rooms";
+import {storeToRefs} from "pinia";
+
+
 
 
 
@@ -8,6 +11,7 @@ export default defineComponent({
   name: "MenuSide",
   setup(){
     const store = useRoomsStore();
+    const {captorActionneur, currentFloor} = storeToRefs(store);
     const {changeFloor} = store;
 
 
@@ -15,8 +19,16 @@ export default defineComponent({
       changeFloor();
     }
 
+    const getPhoto = (img) =>{
+      console.log('@/assets/icons/' + img)
+      return `@/assets/icons/' + ${img}`;
+    }
+
     return{
-      toggleFloor
+      toggleFloor,
+      captorActionneur,
+      currentFloor,
+      getPhoto
     }
 
   }
@@ -29,12 +41,13 @@ export default defineComponent({
 <template>
   <div class="container">
     <div class="floor">
+<!--      <p>Current floor : {{currentFloor}}</p>-->
       <p class="btn" @click="toggleFloor">Change floor</p>
     </div>
     <div class="list-icons">
-      <div class="group-devices" v-for="item in [{message:1},{message:1},{message:1},{message:1},{message:1},{message:1},{message:1},]" :key="item.message">
-        <i style="margin-right: 10%" class="fa-solid fa-lightbulb"></i>
-        <p class="text">Connected light</p>
+      <div class="group-devices" v-for="item in captorActionneur.filter(e => e.show === true)" :key="item.name">
+        <img style="margin-right: 10%; width: 30px" :src="require('@/assets/icons/'+item.img)">
+        <p class="text">{{item.name}}</p>
       </div>
     </div>
 
@@ -93,10 +106,9 @@ export default defineComponent({
 }
 
 .group-devices{
-  justify-content: center;
   font-family: Syne;
-  font-size: 25px;
-  width: 100%;
+  font-size: 23px;
+  width: 80%;
   display: flex;
   align-items: center;
   color: #FFFF;
@@ -109,8 +121,10 @@ export default defineComponent({
   height: 0.1px;
   background-color: #FFFF;
   margin-top: 15%;
-
   width: 70%;
+}
+.text{
+  text-align: left;
 }
 
 
@@ -138,8 +152,11 @@ export default defineComponent({
 }
 
 .group-devices:hover{
+  border-radius: 10px;
   cursor: default;
-  background-color: #eae7e7;
+  background: #3aa9dd;
+
+
 }
 
 </style>

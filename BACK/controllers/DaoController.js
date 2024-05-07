@@ -8,10 +8,10 @@ class DaoController{
     static async getAllRooms(req, res){
         try{
             const rooms = await roomsDao.findAllRooms();
-            res.json(rooms);
+            res.status(200).json({data: rooms});
         } catch(e){
             res.status(500).json({
-                error : e.message
+                error : "Impossible to get all rooms : " + e.message
             });
         }
     }
@@ -19,22 +19,32 @@ class DaoController{
     static async getAllActions(req, res){
         try {
             const actions = await actionsDao.findAllActions();
-            res.json(actions)
+            res.status(200).json({data: actions});
         } catch(e){
             res.status(500).json({
-                error : e.message
-            });
+                error : "Impossible to get all actions : "+ e.message            });
         }
     }
 
     static async getAllTypeActuors(req, res){
         try {
             const type_actuors = await typeActuor.findAllTypeActuors();
-            res.json(type_actuors)
+            res.status(200).json({data: type_actuors})
         } catch(e){
             res.status(500).json({
-                error : e.message
+                error : "Impossible to get all actuators : " + e.message
             });
+        }
+    }
+
+    static async getAllTypeCaptors(req, res){
+        try {
+            const type_captors = await typeCaptor.findAllTypeCaptors();
+            res.status(200).json({data: type_captors})
+        } catch(e){
+            res.status(200).json({
+                error : "Impossible to get all sensors : " + e.message
+        });
         }
     }
 
@@ -67,17 +77,6 @@ class DaoController{
             return table;
         } catch(e){
             console.log(e)
-        }
-    }
-
-    static async getAllTypeCaptors(req, res){
-        try {
-            const type_captors = await typeCaptor.findAllTypeCaptors();
-            res.json(type_captors)
-        } catch(e){
-            res.status(500).json({
-                error : e.message
-            });
         }
     }
 }

@@ -7,7 +7,8 @@
             "internal-light-sensor"
         ],
         "description": "Contrôle l'éclairage de la pièce",
-        "show": true
+        "show": true,
+        "img":"connected-light_off.png"
     },
     {
         "_id": "smart-connected-light",
@@ -16,7 +17,8 @@
             "smart-socket"
         ],
         "description": "Contrôle l'éclairage de la pièce",
-        "show": true
+        "show": true,
+        "img":"smart-light_off.png"
     },
     {
         "_id": "connected-tv",
@@ -25,7 +27,8 @@
             "smart-socket"
         ],
         "description": "Permet de contrôler les appareils électriques",
-        "show": true
+        "show": true,
+        "img":"tv_off.png"
     },
     {
         "_id": "motorized-blind",
@@ -34,6 +37,7 @@
             "external-light-sensor"
         ],
         "description": "Contrôle l'ouverture et la fermeture des stores",
-        "show": true
+        "show": true,
+        "img":"blind_down.png"
     }
 ]

@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get("/rooms", DaoController.getAllRooms)
 router.get("/actions", DaoController.getAllActions)
-router.get("/type_actuors", DaoController.getAllTypeActuors)
-router.get("/type_captors", DaoController.getAllTypeCaptors)
+router.get("/type-actuators", DaoController.getAllTypeActuors)
+router.get("/type-sensors", DaoController.getAllTypeCaptors)
 
 
 

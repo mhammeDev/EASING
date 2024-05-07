@@ -1,5 +1,5 @@
 <template>
-  <input type="button"  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">
+<!--  <input type="button"  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">-->
 
           <v-stage :config="{ width: 1430 * scaleFactor, height: 940 * scaleFactor }">
            <v-layer>
@@ -31,7 +31,11 @@
                    >
                  </v-regular-polygon>
                  -->
-                 <v-image :config="getHomeIcons(pieces,pieces.points)"></v-image>
+                 <v-image
+                     :config="getHomeIcons(pieces,pieces.points)"
+                     @mouseover="buttonCheck(pieces)"
+                     @mouseout="buttonUnCheck()"></v-image>
+
 
 
 
@@ -116,14 +120,15 @@ import {storeToRefs} from "pinia";
 
 export default defineComponent({
   setup() {
+
     const stageWidth = ref(window.innerWidth);
     const stageHeight = ref(window.innerHeight);
 
 
     const scaleFactor = ref(0); // we need this variable for responsive, and because we need to keep the same space between point that why we need it
     const store = useRoomsStore();
-    const{pieces, currentFloor, captorActionneur, captorActioneurToAdd} = storeToRefs(store)
-    const {getPieces, getCaptorandSensor, addCaptorActionneur, pushCaptorActionneur, updateCaptor } = store;
+    const{pieces, currentFloor, captorActionneur} = storeToRefs(store)
+    const {getPieces, getCaptorandSensor/* addCaptorActionneur, pushCaptorActionneur*/, updateCaptor } = store;
 
     const menuX = ref(1250 ); // right menu
     const menuY =ref(0);
@@ -149,7 +154,7 @@ export default defineComponent({
       height: captorActionneur.value.filter(e => e.show === true).length * 100 *scaleFactor.value,
       fill: 'transparent',
       stroke: 'black',
-      strokeWidth: 1
+      strokeWidth: 1,
     }));
 
 
@@ -265,12 +270,19 @@ export default defineComponent({
       };
     };
 
+    /**
+     * This methods allowed you to place icons in the map
+     * @param p The current room
+     * @param points the points of the sensors to place it
+     * @returns {{image: HTMLImageElement, x: number, width: number, y: number, height: number}}
+     */
+
     const getHomeIcons = (p,points) => {
       let path = getRightIcons(p.value,p.typeId)
-      if(path === '') return
+      if(path === '') return // if an image hasn't icons we don't display it
 
       const image = new Image();
-      console.log(`@/assets/icons/${path.toString()}`)
+      //console.log(`@/assets/icons/${path.toString()}`)
       image.src = require('@/assets/icons/' + path)
 
 
@@ -280,9 +292,16 @@ export default defineComponent({
         width: 50 * scaleFactor.value,
         height: 50 * scaleFactor.value,
         image: image,
-
       };
     };
+
+
+    /**
+     * If they have a new icons you have to edit this methods, because this in this method which we attribute icon for sensors and actuators
+     * @param pieceValue
+     * @param pieceId
+     * @returns {string}
+     */
 
     const getRightIcons = (pieceValue, pieceId) => {
       let result = '';
@@ -423,11 +442,16 @@ export default defineComponent({
         menuX.value = 980;
         menuY.value = 25;
         setMenusSizeAndPos()
-      } else {
-        scaleFactor.value = 0.65;
+      } else if(window.innerWidth < 1920) {
+        scaleFactor.value = 0.75;
         menuX.value = 1050;
         menuY.value =25;
         setMenusSizeAndPos()
+      } else{
+        scaleFactor.value = 0.95;
+        menuX.value = 1050;
+        menuY.value =25;
+
       }
     }
 
@@ -555,12 +579,14 @@ export default defineComponent({
     /*
     * CaptAdd allow us to put in a table all devices that we wanted to add captor or light
     * And we filter to with the floor to see the devices to add in terms of floor
-     */
+
     const captAdd = computed(() => {
       return currentFloor.value === 'first'
           ? captorActioneurToAdd.value.filter(piece => piece.floor === 0)
           : captorActioneurToAdd.value.filter(piece => piece.floor !== 0);
     });
+    */
+
 
     /*
     * This function return if there is a presence in a room
@@ -618,8 +644,8 @@ export default defineComponent({
       return {
         text: piece.name,
         fontSize: 30 * scaleFactor.value,
-        fontFamily: 'Mono',
-        x: center.x - piece.name.length - (40 * scaleFactor.value) ,
+        fontFamily: 'Syne',
+        x: center.x - piece.name.length - (30 * scaleFactor.value) ,
         y: center.y,
         align: 'center',
         verticalAlign: 'middle',
@@ -699,12 +725,12 @@ export default defineComponent({
       };
     };
 
+
     /*
     * This is for the event when we start drag an element and place it (mode 2)
     * event is the event
     * index is to place back with a clone the current element because we drag it
     * and item is the current room
-     */
     const startMenu = (event, index, item) => {
       const node = event.target;
       const layer = node.getLayer();
@@ -730,13 +756,14 @@ export default defineComponent({
       layer.add(clone);
       layer.draw(); // and draw in the layer
     };
+         */
+
 
 
     /*
     * When we end dragging an eleement
     * event is the event of end dragging
     * and item the current room
-     */
     const endMenu = async (event, item) => {
       console.log(event.currentTarget)
 
@@ -765,8 +792,11 @@ export default defineComponent({
         console.log(event.target)
       }
     }
+         */
 
-    const BeforecaptorEvent = (event, piece) => {
+
+
+    /*const BeforecaptorEvent = (event, piece) => {
       if(piece.typeId === "sensor-water-leak"){
         document.body.style.cursor = 'pointer';
         console.log(event.target)
@@ -782,7 +812,18 @@ export default defineComponent({
     const AfterCaptorEvent = (event, pieces) =>{
       console.log(event, pieces)
       document.body.style.cursor = 'default';
+    }*/
+
+    const buttonCheck = (piece) => {
+      if(piece.typeId === "sensor-water-leak" || piece.typeId === "smart-connected-light" || piece.typeId === "connected-tv" )
+        document.body.style.cursor = 'pointer';
     }
+
+    const buttonUnCheck = () =>{
+      document.body.style.cursor = 'default';
+
+    }
+
 
     return {
       getShapeConfig,
@@ -802,19 +843,21 @@ export default defineComponent({
       getMenuItemSquareConfig,
       getHomeItemSquareConfig,
       captorActionneur,
-      startMenu,
-      endMenu,
-      captAdd,
-      pushCaptorActionneur,
-      captorActioneurToAdd,
+    //  startMenu,
+    //  endMenu,
+     // captAdd,
+     // pushCaptorActionneur,
+     // captorActioneurToAdd,
       bodyConfig,
       armConfig,
       legConfig,
-      captorEvent,
-      BeforecaptorEvent,
-      AfterCaptorEvent,
+     // captorEvent,
+     // BeforecaptorEvent,
+      //AfterCaptorEvent,
       scaleFactor,
-      getHomeIcons
+      getHomeIcons,
+      buttonCheck,
+      buttonUnCheck
     };
   }
 });

@@ -13,12 +13,18 @@ export default defineComponent({
   components: {ParamCard, MenuSide, HouseMap},
   setup(){
     const store = useRoomsStore();
-    const{temperature, person, hours} = storeToRefs(store)
+    const{temperature, person, hours,security, external_luminosity} = storeToRefs(store)
+    const {updateSecurity, updateExternalLight} = store
+
 
     return{
       temperature,
       person,
-      hours
+      hours,
+      security,
+      updateSecurity,
+      updateExternalLight,
+      external_luminosity
     }
   }})
 
@@ -36,13 +42,13 @@ export default defineComponent({
       </div>
 
       <div class="icons-params">
-        <div class="sec_icon">
+        <div :style="{backgroundColor: security ? '#00C208' : 'red'}" class="sec_icon" @click="updateSecurity(!security)">
           <i class="fa-solid fa-lock icons"></i>
         </div>
         <div class="brightness-icon">
-          <i class="fa-solid fa-sun icons param-icon"></i>
-          <i class="fa-solid fa-cloud icons  param-icon"></i>
-          <i class="fa-solid fa-moon icons param-icon"></i>
+          <i :style="{opacity: external_luminosity=== 'low_luminosity' ? 1 : 0.4}" class="fa-solid fa-sun icons param-icon" @click="updateExternalLight('low_luminosity')"></i>
+          <i :style="{opacity: external_luminosity=== 'medium_luminosity' ? 1 : 0.4}" class="fa-solid fa-cloud icons  param-icon " @click="updateExternalLight('medium_luminosity')"></i>
+          <i :style="{opacity: external_luminosity=== 'high_luminosity' ? 1 : 0.4}" class="fa-solid fa-moon icons param-icon" @click="updateExternalLight('high_luminosity')"></i>
         </div>
       </div>
 
@@ -87,7 +93,6 @@ export default defineComponent({
   justify-content: center;
   width: 80px;
   height: 100%;
-  background-color:red;
   border-radius: 10px;
 }
 
@@ -114,6 +119,11 @@ export default defineComponent({
   border-radius: 10px;
 }
 
+.param-icon:hover{
+  cursor: pointer;
+  background-color: #105c81;;
+}
+
 .icons{
   font-size: 25px;
   color: #FFFF;
@@ -121,9 +131,45 @@ export default defineComponent({
 
 
 .content{
-
   display: flex;
-  flex-wrap: wrap;
+}
+
+
+@media (max-width: 1200px) {
+
+  .container{
+    display: flex;
+  }
+  .params{
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .icons-params{
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 8%;
+    margin-bottom: 25%;
+
+
+  }
+
+  .brightness-icon{
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    flex-direction: column;
+
+  }
+  .content{
+    flex-direction: column;
+  }
+
 }
 
 @media (max-width: 700px) {

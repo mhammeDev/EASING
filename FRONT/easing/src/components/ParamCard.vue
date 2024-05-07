@@ -17,15 +17,26 @@ export default defineComponent({
   setup() {
     const store = useRoomsStore();
     const{temperature, person, hours} = storeToRefs(store)
+    const {setPerson, setHours, setTemperature} = store
 
     const temp_value = ref(temperature.value);
     const hours_value = ref(hours.value);
     const person_value = ref(person.value);
 
+    const updateValue = (type_value) => {
+      if(type_value === 1 && temp_value.value !== temperature.value){
+        setTemperature(temp_value.value)
+      } else if(type_value === 2 && hours_value.value !== hours.value){
+        setHours(hours_value.value)
+      }else if(type_value === 3 && person_value.value !== person.value){
+        setPerson(person_value.value)
+      }
+    }
+
 
 
     const getHours= () => {
-      console.log(this.hours_value)
+      console.log("wata")
     }
 
     return{
@@ -33,6 +44,10 @@ export default defineComponent({
       hours_value,
       person_value,
       getHours,
+      setPerson,
+      setHours,
+      setTemperature,
+      updateValue
     }
 
   },
@@ -54,15 +69,15 @@ export default defineComponent({
         <p class="value-card">{{value}}</p>
       </div>
       <div class="card-bottom">
-        <input v-if="type_value === 1" class="input" :type="type_entry" :value="temp_value" max="50" min="-20">
-        <input v-if="type_value === 2" class="input" :type="type_entry" @change="getHours" v-model="hours_value" :value="hours_value">
+        <input v-if="type_value === 1" class="input" :type="type_entry" :value="temp_value" v-model="temp_value" max="50" min="-20">
+        <input v-if="type_value === 2" class="input" style="font-family: Syne" :type="type_entry" @change="getHours" v-model="hours_value" :value="hours_value">
         <select v-if="type_value === 3" v-model="person_value" :value="person_value" class="input">
           <option>Visually Imparaired</option>
           <option>Obesity</option>
           <option>Pregnant</option>
         </select>
 
-        <div class="check">
+        <div class="check" @click="updateValue(type_value)">
           <i style="color: white; font-size: 20px; text-align: center;" class="fa-solid fa-check"></i>
         </div>
       </div>

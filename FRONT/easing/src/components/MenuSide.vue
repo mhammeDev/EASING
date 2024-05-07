@@ -61,7 +61,7 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   width: 400px;
-  height: 558px;
+  height: 645px;
   padding: 2% 0;
   background-color: #067CB3;
   border-radius: 0  20px 20px 0 ;
@@ -158,5 +158,13 @@ export default defineComponent({
 
 
 }
+
+@media (min-width: 1920px) {
+.container{
+  height: 823px;
+
+}
+}
+
 
 </style>

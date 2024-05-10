@@ -11,7 +11,7 @@ async function getInstructionFromOpenAi(content, actions, callback){
     try{
         new_actions = await getActionsList(actions, content);
         let train_case = await getRightCase(content);
-       const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, train_case);
+        const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, train_case);
        callback(null, result);
     } catch (error){
        callback('Failed to process the instruction request: ' + error.message)
@@ -138,7 +138,7 @@ const train_1 = [
         ]
 
     },
-    {
+   /* {
         "cases": ["security"],
         "examples":[                
       {"role": "user", "content": `{"name": "", "sensors": [{"security" :true},{"typeId":"sensor-presence", "value": true}], "actions": [{"action": "Intrusion notification", "result" : "intrusion"}]}`},
@@ -148,7 +148,7 @@ const train_1 = [
       {"role": "assistant", "content": `{}`},
         ]
 
-    },
+    },*/
     {
         "cases": ["temperature"],
         "examples":[                
@@ -176,14 +176,14 @@ const train_1 = [
         ]
 
     },
-    {
+  /*  {
         "cases": ["connected-light", "security"],
         "examples":[
             {"role": "user", "content":`{"name": "", "sensors": [{"security":true},{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action": "Intrusion notification", "result" : "intrusion"}]}`},
             {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}, {"notification": "Intrusion notification", "result":"intrusion"}]`},
         ]
 
-    }
+    }*/
    /* {
         "cases": ["motorized-blind", "connected-light"],
         "examples":[                

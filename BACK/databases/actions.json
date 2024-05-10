@@ -61,8 +61,7 @@
         "name": "Intrusion notification",
         "type_result": "notification",
         "sensors": [
-            "security",
-            "sensor-presence"
+            "security"
         ],
         "result": "intrusion"
     },

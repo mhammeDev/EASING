@@ -29,7 +29,7 @@ async function getInstructionFromOpenAI(content, actions, train_1) {
         const res = await model.invoke(prompt)
         try{
           const JSONRes = JSON.parse(res.content)
-          console.log(JSONRes)
+          //console.log(JSONRes)
           return JSONRes;
 
         }catch (e) {

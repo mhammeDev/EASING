@@ -12,7 +12,13 @@ app.use(cors())
 
 const port = process.env.PORT || 3000;
 var server = require("http").createServer(app);
-var io = require("socket.io")(server);
+var io = require("socket.io")(server,{
+    cors:{
+        origin: "http://localhost:8080",
+        methods: ["GET", "POST"]
+    }
+});
+
 
 socketEvents(io);
 

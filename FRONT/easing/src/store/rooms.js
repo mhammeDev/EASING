@@ -1,6 +1,6 @@
     import {defineStore} from 'pinia';
     import roomService from "../service/roomService";
-    import {connectToSocket} from "../service/socket.service"
+    import {connectToSocket} from "@/service/socket.service"
 
     export const useRoomsStore = defineStore('rooms', {
         state: () => ({

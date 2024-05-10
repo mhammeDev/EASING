@@ -202,7 +202,7 @@ export default defineComponent({
     font-size: 40px;
   }
 .value-card{
-  font-size: v-bind(1.3* size+"px");
+  font-size: v-bind(size+"px");
 }
 }
 

@@ -9,21 +9,34 @@
 <script>
 import navBar from "@/components/NavBar.vue";
 import FooTer from "@/components/FooTer.vue";
+import {defineComponent, onBeforeMount} from "vue";
+import {useRoomsStore} from "@/store/rooms";
 
-export default {
+
+export default defineComponent({
   name: 'App',
   components: {
     FooTer,
     navBar
-
   },
-  data: () => ({
+  setup(){
+    const store = useRoomsStore();
+    const {initializeSocket} = store
+    onBeforeMount(async ()=>{
+      await initializeSocket();
 
-  }),
-}
+    })
+  }
+
+})
 </script>
 
 <style>
+body{
+  margin: 0;
+  padding: 0;
+}
+
 #app{
   margin: 0;
   padding: 0;
@@ -57,7 +70,15 @@ export default {
   border-radius: 10px;
   cursor: default;
   background: #3aa9dd;
-
-
 }
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
 </style>

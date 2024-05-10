@@ -40,13 +40,13 @@ export default defineComponent({
 
 <template>
   <div class="container">
-    <div class="floor">
+    <div class="floor unselectable">
 <!--      <p>Current floor : {{currentFloor}}</p>-->
       <p class="btn" @click="toggleFloor">Change floor</p>
     </div>
-    <div class="list-icons">
+    <div class="list-icons unselectable">
       <div class="group-devices" v-for="item in captorActionneur.filter(e => e.show === true)" :key="item.name">
-        <img style="margin-right: 10%; width: 30px" :src="require('@/assets/icons/'+item.img)">
+        <img style="margin-right: 10%; width: 33px" :src="require('@/assets/icons/'+item.img)">
         <p class="text">{{item.name}}</p>
       </div>
     </div>
@@ -120,7 +120,7 @@ export default defineComponent({
   position: absolute;
   height: 0.1px;
   background-color: #FFFF;
-  margin-top: 15%;
+  margin-top: 17%;
   width: 70%;
 }
 .text{

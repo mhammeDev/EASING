@@ -123,6 +123,12 @@
           "x": 123.52941176470588,
           "y": 857.4117682961856
         },
+        "dependencies": [
+          {
+            "typeId": "smart-socket",
+            "value": true
+          }
+        ],
         "value": "bulb_on"
       },
       {
@@ -213,6 +219,12 @@
           "x": 911.1764705882354,
           "y": 152.11765064912683
         },
+        "dependencies": [
+          {
+            "typeId": "smart-socket",
+            "value": true
+          }
+        ],
         "value": "bulb_on"
       }
     ]
@@ -423,7 +435,7 @@
           "x": 269.99999999999997,
           "y": 371.8181818181818
         },
-        "value": "bulb_on"
+        "value": "bulb_off"
       },
       {
         "typeId": "connected-tv",
@@ -431,6 +443,12 @@
           "x": 42.727272727272727,
           "y": 369.99999999999994
         },
+        "dependencies": [
+          {
+            "typeId": "smart-socket",
+            "value": true
+          }
+        ],
         "value": "tv_on"
       },
       {
@@ -536,8 +554,14 @@
         "typeId": "smart-connected-light",
         "points": {
           "x": 635.8823529411765,
-          "y": 177.2941176330342
+          "y": 237.2941176330342
         },
+        "dependencies": [
+          {
+            "typeId": "smart-socket",
+            "value": true
+          }
+        ],
         "value": "bulb_on"
       }
     ]

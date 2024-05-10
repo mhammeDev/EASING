@@ -59,7 +59,7 @@ export default defineComponent({
   <div>
   <div class="container">
 
-    <div class="high-square">
+    <div class="high-square unselectable">
       <i :class="image" class="logo_image" ></i>
     </div>
 
@@ -77,7 +77,7 @@ export default defineComponent({
           <option>Pregnant</option>
         </select>
 
-        <div class="check" @click="updateValue(type_value)">
+        <div class="check unselectable" @click="updateValue(type_value)">
           <i style="color: white; font-size: 20px; text-align: center;" class="fa-solid fa-check"></i>
         </div>
       </div>
@@ -192,6 +192,19 @@ export default defineComponent({
 
 }
 
+@media (min-width: 1920px) {
+  .container{
+    width: 500px;
+    height: 250px;
+  }
+
+  .title-card{
+    font-size: 40px;
+  }
+.value-card{
+  font-size: v-bind(1.3* size+"px");
+}
+}
 
 
 

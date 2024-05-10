@@ -33,6 +33,7 @@
                  -->
                  <v-image
                      :config="getHomeIcons(pieces,pieces.points)"
+                     @click="IconsAction(piece.name,pieces)"
                      @mouseover="buttonCheck(pieces)"
                      @mouseout="buttonUnCheck()"></v-image>
 
@@ -128,7 +129,7 @@ export default defineComponent({
     const scaleFactor = ref(0); // we need this variable for responsive, and because we need to keep the same space between point that why we need it
     const store = useRoomsStore();
     const{pieces, currentFloor, captorActionneur} = storeToRefs(store)
-    const {getPieces, getCaptorandSensor/* addCaptorActionneur, pushCaptorActionneur*/, updateCaptor } = store;
+    const {getPieces, getCaptorandSensor, SensorEvent/* addCaptorActionneur, pushCaptorActionneur*/, UpdatePresenceSensor, UpdateSocketSensor } = store;
 
     const menuX = ref(1250 ); // right menu
     const menuY =ref(0);
@@ -311,7 +312,7 @@ export default defineComponent({
           result = pieceValue === "bulb_on" ? "connected-light_on.png" : "connected-light_off.png"
           break;
         case "smart-connected-light":
-          result = pieceValue === "bulb_on" ? "smart-light_on.png" : "connected-light_off.png"
+          result = pieceValue === "bulb_on" ? "smart-light_on.png" : "smart-light_off.png"
           break;
         case 'connected-tv':
           result = pieceValue === "tv_on" ? "tv_on.png" : "tv_off.png"
@@ -480,7 +481,7 @@ export default defineComponent({
 
       if (name.value !== null) { // when we drop a stickman in a room the room's name is save, but we see the pointer position and not
         // the stickman so sometimes when we drop the stickman and take with the cursor but the cursor is in the limit with an other room the sensor-presence of the room stiil in true
-        await updateCaptor(name.value, false)
+        await UpdatePresenceSensor(name.value, false)
       }
     }
 
@@ -559,7 +560,7 @@ export default defineComponent({
       if (droppedOnPiece) {
         console.log(droppedOnPiece);
         name.value = droppedOnPiece.name;
-        await updateCaptor(name.value, true)
+        await UpdatePresenceSensor(name.value, true)
         console.log('Dropped on piece:', droppedOnPiece.name);
       } else {
         name.value = null;
@@ -615,9 +616,9 @@ export default defineComponent({
           context.closePath();
           context.fillStrokeShape(shape);
         },
-        fill: getSensorCaptorState(piece) ? 'lightgreen' :'#D3D3D3',
+        fill: getSensorCaptorState(piece) ? '#eeeaea' :'#D3D3D3',
         stroke: 'black',
-        strokeWidth: 2
+        strokeWidth: 2,
       };
     };
 
@@ -642,10 +643,10 @@ export default defineComponent({
     const getTextConfig = (piece) => {
       const center = getCenterPoint(piece.position.points);
       return {
-        text: piece.name,
+        text: piece.name ,
         fontSize: 30 * scaleFactor.value,
         fontFamily: 'Syne',
-        x: center.x - piece.name.length - (30 * scaleFactor.value) ,
+        x: center.x - 7 * piece.name.length * scaleFactor.value ,
         y: center.y,
         align: 'center',
         verticalAlign: 'middle',
@@ -824,6 +825,27 @@ export default defineComponent({
 
     }
 
+    const IconsAction = (roomName,piece) => {
+      console.log(roomName)
+      switch (piece.typeId){
+        case "sensor-water-leak":
+          SensorEvent(
+              {sensors :[{typeId: piece.typeId, value: true}]}
+        )
+          break;
+        case "connected-tv":
+          UpdateSocketSensor(roomName, piece)
+          break;
+        case "smart-connected-light":
+          UpdateSocketSensor(roomName, piece)
+          break;
+        default:
+          break;
+
+      }
+
+    }
+
 
     return {
       getShapeConfig,
@@ -857,7 +879,8 @@ export default defineComponent({
       scaleFactor,
       getHomeIcons,
       buttonCheck,
-      buttonUnCheck
+      buttonUnCheck,
+      IconsAction
     };
   }
 });

@@ -1,10 +1,12 @@
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, watch} from "vue";
 import HouseMap from "@/components/HouseMap.vue";
 import MenuSide from "@/components/MenuSide.vue";
 import ParamCard from "@/components/ParamCard.vue";
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
+import "vue3-toastify/dist/index.css";
+import {toast} from "vue3-toastify";
 
 
 
@@ -15,6 +17,28 @@ export default defineComponent({
     const store = useRoomsStore();
     const{temperature, person, hours,security, external_luminosity} = storeToRefs(store)
     const {updateSecurity, updateExternalLight} = store
+
+    watch(
+        () => store.message,
+        (newMessage)=>{
+          if(newMessage){
+            showToat(newMessage.icon, newMessage.message, newMessage.style)
+          }
+        }
+    )
+
+
+    const showToat = (icon, message, style) => {
+      console.log(style)
+      toast(message, {
+        className: "adjust-box",
+        "icon" : icon,
+        "type": style,
+        "transition": "slide",
+        "dangerouslyHTMLString": true
+      })
+
+    }
 
 
     return{
@@ -41,14 +65,14 @@ export default defineComponent({
         <ParamCard color="#001CAD" :size="33" title="Person" type_entry="number" image="fa-solid fa-user-group" :type_value="3" :value="person.toString()"></ParamCard>
       </div>
 
-      <div class="icons-params">
+      <div class="icons-params unselectable">
         <div :style="{backgroundColor: security ? '#00C208' : 'red'}" class="sec_icon" @click="updateSecurity(!security)">
-          <i class="fa-solid fa-lock icons"></i>
+          <i :class="security=== true ? 'fa-solid fa-lock icons' : 'fa-solid fa-unlock icons' "></i>
         </div>
-        <div class="brightness-icon">
-          <i :style="{opacity: external_luminosity=== 'low_luminosity' ? 1 : 0.4}" class="fa-solid fa-sun icons param-icon" @click="updateExternalLight('low_luminosity')"></i>
+        <div class="brightness-icon unselectable">
+          <i :style="{opacity: external_luminosity=== 'high_luminosity' ? 1 : 0.4}" class="fa-solid fa-sun icons param-icon" @click="updateExternalLight('high_luminosity')"></i>
           <i :style="{opacity: external_luminosity=== 'medium_luminosity' ? 1 : 0.4}" class="fa-solid fa-cloud icons  param-icon " @click="updateExternalLight('medium_luminosity')"></i>
-          <i :style="{opacity: external_luminosity=== 'high_luminosity' ? 1 : 0.4}" class="fa-solid fa-moon icons param-icon" @click="updateExternalLight('high_luminosity')"></i>
+          <i :style="{opacity: external_luminosity=== 'low_luminosity' ? 1 : 0.4}" class="fa-solid fa-moon icons param-icon" @click="updateExternalLight('low_luminosity')"></i>
         </div>
       </div>
 
@@ -201,10 +225,7 @@ export default defineComponent({
     gap: 20px;
 
     flex-direction: column;
-
-
   }
-  
 }
 
 </style>

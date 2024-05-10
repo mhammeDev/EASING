@@ -1,12 +1,12 @@
 <script>
 
-
+import {defineComponent} from "vue";
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
 import MapAndMenu from "@/components/MapAndMenu.vue";
 
 
-export default {
+export default defineComponent( {
   components:{
     MapAndMenu,
 
@@ -30,7 +30,7 @@ export default {
     }
   }
 
-}
+})
 </script>
 
 <template>

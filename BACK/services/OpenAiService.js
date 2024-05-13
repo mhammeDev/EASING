@@ -1,4 +1,6 @@
 const {AzureChatOpenAI} = require("@langchain/azure-openai");
+const logsDao = require("../DAO/logsDao")
+
 
 const model = new AzureChatOpenAI({
     azureOpenAIEndpoint: process.env.aiEndpoint,
@@ -30,6 +32,7 @@ async function getInstructionFromOpenAI(content, actions, train_1) {
         try{
           const JSONRes = JSON.parse(res.content)
           //console.log(JSONRes)
+          logsDao.insertHistory(prompt, JSONRes)
           return JSONRes;
 
         }catch (e) {

@@ -12,7 +12,8 @@ async function getInstructionFromOpenAi(content, actions, callback){
         new_actions = await getActionsList(actions, content);
         let train_case = await getRightCase(content);
         const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, train_case);
-       callback(null, result);
+        const recommendation = await OpenAiService.getRecommendationFromOPenAI(content)
+       callback(null, result, recommendation);
     } catch (error){
        callback('Failed to process the instruction request: ' + error.message)
     }
@@ -50,7 +51,7 @@ async function getActionsList(actions, content){
 
 async function getRightCase(content) {
     let table = [];
-    table.push({"role": "system", "content": "Evaluate sensor data and deduce commands for actuators or notifications. Responses should be formatted as JSON ([{...},...]), be concise, and logically derived from the input."})
+    table.push({"role": "system", "content": "Evaluate sensor data and deduce commands for actuators or notifications. Responses should be formatted as JSON ([{...},...]), be concise, and logically derived from the input. "})
 
     // Check and process sensor data if provided
     if (content.sensors) {
@@ -103,8 +104,8 @@ const train_1 = [
           {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "high_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
           {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "result" : "bulb_off"}]`},
       
-          {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
-          {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},   
+ //         {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
+   //       {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},   
         ]
 
     },
@@ -182,8 +183,8 @@ const train_1 = [
             {"role": "user", "content":`{"name": "", "sensors": [{"security":true},{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action": "Intrusion notification", "result" : "intrusion"}]}`},
             {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}, {"notification": "Intrusion notification", "result":"intrusion"}]`},
 
-            {"role": "user", "content":`{"name": "", "sensors": [{"security":true},{"typeId": "sensor-presence", "value": false}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action": "Intrusion notification", "result" : "intrusion"}]}`},
-            {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_off"}]`},
+           {"role": "user", "content":`{"name": "", "sensors": [{"security":true},{"typeId": "sensor-presence", "value": false}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}],"actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action": "Intrusion notification", "result" : "intrusion"}]}`},
+           {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_off"}]`},
         ]
 
     }

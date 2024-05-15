@@ -47,4 +47,32 @@ async function getInstructionFromOpenAI(content, actions, train_1) {
     }
 }
 
-module.exports = {getInstructionFromOpenAI};
+async function getRecommendationFromOPenAI(content){
+  try {
+    let train_1 = [];
+    train_1.push({"role": "system", "content": "Evaluate sensor data and deduce one or many logical action. Responses should be formatted as simple and short sentences for each actions, and logically derived from the input, see each sensor's value and be logic. "})
+    let current_case = {
+        "role": "user", 
+        "content": `${JSON.stringify(content)}}`
+    };
+    train_1.push(current_case)
+    const prompt = train_1.map(p => `${p.role}: ${p.content}`).join("\n");
+    const res = await model.invoke(prompt)
+    try{
+      const JSONRes = JSON.stringify(res.content)
+      return JSONRes;
+
+    }catch (e) {
+      console.log("erreur : " + e)
+      console.log(res.content)
+      return res
+
+    }
+} catch (error) {
+    console.error('Error invoking the AI model:', error);
+    throw error;
+}
+
+}
+
+module.exports = {getInstructionFromOpenAI, getRecommendationFromOPenAI};

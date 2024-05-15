@@ -13,7 +13,6 @@ class logsDao{
 
     static async insertHistory(input, output){
         try{
-            console.log(this.logs)
             await this.logs.insertOne(
                 {
                     input: input,
@@ -25,6 +24,17 @@ class logsDao{
             console.error("Error to insert history : " + e)
         }
     }
+
+    static async getAllLogs(){
+        try{
+            return await this.logs.find().toArray();
+        } catch(e){
+            console.error("Error to get all logs : " + e)
+            return {error : e}
+        }
+    }
+
+    
 }
 
 module.exports = logsDao

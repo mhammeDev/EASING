@@ -354,7 +354,16 @@
         "value": "low_luminosity"
       }
     ],
-    "actuators": []
+    "actuators": [
+      {
+        "typeId": "heating",
+        "points": {
+          "x": 740,
+          "y": 570
+        },
+        "value": "heating_off"
+      }
+    ]
   },
   {
     "name": "Room 2",
@@ -550,6 +559,14 @@
       }
     ],
     "actuators": [
+      {
+        "typeId": "heating",
+        "points": {
+          "x": 635.8823529411765,
+          "y": 520
+        },
+        "value": "heating_off"
+      },
       {
         "typeId": "smart-connected-light",
         "points": {

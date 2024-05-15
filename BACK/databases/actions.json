@@ -80,5 +80,21 @@
             "temperature"
         ],
         "result": "temp_down"
+    },
+    {
+        "name": "Turn off the heating",
+        "type_result": "action",
+        "actuators": [
+            "heating"
+        ],
+        "result": "heating_off"
+    },
+    {
+        "name": "Turn on the heating",
+        "type_result": "action",
+        "actuators": [
+            "heating"
+        ],
+        "result": "heating_off"
     }
 ]

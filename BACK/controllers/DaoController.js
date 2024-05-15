@@ -16,6 +16,22 @@ class DaoController{
         }
     }
 
+    static async getAllRoomsFiltered(){
+        try{
+            const rooms = await roomsDao.findAllRooms();
+            const data = rooms.map(room => ({
+                name: room.name,
+                actuators: room.actuators.map(actuator => ({
+                    typeId: actuator.typeId,
+                    dependencies: actuator.dependencies
+                }))
+            }));
+            return data;
+        } catch(e){
+            console.log("Impossible to get all rooms : " + e.message)
+        }
+    }
+
     static async getAllActions(req, res){
         try {
             const actions = await actionsDao.findAllActions();

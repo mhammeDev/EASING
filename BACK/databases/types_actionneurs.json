@@ -8,7 +8,7 @@
         ],
         "description": "Contrôle l'éclairage de la pièce",
         "show": true,
-        "img":"connected-light_off.png"
+        "img": "connected-light_off.png"
     },
     {
         "_id": "smart-connected-light",
@@ -18,7 +18,7 @@
         ],
         "description": "Contrôle l'éclairage de la pièce",
         "show": true,
-        "img":"smart-light_off.png"
+        "img": "smart-light_off.png"
     },
     {
         "_id": "connected-tv",
@@ -28,7 +28,7 @@
         ],
         "description": "Permet de contrôler les appareils électriques",
         "show": true,
-        "img":"tv_off.png"
+        "img": "tv_off.png"
     },
     {
         "_id": "motorized-blind",
@@ -38,6 +38,16 @@
         ],
         "description": "Contrôle l'ouverture et la fermeture des stores",
         "show": true,
-        "img":"blind_down.png"
+        "img": "blind_down.png"
+    },
+    {
+        "_id": "heating",
+        "name": "Chauffage",
+        "dependecies": [
+            "temperature"
+        ],
+        "description": "Contrôle le chauffage",
+        "show": true,
+        "img": "heating_off.png"
     }
 ]

@@ -61,7 +61,7 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   width: 400px;
-  height: 645px;
+  height: 670px;
   padding: 2% 0;
   background-color: #067CB3;
   border-radius: 0  20px 20px 0 ;
@@ -114,15 +114,16 @@ export default defineComponent({
   color: #FFFF;
 }
 
-.group-devices::after{
+/*.group-devices::after{
   content:"";
   display: block;
   position: absolute;
   height: 0.1px;
   background-color: #FFFF;
-  margin-top: 17%;
+  margin-top: 15%;
   width: 70%;
-}
+}*/
+
 .text{
   text-align: left;
 }
@@ -161,9 +162,22 @@ export default defineComponent({
 
 @media (min-width: 1920px) {
 .container{
-  height: 823px;
+  height: 850px;
 
 }
+}
+
+  @media (max-width: 1200px) {
+    .container{
+      width: 645px;
+      border-radius: 0  0 20px 20px ;
+    }
+
+}
+@media (max-width: 700px) {
+  .container{
+    width: 430px;
+  }
 }
 
 

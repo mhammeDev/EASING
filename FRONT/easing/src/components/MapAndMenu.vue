@@ -1,5 +1,5 @@
 <script>
-import {defineComponent, watch} from "vue";
+import {defineComponent, onBeforeMount, ref, watch} from "vue";
 import HouseMap from "@/components/HouseMap.vue";
 import MenuSide from "@/components/MenuSide.vue";
 import ParamCard from "@/components/ParamCard.vue";
@@ -7,16 +7,24 @@ import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
 import "vue3-toastify/dist/index.css";
 import {toast} from "vue3-toastify";
+import AssistantChat from "@/components/AssistantChat.vue";
 
 
 
 export default defineComponent({
   name: "MapAndMenu",
-  components: {ParamCard, MenuSide, HouseMap},
+  components: {AssistantChat, ParamCard, MenuSide, HouseMap},
   setup(){
     const store = useRoomsStore();
     const{temperature, person, hours,security, external_luminosity} = storeToRefs(store)
-    const {updateSecurity, updateExternalLight} = store
+    const {updateSecurity, updateExternalLight, initializeSocket} = store
+
+    onBeforeMount(async ()=>{
+      await initializeSocket();
+    })
+
+    const displayChat = ref(false);
+
 
     watch(
         () => store.message,
@@ -40,6 +48,10 @@ export default defineComponent({
 
     }
 
+    const updateDisplayChat = () => {
+      displayChat.value = !displayChat.value
+    }
+
 
     return{
       temperature,
@@ -48,7 +60,9 @@ export default defineComponent({
       security,
       updateSecurity,
       updateExternalLight,
-      external_luminosity
+      external_luminosity,
+      displayChat,
+      updateDisplayChat
     }
   }})
 
@@ -80,6 +94,9 @@ export default defineComponent({
         <house-map></house-map>
         <menu-side></menu-side>
       </div>
+
+    <assistant-chat class="bot" @click="console.log('ntm')"></assistant-chat>
+
 
   </div>
 </template>
@@ -158,7 +175,10 @@ export default defineComponent({
   display: flex;
 }
 
-
+.bot{
+  position: relative;
+  z-index: 10;
+}
 @media (max-width: 1200px) {
 
   .container{
@@ -187,7 +207,6 @@ export default defineComponent({
     align-items: center;
     gap: 20px;
 
-    flex-direction: column;
 
   }
   .content{
@@ -224,7 +243,6 @@ export default defineComponent({
     align-items: center;
     gap: 20px;
 
-    flex-direction: column;
   }
 }
 

@@ -37,4 +37,10 @@ export default defineComponent({
   font-family: Goldman;
 }
 
+@media (max-width: 700px) {
+  .container p{
+    display: none;
+  }
+}
+
 </style>

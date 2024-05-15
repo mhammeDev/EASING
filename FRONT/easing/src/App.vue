@@ -9,8 +9,7 @@
 <script>
 import navBar from "@/components/NavBar.vue";
 import FooTer from "@/components/FooTer.vue";
-import {defineComponent, onBeforeMount} from "vue";
-import {useRoomsStore} from "@/store/rooms";
+import {defineComponent} from "vue";
 
 
 export default defineComponent({
@@ -18,16 +17,7 @@ export default defineComponent({
   components: {
     FooTer,
     navBar
-  },
-  setup(){
-    const store = useRoomsStore();
-    const {initializeSocket} = store
-    onBeforeMount(async ()=>{
-      await initializeSocket();
-
-    })
   }
-
 })
 </script>
 

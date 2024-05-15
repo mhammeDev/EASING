@@ -14,7 +14,20 @@
             hours:"23:04",
             temperature: 5,
             person: "Visually Imparaired",
-            message:''
+            message:'',
+            conversationChatBot:[
+                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
+                {from: "user", content: "Hi, I'm your assistant I am here to do what you ask me"},
+                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
+                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
+                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
+                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
+                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"}
+
+
+            ],
+            recommendations: [],
+            actionsLogs: [],
         }),
         actions:{
             changeFloor(){
@@ -72,6 +85,7 @@
                             await updatedPiece.captors.forEach(sensor => {
                                 sensors.push({typeId: sensor.typeId, value: sensor.value});
                             })
+                            if(this.security === true ) sensors.push({typeId: "security", value: this.security});
 
                             await updatedPiece.actuators.forEach(actuator => {
                                 if (actuator.typeId.toString() !== "motorized-blind") {
@@ -85,6 +99,17 @@
                             let prompt = {name : updatedPiece.name, sensors: sensors, actuators : actuators}
                             this.socket.emit("house-sensor-event", prompt)
                         }
+                    else if(this.security === true ){
+                        let sensors = [];
+                        await updatedPiece.captors.forEach(sensor => {
+                            sensors.push({typeId: sensor.typeId, value: sensor.value});
+                        })
+                        sensors.push({typeId: "security", value: this.security});
+                        let prompt = {name : updatedPiece.name, sensors: sensors}
+                        this.socket.emit("house-sensor-event", prompt)
+
+                    }
+
 
                 }
             },
@@ -197,11 +222,30 @@
                             this.setNotificationMessage("🌡️", "The temperature has decreased !", "error");
                             break;
                         case "temp_up":
-                            this.setNotificationMessage("🌡️", "The temperature has increased !", "error");
+                            this.setNotificationMessage("🌡️", "The temperature has increased !", "warning");
+                            break;
+                        case "intrusion":
+                            this.setNotificationMessage("🔒️", "An intrusion has been detected !", "error");
                             break;
                         default:
                             console.log("erreur")
                             break;
+                    }
+                })
+
+                socket.on("logs", data => {
+                    try{
+                        this.actionsLogs.push(data) ;
+                    }catch (e){
+                        console.log(e)
+                    }
+                })
+
+                socket.on("recommendations-actions", data => {
+                    try{
+                        this.recommendations.push(data) ;
+                    } catch (e){
+                        console.log(e)
                     }
                 })
 

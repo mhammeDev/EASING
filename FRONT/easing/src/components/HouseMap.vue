@@ -1,7 +1,7 @@
 <template>
 <!--  <input type="button"  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">-->
 
-          <v-stage :config="{ width: 1430 * scaleFactor, height: 940 * scaleFactor }">
+          <v-stage :config="{ width: 1430 * scaleFactor, height: 970 * scaleFactor }">
            <v-layer>
              <v-rect :config="getGrasseConfig()"></v-rect>
 
@@ -177,7 +177,7 @@ export default defineComponent({
         x:0,
         y:0,
         width: 1430 * scaleFactor.value,
-        height: 940 * scaleFactor.value,
+        height: 970 * scaleFactor.value,
         fill: '#12AE0F',
         cornerRadius:[20, 0 , 0, 20]
       }

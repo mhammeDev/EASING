@@ -11,10 +11,10 @@ export default defineComponent({
   setup(){
     const store = useRoomsStore();
     const {recommendations, conversationChatBot, actionsLogs} = storeToRefs(store)
+    const {sendMessageToApi} = store
 
-
-    const displayChat= ref(false);
-    const displayingScreen = ref(0);
+    const displayChat= ref(true);
+    const displayingScreen = ref(1);
     const contentChat = ref("")
 
     const tableSelect = [
@@ -32,6 +32,11 @@ export default defineComponent({
       displayingScreen.value = value;
     }
 
+    const sendMessage = () => {
+     sendMessageToApi(contentChat.value)
+      contentChat.value = "";
+
+    }
 
     return{
       updateDisplayChat,
@@ -42,7 +47,9 @@ export default defineComponent({
       recommendations,
       conversationChatBot,
       actionsLogs,
-      contentChat
+      contentChat,
+      sendMessage,
+      sendMessageToApi
     }
 
   }
@@ -85,21 +92,24 @@ export default defineComponent({
             </div>
             <div class="chat-body">
               <div class="chat-content" >
+                <p style="color: #000000" v-if="conversationChatBot.length === 0"> Nothing for now</p>
                 <div v-for="(message, index) in conversationChatBot" :key="index">
                   <div v-if="message.from === 'assistant'">
-                    <div style="display: flex; align-items: center; gap : 10px;">
-                      <div  class="photo"></div>
+                    <div style="display: flex; align-items: center; gap : 10px;"  v-if="message.from === 'assistant'" >
+                      <div  class="photo">
+                        <img style="width: 30px; height: 30px" src="@/assets/logo.png">
+                      </div>
                       <p class="message-send left">{{message.content}}</p>
                     </div>
                   </div>
-                  <div v-if="message.from === 'assistant'" >
+                  <div v-if="message.from === 'user'" >
                     <p class="message-send right">{{message.content}}</p>
                   </div>
                 </div>
               </div>
               <div class="input-chat">
-                <input type="text" class="stylizedInput" placeholder="Enter your text" v-model="contentChat">
-                <i v-if="contentChat !== ''" class="fa-solid fa-paper-plane icon-plane"></i>
+                <input type="text" class="stylizedInput" placeholder="Enter your text" v-model="contentChat" @keyup.enter="sendMessage()">
+                <i v-if="contentChat !== ''" class="fa-solid fa-paper-plane icon-plane button" @click="sendMessage()" ></i>
               </div>
             </div>
           </div>
@@ -114,6 +124,7 @@ export default defineComponent({
 
             <div class="chat-body">
               <div class="chat-content">
+                <p style="color: #000000" v-if="recommendations.length === 0"> Nothing for now</p>
 
                 <div v-for="(r, index) in recommendations" :key="index">
                   <div style="display: flex; flex-direction: column;align-items: center;">
@@ -133,6 +144,8 @@ export default defineComponent({
             </div>
             <div class="chat-body">
               <div class="chat-content">
+                <p style="color: #000000" v-if="actionsLogs.length === 0"> Nothing for now</p>
+
                 <div v-for="(action, index) in actionsLogs" :key="index">
                   <div style="display: flex; flex-direction: column;align-items: center;">
                     <p v-if="action.input" style="background-color: #105c81" class="message-send">input : {{action.input}}</p>
@@ -271,10 +284,9 @@ export default defineComponent({
 }
 
 .photo{
-  width: 60px;
+  width: 30px;
   height: 30px;
   border-radius: 40px;
-  background-image: url("@/assets/logo.png");
   background-color : #3aa9dd;
   background-size: 30px 30px ;
 }
@@ -314,6 +326,10 @@ export default defineComponent({
   border-radius: 50px;
   color: #FFFF;
   height: 40px;
+  cursor: pointer;
+}
+
+.button:hover{
   cursor: pointer;
 }
 

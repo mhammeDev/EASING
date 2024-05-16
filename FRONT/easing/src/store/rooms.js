@@ -12,19 +12,11 @@
             security: false,
             external_luminosity:"high_luminosity",
             hours:"23:04",
-            temperature: 5,
+            temperature: 20,
             person: "Visually Imparaired",
             message:'',
             conversationChatBot:[
-                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
-                {from: "user", content: "Hi, I'm your assistant I am here to do what you ask me"},
-                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
-                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
-                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
-                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"},
                 {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"}
-
-
             ],
             recommendations: [],
             actionsLogs: [],
@@ -88,7 +80,7 @@
                             if(this.security === true ) sensors.push({typeId: "security", value: this.security});
 
                             await updatedPiece.actuators.forEach(actuator => {
-                                if (actuator.typeId.toString() !== "motorized-blind") {
+                                if (actuator.typeId.toString() !== "motorized-blind" && actuator.typeId.toString() !== "heating") {
                                     if(actuator.dependencies && actuator.dependencies.length > 0){
                                         actuators.push({typeId :actuator.typeId, dependencies:JSON.stringify(actuator.dependencies)});
                                     }else{
@@ -97,7 +89,7 @@
                                 }
                             })
                             let prompt = {name : updatedPiece.name, sensors: sensors, actuators : actuators}
-                            this.socket.emit("house-sensor-event", prompt)
+                            this.SensorEvent(prompt)
                         }
                     else if(this.security === true ){
                         let sensors = [];
@@ -106,7 +98,7 @@
                         })
                         sensors.push({typeId: "security", value: this.security});
                         let prompt = {name : updatedPiece.name, sensors: sensors}
-                        this.socket.emit("house-sensor-event", prompt)
+                        this.SensorEvent(prompt)
 
                     }
 
@@ -120,7 +112,7 @@
                 let prompt_actuator = [{typeId :actuator.typeId, dependencies:JSON.stringify(actuator.dependencies)}];
                 let prompt = {name : roomName, actuators : prompt_actuator}
                 console.log(prompt)
-                this.socket.emit("house-sensor-event", prompt)
+                this.SensorEvent(prompt)
 
             },
 
@@ -154,7 +146,7 @@
                             "typeId" : "motorized-blind"
                         }
                     ]
-                    this.socket.emit("external-sensor-event", {external_sensors : external_sensors, actuators : actuators})
+                    this.socket.emit("general-sensor-event", {external_sensors : external_sensors, actuators : actuators})
 
                 }
             },
@@ -162,10 +154,24 @@
                 this.hours = hour;
             },
             setTemperature(temp){
-                this.SensorEvent(
-                    {sensors :[{typeId: "temperature" , old_value: this.temperature, new_value: temp}]}
-                )
+                let actuators = [
+                    {
+                        "typeId" : "heating"
+                    }
+                ]
+                let result;
+                // classify or gpt going to give random answer
+                temp < 18 ? result = "temp_low" :  result = "temp_high"
+                //this.SensorEvent(
+                  //  {sensors :[{typeId: "temperature" , old_value: result2, new_value: result}]}
+                //)
+
+                this.socket.emit("general-sensor-event", {name:"",sensors :[{typeId: "temperature" , value: result}], actuators: actuators })
                 this.temperature = temp;
+            },
+            sendMessageToApi(content){
+                this.conversationChatBot.push({from: "user", content: content})
+                this.socket.emit("chat-event", content)
             },
             setPerson(type){
                 this.person = type;
@@ -248,6 +254,26 @@
                         console.log(e)
                     }
                 })
+
+                socket.on("chat-action", data => {
+                    try{
+                        this.conversationChatBot.push({from:"assistant", content: data.response})
+                        console.log(data.response);
+                        console.log(data.content)
+
+                        data.content.forEach(room => {
+                            const IndexPiece = this.pieces.findIndex(e => e.name === room.name);
+                            if(IndexPiece !== -1){
+                                this.updateRoom(IndexPiece,room)
+                            }
+                        })
+
+                    }catch (e){
+                        console.log(e)
+                    }
+
+                })
+
 
                 this.socket = socket;
             },

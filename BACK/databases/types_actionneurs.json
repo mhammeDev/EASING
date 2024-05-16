@@ -1,7 +1,7 @@
 [
     {
         "_id": "connected-light",
-        "name": "Lumière connectée",
+        "name": "Connected light",
         "dependecies": [
             "sensor-presence",
             "internal-light-sensor"
@@ -12,7 +12,7 @@
     },
     {
         "_id": "smart-connected-light",
-        "name": "Ampoule connecté prise intelligente",
+        "name": "Smart connected light",
         "dependecies": [
             "smart-socket"
         ],
@@ -22,7 +22,7 @@
     },
     {
         "_id": "connected-tv",
-        "name": "TV connectée",
+        "name": "Connected tv",
         "dependecies": [
             "smart-socket"
         ],
@@ -32,7 +32,7 @@
     },
     {
         "_id": "motorized-blind",
-        "name": "Store motorisé",
+        "name": "Motorized blind",
         "dependecies": [
             "external-light-sensor"
         ],
@@ -42,7 +42,7 @@
     },
     {
         "_id": "heating",
-        "name": "Chauffage",
+        "name": "Heating",
         "dependecies": [
             "temperature"
         ],

@@ -7,9 +7,6 @@ const train_1 = [
         
           {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "high_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
           {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "result" : "bulb_off"}]`},
-      
- //         {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "sensor-presence", "value": true}, {"typeId": "internal-light-sensor", "value": "low_luminosity"}], "actuators": [{"typeId": "connected-light"}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
-   //       {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},   
         ]
 
     },
@@ -73,14 +70,11 @@ const train_1 = [
     {
         "cases": ["heating"],
         "examples":[
-
-            {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"temperature", "value": temp_low}], "actions": [{"action" : "Turn on the heating", "result" : "heating_on"}, {"action" : "Turn off the heating", "result": "heating_off"}]}`},
+            {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"temperature", "value": "temp_low"}],"actuators": [{"typeId": "heating"}],"actions":[{"action" : "Turn on the heating", "result" : "heating_on"}, {"action" : "Turn off the heating", "result": "heating_off"}]}`},
             {"role": "assistant", "content": `[{"name": "heating", "action": "Turn on the heating", "result" : "heating_on"}]`},
 
-
-            {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"temperature", "value": temp_high}],  "actuators": [{"typeId": "heating"}], "actions": [{"action" : "Turn on the heating", "result" : "heating_on"}, {"action" : "Turn off the heating", "result": "heating_off"}]}`},
-            {"role": "assistant", "content": `[{"name": "heating", "action": "Turn off the heating",  "actuators": [{"typeId": "heating"}],"result" : "heating_off"`},
-
+            {"role": "user", "content": `{"name": "", "sensors": [{"typeId":"temperature", "value": "temp_high"}],"actuators": [{"typeId": "heating"}],"actions":[{"action" : "Turn on the heating", "result" : "heating_on"}, {"action" : "Turn off the heating", "result": "heating_off"}]}`},
+            {"role": "assistant", "content": `[{"name": "heating", "action": "Turn off the heating", "result" : "heating_off"}]`},
         ]
 
     },
@@ -117,6 +111,18 @@ const train_1 = [
     },*/
   ];
 
+const train_2 = [
+        {"role": "user", "content": `[{"request":"Turn on the light in the kitchen"}, {"rooms": [{"room":[{"name":"Kitchen","actuators":[{"typeId":"connected-light"}]}]}]},{"actions":{"actions":[{"action":"Turn on the light","type_action":"action","actuators":["connected-light","smart-connected-light"],"result":"bulb_on"}]}}]`},
+        {"role":"asssistant", "content":`{"response" : "I turned on the light in the kitchen", "content" : [{"name" : "Kitchen", "actuators" : [{"name" : "connected-light", "action" : "Turn on the light", "result" : "bulb_on"}] }]}`}    ,
+
+        {"role": "user", "content": `[{"request":"Turn on the tv in the corridor"}, {"rooms": [{"room":[{"name":"Corridor","actuators":[{"typeId":"connected-light"},{"typeId":"smart-connected-light"}  ]}]}]},{"actions":{"actions":[{"action":"Turn on the tv","type_action":"action","actuators":["connected-tv"],"result":"tv_on"}]}}]`},
+        {"role":"asssistant", "content":`{"response" : "I can't there isn't a tv in the corridor"}`} 
+        
+        ,{"role": "user", "content": `[{"request":"Turn off the light and turn on the tv in the Dining room"}, {"rooms": [{"room":[{"name":"Dining room","actuators":[{"typeId":"connected-light"},{"typeId":"connected-tv"}, {"typeId":"motorized-blind"}, {"typeId":"motorized-blind"}, {"typeId":"motorized-blind"} ]}]}]},{"actions":{"actions":[{"action":"Turn on the light","type_action":"action","actuators":["connected-light","smart-connected-light"],"result":"bulb_on"}, {"action":"Turn on the tv","type_action":"action","actuators":["connected-tv"],"result":"tv_on"} ]}}]`},
+        {"role":"asssistant", "content":`{"response" : "I turned on the tv and I turned off the connected light in the dining room", "content" : [{"name" : "Dining room", "actuators" : [{"name" : "connected-light", "action" : "Turn off the light", "result" : "bulb_off"}, {"name" : "connected-tv", "action" : "Turn on the tv", "result" : "tv_on"} ] }]}`}    ,
+
+];
   module.exports = {
-    train_1
+    train_1,
+    train_2
   }

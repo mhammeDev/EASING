@@ -95,7 +95,7 @@ export default defineComponent({
         <menu-side></menu-side>
       </div>
 
-    <assistant-chat class="bot" @click="console.log('ntm')"></assistant-chat>
+    <assistant-chat class="bot unselectable"></assistant-chat>
 
 
   </div>

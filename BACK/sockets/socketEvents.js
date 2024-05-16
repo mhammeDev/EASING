@@ -7,8 +7,6 @@ module.exports = function(io) {
 
         socket.on('house-sensor-event', data => {
             OpenAIJSON(data, "update-room", socket)
-
-
         });
 
         socket.on('general-sensor-event', data => {
@@ -17,6 +15,10 @@ module.exports = function(io) {
 
         socket.on('socket-event', (data) => {
 
+        })
+
+        socket.on('chat-event', (data) => {
+            OpenAIText(data, "chat-action", socket)
         })
 
         socket.on('disconnect', () => {
@@ -55,6 +57,7 @@ async function OpenAIJSON(data, event, socket){
 
                  if(actuators.length > 0){
                      let response = {name : data.name, actuators}
+                     console.log(response)
                      // console.log(response)
                      socket.emit(event, response)    
                  }
@@ -63,5 +66,19 @@ async function OpenAIJSON(data, event, socket){
          }
 
      })
+}
 
+async function OpenAIText(data, event, socket){
+    const actions = await DaoController.getListAllActions();
+    const rooms = await DaoController.getAllRoomsFiltered();
+     OpenAiController.getActionFromPromptWithOpenAI(data, rooms,actions, (error, result) => {
+         if(error){
+             console.log(error)
+             socket.emit("error", error);
+         } else {
+            socket.emit(event, result)
+            console.log(JSON.stringify(result))
+         }
+
+     })
 }

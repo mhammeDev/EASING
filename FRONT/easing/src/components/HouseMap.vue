@@ -323,6 +323,9 @@ export default defineComponent({
         case 'sensor-water-leak':
           result = "water-leak.png"
           break;
+        case "heating":
+          result = pieceValue === "heating_on" ? "heating_on.png" : "heating_off.png";
+          break;
         default:
           break;
       }
@@ -643,7 +646,7 @@ export default defineComponent({
     const getTextConfig = (piece) => {
       const center = getCenterPoint(piece.position.points);
       return {
-        text: piece.name ,
+        text: piece.name !== "Corridor" ? piece.name : "" ,
         fontSize: 30 * scaleFactor.value,
         fontFamily: 'Syne',
         x: center.x - 7 * piece.name.length * scaleFactor.value ,

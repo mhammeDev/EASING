@@ -56,7 +56,7 @@
                 <v-rect :config="bodyConfig()"></v-rect>
 
                 <v-rect :config="armConfig(-12, 45)"></v-rect>
-                <v-rect :config="armConfig(6, -45)"></v-rect>
+                <v-rect :config="armConfig(12, -45)"></v-rect>
 
 
 
@@ -152,6 +152,8 @@ export default defineComponent({
     let cornerRect = ref([20, 0 , 0, 20])
 
     let dragStartPosition = ref({});
+
+    let prevCoord = ref({x:0, y:0})
 
 
 
@@ -518,8 +520,8 @@ export default defineComponent({
       const box = node.getClientRect();
       const stage = node.getStage();
 
-      let x = event.target.x(); // we already take every last position of the stickman
-      let y = event.target.y();
+      let x = event.target.x() ; // we already take every last position of the stickman
+      let y = event.target.y()
 
       // Here we see if it's trying to go beyond the limit of the drawing, if this the case the last position become
       // the stickman's position here for the X and under for the Y
@@ -577,7 +579,7 @@ export default defineComponent({
 
       // And with the precedent function we see if the stickman was dropped in a room
       const droppedOnPiece = tabPiece.value.find(piece => {
-        return pointInPolygon(pointerPosition, piece.position.points);
+        return pointInPolygon({x: pointerPosition.x * zoom.value, y: pointerPosition.y * zoom.value}, piece.position.points);
       });
 
       //if this is the case we update the captor for the room
@@ -905,6 +907,47 @@ export default defineComponent({
         const stage = node.getStage();
         const pointerPosition = stage.getPointerPosition();
 
+
+        const grassConfig = getGrasseConfig();
+
+
+        let x = pointerPosition.x + (dragStartPosition.value.x - dragStartPosition.value.pointerX);
+        let y = pointerPosition.y + (dragStartPosition.value.y - dragStartPosition.value.pointerY);
+
+        x *= zoom.value * 2;
+        y *= zoom.value * 3;
+
+        // Calculer les limites
+        const minX = grassConfig.x;
+        const minY = grassConfig.y;
+        const maxX = (grassConfig.x + grassConfig.width - box.width) * scaleFactor.value;
+        const maxY = (grassConfig.y + grassConfig.height - box.height) * scaleFactor.value;
+
+
+        console.log(x)
+        console.log(maxX)
+
+        // Vérifier et ajuster la position si elle dépasse les limites
+        if (!(x * zoom.value > minX || -x > 350 * zoom.value)) {
+          prevCoord.value.x = x
+
+        }
+
+        if (!(y * zoom.value > minY || -y > maxY)) {
+          prevCoord.value.y = y
+
+        }
+
+        // Mettre à jour la position
+        stage.position({ x: prevCoord.value.x, y: prevCoord.value.y });
+        stage.batchDraw();
+
+
+        /*        const node = event.target;
+        const box = node.getClientRect();
+        const stage = node.getStage();
+        const pointerPosition = stage.getPointerPosition();
+
         const grassConfig = getGrasseConfig();
 
         // Calculer les nouvelles positions basées sur le déplacement du pointeur
@@ -932,10 +975,10 @@ export default defineComponent({
 
         // Mettre à jour la position
         stage.position({ x: x, y: y });
-        stage.batchDraw();
+        stage.batchDraw();*/
+
       }
     };
-
 
 
 

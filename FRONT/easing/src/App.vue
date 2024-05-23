@@ -1,27 +1,23 @@
 <template>
   <div id="app">
-      <nav-bar></nav-bar>
       <router-view/>
-      <foo-ter></foo-ter>
   </div>
 </template>
 
 <script>
-import navBar from "@/components/NavBar.vue";
-import FooTer from "@/components/FooTer.vue";
 import {defineComponent} from "vue";
 
 
 export default defineComponent({
   name: 'App',
-  components: {
-    FooTer,
-    navBar
-  }
 })
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Goldman&display=swap');
+
 body{
   margin: 0;
   padding: 0;

@@ -21,6 +21,7 @@ export default defineComponent({
 
 <style scoped>
 .container{
+  bottom: 0;
 
   display: flex;
   margin-top: 5%;

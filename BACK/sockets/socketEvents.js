@@ -76,6 +76,7 @@ async function OpenAIText(data, event, socket){
              console.log(error)
              socket.emit("error", error);
          } else {
+            socket.emit("logs", {input: data, output : result})
             socket.emit(event, result)
             console.log(JSON.stringify(result))
          }

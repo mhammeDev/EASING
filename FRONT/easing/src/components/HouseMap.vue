@@ -1,13 +1,16 @@
 <template>
 <!--  <input type="button"  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">-->
 
-          <v-stage :config="{ width: 1430 * scaleFactor, height: 970 * scaleFactor }">
-           <v-layer>
+          <v-stage :config="{ width: 1430 * scaleFactor, height: 970 * scaleFactor }"
+                   @mousedown="setDragStart($event)"
+                   @mouseup="setDragEnd()"
+                   @mousemove="zoomFunction($event)">
+           <v-layer  >
              <v-rect :config="getGrasseConfig()"></v-rect>
 
              <v-group  v-for="piece in tabPiece" :key="piece.id"
            >
-             <v-shape :config="getShapeConfig(piece)"/>
+             <v-shape :skipTransform="false"  :config="getShapeConfig(piece)" @click="setCurrentRoom(piece)"/>
                 <v-text
                     :config="getTextConfig(piece)" />
 
@@ -53,7 +56,7 @@
                 <v-rect :config="bodyConfig()"></v-rect>
 
                 <v-rect :config="armConfig(-12, 45)"></v-rect>
-                <v-rect :config="armConfig(12, -45)"></v-rect>
+                <v-rect :config="armConfig(6, -45)"></v-rect>
 
 
 
@@ -122,14 +125,16 @@ import {storeToRefs} from "pinia";
 export default defineComponent({
   setup() {
 
+    const draggingStart = ref(false)
+
     const stageWidth = ref(window.innerWidth);
     const stageHeight = ref(window.innerHeight);
 
 
     const scaleFactor = ref(0); // we need this variable for responsive, and because we need to keep the same space between point that why we need it
     const store = useRoomsStore();
-    const{pieces, currentFloor, captorActionneur} = storeToRefs(store)
-    const {getPieces, getCaptorandSensor, SensorEvent/* addCaptorActionneur, pushCaptorActionneur*/, UpdatePresenceSensor, UpdateSocketSensor } = store;
+    const{pieces, currentFloor, captorActionneur, zoom} = storeToRefs(store)
+    const {getPieces, getCaptorandSensor, SensorEvent/* addCaptorActionneur, pushCaptorActionneur*/, UpdatePresenceSensor, UpdateSocketSensor, setCurrentRoom } = store;
 
     const menuX = ref(1250 ); // right menu
     const menuY =ref(0);
@@ -143,6 +148,11 @@ export default defineComponent({
 
     const bonhmXPos = ref(0);// the start position of the stickman but we initialize it behind
     const bonhmYPos = ref(0);
+
+    let cornerRect = ref([20, 0 , 0, 20])
+
+    let dragStartPosition = ref({});
+
 
 
     /*
@@ -176,10 +186,10 @@ export default defineComponent({
       return  {
         x:0,
         y:0,
-        width: 1430 * scaleFactor.value,
-        height: 970 * scaleFactor.value,
+        width: 1430 * scaleFactor.value * zoom.value,
+        height: 970 * scaleFactor.value * zoom.value,
         fill: '#12AE0F',
-        cornerRadius:[20, 0 , 0, 20]
+        cornerRadius:cornerRect.value,
       }
     }
     /*
@@ -288,10 +298,10 @@ export default defineComponent({
 
 
       return {
-        x: points.x * scaleFactor.value,
-        y: points.y * scaleFactor.value,
-        width: 50 * scaleFactor.value,
-        height: 50 * scaleFactor.value,
+        x: points.x * scaleFactor.value * zoom.value,
+        y: points.y * scaleFactor.value * zoom.value,
+        width: 60 * scaleFactor.value * zoom.value,
+        height: 60 * scaleFactor.value * zoom.value,
         image: image,
       };
     };
@@ -430,30 +440,41 @@ export default defineComponent({
     const setSize = () =>{
       if(window.innerWidth < 501){
         scaleFactor.value = 0.25
+        cornerRect.value = [0,0,0,0]
+
         setMenusSizeAndPos();
-      } else if(window.innerWidth < 800){
+      } else if(window.innerWidth < 700){
         scaleFactor.value = 0.30;
         menuX.value = 0;
         menuY.value = 300;
+        cornerRect.value = [0,0,0,0]
         setMenusSizeAndPos();
       } else if(window.innerWidth < 1200){
         scaleFactor.value = 0.45;
         menuX.value = 630;
         menuY.value = 25;
+        cornerRect.value = [0,0,0,0]
+
         setMenusSizeAndPos()
       } else if(window.innerWidth < 1600){
         scaleFactor.value = 0.70;
         menuX.value = 980;
         menuY.value = 25;
+        cornerRect.value = [20,0,0,20]
+
         setMenusSizeAndPos()
       } else if(window.innerWidth < 1920) {
         scaleFactor.value = 0.75;
         menuX.value = 1050;
         menuY.value =25;
+        cornerRect.value = [20,0,0,20]
+
         setMenusSizeAndPos()
       } else{
         scaleFactor.value = 0.95;
         menuX.value = 1050;
+        cornerRect.value = [20,0,0,20]
+
         menuY.value =25;
 
       }
@@ -611,9 +632,9 @@ export default defineComponent({
           context.beginPath();
           piece.position.points.forEach((point, index) => {
             if (index === 0) {
-              context.moveTo(point.x * scaleFactor.value, point.y * scaleFactor.value);
+              context.moveTo(point.x * scaleFactor.value * zoom.value, point.y * scaleFactor.value * zoom.value);
             } else {
-              context.lineTo(point.x * scaleFactor.value, point.y * scaleFactor.value);
+              context.lineTo(point.x * scaleFactor.value * zoom.value, point.y * scaleFactor.value * zoom.value);
             }
           });
           context.closePath();
@@ -633,8 +654,8 @@ export default defineComponent({
       let sumX = 0;
       let sumY = 0;
       points.forEach(point => {
-        sumX += point.x * scaleFactor.value;
-        sumY += point.y * scaleFactor.value;
+        sumX += point.x * scaleFactor.value * zoom.value;
+        sumY += point.y * scaleFactor.value * zoom.value;
       });
       return { x: sumX / points.length  , y: sumY / points.length };
     };
@@ -647,7 +668,7 @@ export default defineComponent({
       const center = getCenterPoint(piece.position.points);
       return {
         text: piece.name !== "Corridor" ? piece.name : "" ,
-        fontSize: 30 * scaleFactor.value,
+        fontSize: 30 * scaleFactor.value * zoom.value,
         fontFamily: 'Syne',
         x: center.x - 7 * piece.name.length * scaleFactor.value ,
         y: center.y,
@@ -662,9 +683,9 @@ export default defineComponent({
      */
     const headConfig = () => {
       return{
-        x: XHead.value * scaleFactor.value,
-        y: YHead.value *  scaleFactor.value,
-        radius: 8 * scaleFactor.value,
+        x: (XHead.value * scaleFactor.value) * zoom.value,
+        y: (YHead.value *  scaleFactor.value) * zoom.value,
+        radius: 8 * scaleFactor.value * zoom.value,
         fill: '#ED7F10'
       }
     }
@@ -675,10 +696,10 @@ export default defineComponent({
 
     const bodyConfig = () => {
       return{
-        x: XHead.value *  scaleFactor.value - 10 * scaleFactor.value,
-        y: YHead.value *  scaleFactor.value + 6  * scaleFactor.value,
-        width: 20 * scaleFactor.value,
-        height: 30 * scaleFactor.value,
+        x: (XHead.value *  scaleFactor.value - 10 * scaleFactor.value) * zoom.value,
+        y: (YHead.value *  scaleFactor.value + 6  * scaleFactor.value) *zoom.value,
+        width: 20 * scaleFactor.value * zoom.value,
+        height: 30 * scaleFactor.value * zoom.value,
         cornerRadius: [15, 15, 10, 10],
         fill: '#ED7F10'
 
@@ -700,10 +721,10 @@ export default defineComponent({
      */
     const armConfig = (dec,rot) => {
       return {
-        x: XHead.value *  scaleFactor.value + dec  * scaleFactor.value,
-        y: YHead.value *  scaleFactor.value + 17  * scaleFactor.value,
-        width: 6 * scaleFactor.value,
-        height: 20 * scaleFactor.value,
+        x: (XHead.value *  scaleFactor.value + dec  * scaleFactor.value) * zoom.value,
+        y: (YHead.value *  scaleFactor.value + 17  * scaleFactor.value) * zoom.value,
+        width: 6 * scaleFactor.value * zoom.value,
+        height: 20 * scaleFactor.value * zoom.value,
         cornerRadius: [15, 15, 10, 10],
         rotation: rot + limbsState.armRotation,
         offsetX: 2.5 * scaleFactor.value,
@@ -719,10 +740,10 @@ export default defineComponent({
     */
     const legConfig = (dec,rot) => {
       return {
-        x: XHead.value *  scaleFactor.value - dec  * scaleFactor.value,
-        y: YHead.value *  scaleFactor.value  + 25  * scaleFactor.value,
-        width: 5 * scaleFactor.value,
-        height: 20 * scaleFactor.value,
+        x: (XHead.value *  scaleFactor.value - dec  * scaleFactor.value) * zoom.value,
+        y: (YHead.value *  scaleFactor.value  + 25  * scaleFactor.value) * zoom.value,
+        width: 5 * scaleFactor.value * zoom.value,
+        height: 20 * scaleFactor.value * zoom.value,
         cornerRadius: 20,
         fill: '#ED7F10',
         rotation: rot + limbsState.legRotation,
@@ -849,8 +870,78 @@ export default defineComponent({
 
     }
 
+    const setDragStart = (event)=> {
+
+      if(zoom.value > 1){
+        document.body.style.cursor = 'grabbing';
+
+        draggingStart.value = true
+        const stage = event.target.getStage();
+        const pointerPosition = stage.getPointerPosition();
+
+
+        dragStartPosition.value = {
+          pointerX: pointerPosition.x ,
+          pointerY: pointerPosition.y ,
+          x: stage.x(),
+          y: stage.y()
+        };
+      }
+
+    }
+
+    const setDragEnd = () => {
+      if(zoom.value > 1){
+        draggingStart.value = false;
+        document.body.style.cursor = 'default';
+      }
+
+    }
+
+    const zoomFunction = (event) => {
+      if (draggingStart.value === true && zoom.value > 1) {
+        const node = event.target;
+        const box = node.getClientRect();
+        const stage = node.getStage();
+        const pointerPosition = stage.getPointerPosition();
+
+        const grassConfig = getGrasseConfig();
+
+        // Calculer les nouvelles positions basées sur le déplacement du pointeur
+        let x = dragStartPosition.value.x + (pointerPosition.x - dragStartPosition.value.pointerX);
+        let y = dragStartPosition.value.y + (pointerPosition.y - dragStartPosition.value.pointerY);
+
+        // Calculer les limites
+        const minX = grassConfig.x;
+        const minY = grassConfig.y;
+        const maxX = grassConfig.x + grassConfig.width - box.width;
+        const maxY = grassConfig.y + grassConfig.height - box.height;
+
+        // Vérifier et ajuster la position si elle dépasse les limites
+        if (x < minX) {
+          x = minX;
+        } else if (x > maxX) {
+          x = maxX;
+        }
+
+        if (y > minY) {
+          y = minY;
+        } else if (y < maxY) {
+          y = maxY;
+        }
+
+        // Mettre à jour la position
+        stage.position({ x: x, y: y });
+        stage.batchDraw();
+      }
+    };
+
+
+
+
 
     return {
+      draggingStart,
       getShapeConfig,
       getGrasseConfig,
       stageWidth,
@@ -883,7 +974,11 @@ export default defineComponent({
       getHomeIcons,
       buttonCheck,
       buttonUnCheck,
-      IconsAction
+      IconsAction,
+      setCurrentRoom,
+      setDragStart,
+      setDragEnd,
+      zoomFunction
     };
   }
 });

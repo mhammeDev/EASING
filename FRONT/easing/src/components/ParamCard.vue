@@ -12,23 +12,27 @@ export default defineComponent({
     type_entry: String,
     image:String,
     type_value:Number,
-    value: String
+    value: String,
+    objValue : Object
+
   },
-  setup() {
+
+  setup(props) {
+    console.log("Here" + props.color)
     const store = useRoomsStore();
     const{temperature, person, hours} = storeToRefs(store)
-    const {setPerson, setHours, setTemperature} = store
+    const {setPerson, setHours, setTemperature, setCurrentRoom} = store
 
     const temp_value = ref(temperature.value);
     const hours_value = ref(hours.value);
     const person_value = ref(person.value);
 
-    const updateValue = (type_value) => {
-      if(type_value === 1 && temp_value.value !== temperature.value){
+    const updateValue = () => {
+      if(props.type_value === 1 && temp_value.value !== temperature.value){
         setTemperature(temp_value.value)
-      } else if(type_value === 2 && hours_value.value !== hours.value){
+      } else if(props.type_value === 2 && hours_value.value !== hours.value){
         setHours(hours_value.value)
-      }else if(type_value === 3 && person_value.value !== person.value){
+      }else if(props.type_value === 3 && person_value.value !== person.value){
         setPerson(person_value.value)
       }
     }
@@ -47,7 +51,8 @@ export default defineComponent({
       setPerson,
       setHours,
       setTemperature,
-      updateValue
+      updateValue,
+      setCurrentRoom
     }
 
   },
@@ -63,26 +68,39 @@ export default defineComponent({
       <i :class="image" class="logo_image" ></i>
     </div>
 
-    <div class="card">
+
+    <div v-if="!objValue" class="card">
       <div class="card-top">
         <p class="title-card">{{ title }}</p>
         <p class="value-card">{{value}}</p>
       </div>
       <div class="card-bottom">
         <input v-if="type_value === 1" class="input" :type="type_entry" :value="temp_value" v-model="temp_value" max="50" min="-20">
-        <input v-if="type_value === 2" class="input" style="font-family: Syne" :type="type_entry" @change="getHours" v-model="hours_value" :value="hours_value">
+        <input v-if="type_value === 2" class="input"  :type="type_entry" @change="getHours" v-model="hours_value" :value="hours_value">
         <select v-if="type_value === 3" v-model="person_value" :value="person_value" class="input">
           <option>Visually Imparaired</option>
           <option>Obesity</option>
           <option>Pregnant</option>
         </select>
-
-        <div class="check unselectable" @click="updateValue(type_value)">
+        <div class="check unselectable" @click="updateValue">
           <i style="color: white; font-size: 20px; text-align: center;" class="fa-solid fa-check"></i>
         </div>
       </div>
-
     </div>
+
+    <div v-else class="card">
+        <div class="card-top top-custom">
+          <p class="title-card">{{ title }}</p>
+          <div>
+            <i class="fa-solid fa-xmark cross" @click="setCurrentRoom(null)" ></i>
+          </div>
+        </div>
+        <div class="card-bottom-object" v-for="item in objValue.captors" :key=item.typeId>
+          <p v-if="item.typeId === 'sensor-presence'">Presence : <span style="font-weight: 600" :style="{color:  item.value ? 'green' : 'red' }">{{item.value}}</span></p>
+          <p v-if="item.typeId === 'internal-light-sensor'">Brightness : <span style="font-weight: 600">{{item.value.charAt(0).toUpperCase() + item.value.slice(1).replace("_"," ")}}</span></p>
+        </div>
+      </div>
+
   </div>
   </div>
 </template>
@@ -127,6 +145,7 @@ export default defineComponent({
   margin-top: -7%;
   width: 100%;
   height: 100%;
+  padding-bottom: 10px;
   z-index: 1;
   border: 7px solid v-bind(color);
   border-radius: 20px;
@@ -161,7 +180,6 @@ export default defineComponent({
   margin: 5%;
   height: 32px;
 
-
 }
 
 .input{
@@ -173,6 +191,7 @@ export default defineComponent({
   text-align: center;
   color: #FFFF;
   font-size: 23px;
+  font-family: Arial, serif;
 }
 
 .check{
@@ -190,6 +209,38 @@ export default defineComponent({
   cursor: pointer;
   background-color: #027d06;
 
+}
+
+.cross:hover{
+  cursor: pointer;
+  background-color: rgb(0,89,255, 70%);
+}
+
+.top-custom{
+  padding: 2%;
+}
+.top-custom p{
+  color: #000000;
+  font-weight: 700;
+  text-align: center;
+}
+
+
+.top-custom i{
+  position: absolute;
+  margin-top: -80px;
+  background-color: v-bind(color);
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #FFFF;
+  font-size: 20px;
+}
+
+.card-bottom-object{
+  display: flex;
+  padding: 0 10px;
+  font-size: 20px;
+  font-family: Syne,serif;
 }
 
 @media (min-width: 1920px) {

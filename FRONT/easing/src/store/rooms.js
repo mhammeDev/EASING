@@ -13,13 +13,15 @@
             external_luminosity:"high_luminosity",
             hours:"23:04",
             temperature: 20,
+            currentPiece: null,
             person: "Visually Imparaired",
             message:'',
             conversationChatBot:[
-                {from: "assistant", content: "Hi, I'm your assistant I am here to do what you ask me"}
+                {from: "assistant", content: "Hi, I'm your assistant, I'm here to do what you ask of me"}
             ],
             recommendations: [],
             actionsLogs: [],
+            zoom: 1
         }),
         actions:{
             changeFloor(){
@@ -29,6 +31,8 @@
                     let response = await roomService.getPieces()
                     if(!response.error){
                         this.pieces = response;
+                        await this.updateBrightness();
+
                     }
                 }catch(e){
                     console.log("An error occured : " + e)
@@ -91,6 +95,7 @@
                             let prompt = {name : updatedPiece.name, sensors: sensors, actuators : actuators}
                             this.SensorEvent(prompt)
                         }
+
                     else if(this.security === true ){
                         let sensors = [];
                         await updatedPiece.captors.forEach(sensor => {
@@ -105,6 +110,39 @@
 
                 }
             },
+
+            /*
+            This function update internal light sensor when an actuators "gave" light
+             */
+
+            async updateBrightness() {
+                let result = this.pieces;
+
+                result.forEach(piece => {
+
+                    let currentRoom = this.pieces.findIndex(p => p.name === piece.name);
+                    if(currentRoom !== -1){
+                        let result = 'low_luminosity'
+
+                        piece.actuators.forEach(act => {
+                            //The actuators who interact with the brightness are the light and the blind
+                            // so we check if something raise the brightness
+                            if(act.value === 'bulb_on' || act.value === 'blind_up'){
+                                result = 'high_luminosity';
+                            }
+                        })
+
+                        piece.captors.forEach(captor => {
+                            if(captor.typeId === 'internal-light-sensor'){
+                                captor.value = result
+                            }
+                        })
+                        this.pieces.splice(currentRoom, 1, piece);
+                    }
+                })
+
+            },
+
             async UpdateSocketSensor(roomName, actuator){
                 await actuator.dependencies.forEach(e => {
                     e.value = !e.value
@@ -122,6 +160,9 @@
             },
             updateSecurity(value){
                 this.security = value;
+            },
+            setCurrentRoom(piece){
+                this.currentPiece = piece;
             },
             updateExternalLight(value){
                 if(this.external_luminosity !== value){
@@ -177,7 +218,7 @@
                 this.person = type;
             },
 
-            updateRoom(IndexPiece, data){
+            async updateRoom(IndexPiece, data){
                 let updatedRooms = this.pieces[IndexPiece];
                 updatedRooms.actuators.forEach(room_actu => {
                     data.actuators.forEach(actuator => {
@@ -187,6 +228,7 @@
                     })
                 })
                 this.pieces.splice(IndexPiece, 1, updatedRooms);
+                await this.updateBrightness();
             },
             initializeSocket(){
                 const socket = connectToSocket();
@@ -211,7 +253,6 @@
 
                     this.pieces.forEach(piece => {
                         if(piece.actuators.some(e => e.typeId === actuatorName)){
-                            console.log(piece)
                             this.updateRoom(this.pieces.findIndex(ex => ex.name === piece.name), data)
                         }
                     })
@@ -260,7 +301,6 @@
                         this.conversationChatBot.push({from:"assistant", content: data.response})
                         console.log(data.response);
                         console.log(data.content)
-
                         data.content.forEach(room => {
                             const IndexPiece = this.pieces.findIndex(e => e.name === room.name);
                             if(IndexPiece !== -1){
@@ -280,6 +320,11 @@
             setNotificationMessage(icon, message, style) {
                 this.message = {icon: icon, message : message, style: style};
             },
+            setZoom(factor){
+                let copy= this.zoom;
+                if(copy * factor < 1){this.zoom = 1}
+                else if(copy * factor > 3){this.zoom =3}
+                else{this.zoom *= factor}}
         }
 
     })

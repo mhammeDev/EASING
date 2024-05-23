@@ -16,7 +16,7 @@ export default defineComponent({
   components: {AssistantChat, ParamCard, MenuSide, HouseMap},
   setup(){
     const store = useRoomsStore();
-    const{temperature, person, hours,security, external_luminosity} = storeToRefs(store)
+    const{temperature, person, hours,security, external_luminosity, currentPiece} = storeToRefs(store)
     const {updateSecurity, updateExternalLight, initializeSocket} = store
 
     onBeforeMount(async ()=>{
@@ -62,7 +62,8 @@ export default defineComponent({
       updateExternalLight,
       external_luminosity,
       displayChat,
-      updateDisplayChat
+      updateDisplayChat,
+      currentPiece
     }
   }})
 
@@ -77,12 +78,12 @@ export default defineComponent({
         <ParamCard color="#588BEF" :size="50" title="Temperature" type_entry="number" image="fa-solid fa-temperature-low" :type_value="1" :value="temperature.toString()"></ParamCard>
         <ParamCard color="#067CB3" :size="50" title="Hours" type_entry="time" image="fa-regular fa-clock" :type_value="2" :value="hours.toString()"></ParamCard>
         <ParamCard color="#001CAD" :size="33" title="Person" type_entry="number" image="fa-solid fa-user-group" :type_value="3" :value="person.toString()"></ParamCard>
+        <ParamCard v-if="currentPiece !== null" color="#0059ff" :size="33" :title="currentPiece.name" image="fa-solid fa-house-user" :objValue="currentPiece"></ParamCard>
+
       </div>
 
       <div class="icons-params unselectable">
-        <div :style="{backgroundColor: security ? '#00C208' : 'red'}" class="sec_icon" @click="updateSecurity(!security)">
-          <i :class="security=== true ? 'fa-solid fa-lock icons' : 'fa-solid fa-unlock icons' "></i>
-        </div>
+          <i :class="security=== true ? 'fa-solid fa-lock icons param-icon sec' : 'fa-solid fa-unlock icons param-icon sec' " :style="{backgroundColor: security ? '#00C208' : 'red'}" @click="updateSecurity(!security)"></i>
         <div class="brightness-icon unselectable">
           <i :style="{opacity: external_luminosity=== 'high_luminosity' ? 1 : 0.4}" class="fa-solid fa-sun icons param-icon" @click="updateExternalLight('high_luminosity')"></i>
           <i :style="{opacity: external_luminosity=== 'medium_luminosity' ? 1 : 0.4}" class="fa-solid fa-cloud icons  param-icon " @click="updateExternalLight('medium_luminosity')"></i>
@@ -111,33 +112,25 @@ export default defineComponent({
 .params{
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   gap: 100px;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10%;
-  width: 100%;
+  width: 1500px;
 }
 
 .icons-params{
-
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-top: 7%;
+  margin-bottom: 2%;
+}
+
+.icons{
   height: 40px;
-  margin: 2% 0;
 }
 
-.sec_icon{
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 80px;
-  height: 100%;
-  border-radius: 10px;
-}
 
-.sec_icon:hover{
+.sec:hover{
   cursor: pointer;
   opacity: 0.7;
 }
@@ -155,7 +148,6 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   width: 80px;
-  height: 100%;
   background-color:#067CB3;;
   border-radius: 10px;
 }
@@ -183,6 +175,7 @@ export default defineComponent({
 
   .container{
     display: flex;
+
   }
   .params{
     flex-wrap: nowrap;
@@ -195,10 +188,6 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    margin-top: 8%;
-    margin-bottom: 25%;
-
-
   }
 
   .brightness-icon{
@@ -231,8 +220,7 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  margin-top: 8%;
-  margin-bottom: 25%;
+
 
 
 }
@@ -244,6 +232,7 @@ export default defineComponent({
     gap: 20px;
 
   }
+
 }
 
 </style>

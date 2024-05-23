@@ -12,7 +12,7 @@ export default defineComponent({
   setup(){
     const store = useRoomsStore();
     const {captorActionneur, currentFloor} = storeToRefs(store);
-    const {changeFloor} = store;
+    const {changeFloor,setZoom} = store;
 
 
     const toggleFloor = () =>{
@@ -28,7 +28,8 @@ export default defineComponent({
       toggleFloor,
       captorActionneur,
       currentFloor,
-      getPhoto
+      getPhoto,
+      setZoom
     }
 
   }
@@ -40,6 +41,11 @@ export default defineComponent({
 
 <template>
   <div class="container">
+    <div class="zoom">
+      <i style="border-radius: 10px 0 0 10px" class="fa-solid fa-plus zoom-content" @click="setZoom(1.1)"></i>
+      <i style="border-radius: 0 10px 10px 0" class="fa-solid fa-minus zoom-content" @click="setZoom(0.9)"></i>
+
+    </div>
     <div class="floor unselectable">
 <!--      <p>Current floor : {{currentFloor}}</p>-->
       <p class="btn" @click="toggleFloor">Change floor</p>
@@ -157,7 +163,23 @@ export default defineComponent({
   cursor: default;
   background: #3aa9dd;
 
+}
 
+.zoom{
+  display: flex;
+  padding-top: 10% ;
+
+}
+
+.zoom-content{
+  color: white;
+  padding: 13px 18px;
+  background-color: rgb(58, 169, 221, 80%);
+}
+
+.zoom-content:hover{
+  cursor: pointer;
+  background-color: rgb(58, 169, 221, 20%);
 }
 
 @media (min-width: 1920px) {
@@ -177,6 +199,15 @@ export default defineComponent({
 @media (max-width: 700px) {
   .container{
     width: 430px;
+    height: 550px;
+
+  }
+}
+
+@media (max-width: 500px) {
+  .container{
+    width: 357px;
+
   }
 }
 

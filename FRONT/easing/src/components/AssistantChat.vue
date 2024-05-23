@@ -13,8 +13,8 @@ export default defineComponent({
     const {recommendations, conversationChatBot, actionsLogs} = storeToRefs(store)
     const {sendMessageToApi} = store
 
-    const displayChat= ref(true);
-    const displayingScreen = ref(1);
+    const displayChat= ref(false);
+    const displayingScreen = ref(0);
     const contentChat = ref("")
 
     const tableSelect = [
@@ -24,7 +24,7 @@ export default defineComponent({
 
     ]
 
-    const updateDisplayChat = () => {
+    const  updateDisplayChat = async () => {
       displayChat.value = !displayChat.value
     }
 
@@ -61,12 +61,16 @@ export default defineComponent({
 
 <template>
   <div class="container">
+
     <div class="chatbot">
+      <Transition name="slide-fade">
+
       <div class="chatbot-content" v-if="displayChat === true">
 
         <div v-if="displayingScreen=== 0" class="select-menu">
           <div class="top-select">
             <p>Select what you're looking for</p>
+            <i class="fa-solid fa-xmark cross" @click="updateDisplayChat"></i>
           </div>
 
           <div class="select-content" v-for="item in tableSelect" :key="item.name" @click="updateDisplayingScreen(item.value)">
@@ -78,13 +82,10 @@ export default defineComponent({
             <i class="fa-solid fa-chevron-right"></i>
 
           </div>
-
         </div>
 
-
-        <Transition name="slide-fade">
-
-          <div v-if="displayingScreen === 1" class="chat">
+        <Transition name="slide-fade-chat">
+        <div v-if="displayingScreen === 1" class="chat">
             <div  class="topChat">
               <i class="fa-solid fa-chevron-left" style="cursor: pointer" @click="updateDisplayingScreen(0)"></i>
               <p>Your assistant manager</p>
@@ -119,9 +120,7 @@ export default defineComponent({
               <i class="fa-solid fa-chevron-left" style="cursor: pointer" @click="updateDisplayingScreen(0)"></i>
               <p>Assistant Recommendation</p>
               <i class="fa-solid fa-xmark cross" @click="updateDisplayChat"></i>
-
             </div>
-
             <div class="chat-body">
               <div class="chat-content">
                 <p style="color: #000000" v-if="recommendations.length === 0"> Nothing for now</p>
@@ -145,25 +144,27 @@ export default defineComponent({
             <div class="chat-body">
               <div class="chat-content">
                 <p style="color: #000000" v-if="actionsLogs.length === 0"> Nothing for now</p>
-
                 <div v-for="(action, index) in actionsLogs" :key="index">
                   <div style="display: flex; flex-direction: column;align-items: center;">
                     <p v-if="action.input" style="background-color: #105c81" class="message-send">input : {{action.input}}</p>
                     <p v-if="action.output" class="message-send">output : {{action.output}}</p>
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
 
-
-
         </Transition>
 
 
+
+
+
+
       </div>
-      <i class="fa-solid fa-comment message" @click="updateDisplayChat()"></i>
+    </Transition>
+
+    <i class="fa-solid fa-comment message" @click="updateDisplayChat()"></i>
 
     </div>
 
@@ -190,7 +191,7 @@ export default defineComponent({
   background-color: #f9f9f9;
   border-radius: 25px;
   margin-right: -40px ;
-  margin-bottom: 35px ;
+  margin-bottom: 18% ;
 
 }
 
@@ -217,12 +218,16 @@ export default defineComponent({
 }
 
 .top-select{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-weight: 700;
   color: white;
-  padding: 1%;
+  padding: 2% 3%;
   text-align: center;
   background-color: #3aa9dd;
   border-radius: 20px 20px 0 0;
+  font-family: Syne;
 }
 
 .chat{
@@ -320,7 +325,7 @@ export default defineComponent({
 }
 
 .message{
-  padding: 4%;
+  padding: 17px;
   font-size: 40px;
   background-color:  #3aa9dd;
   border-radius: 50px;
@@ -339,19 +344,19 @@ export default defineComponent({
   transition: all 0.3s ease-out;
 }
 
-/*.slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}*/
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
 
-/*.slide-fade-enter-from,
+.slide-fade-enter-from,
 .slide-fade-leave-to {
   transform: translateY(50px);
   opacity: 0;
-}*/
+}
 
 .slide-fade-leave-to{
   opacity: 0;
-  transform: none;
+  transform: translateY(50px);
 }
 
 .slide-fade-enter-from
@@ -360,4 +365,55 @@ export default defineComponent({
   opacity: 0;
 }
 
+
+
+.slide-fade-chat-enter-active {
+  transition: all 0.4s ease-out;
+}
+
+.slide-fade-chat-leave-active {
+  transition: none;
+}
+
+.slide-fade-chat-enter-from,
+.slide-fade-chat-leave-to {
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.slide-fade-chat-enter-from
+{
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+@media (max-width: 1200px){
+
+}
+
+@media (max-width: 700px){
+  .select-menu{
+    width: 280px;
+  }
+
+  .chat{
+    width: 280px;
+    height: 450px;
+    padding-bottom: 10px;
+  }
+
+  .stylizedInput{
+    width: 180px;
+
+  }
+
+  .input-chat{
+
+  }
+
+}
+
+@media (max-width: 500px){
+
+}
 </style>

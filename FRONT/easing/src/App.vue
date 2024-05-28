@@ -5,11 +5,45 @@
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, watch} from "vue";
+import "vue3-toastify/dist/index.css";
+import {toast} from "vue3-toastify";
+
+import {useRoomsStore} from "@/store/rooms";
+
 
 
 export default defineComponent({
   name: 'App',
+  setup(){
+    const store = useRoomsStore();
+
+    watch(
+        () => store.message,
+        (newMessage)=>{
+          if(newMessage){
+            showToat(newMessage.icon, newMessage.message, newMessage.style, newMessage.position)
+          }
+        }
+    )
+
+
+
+    const showToat = (icon, message, style, position) => {
+      console.log(style)
+      toast(message, {
+        className: "adjust-box",
+        "icon" : icon,
+        "type": style,
+        "transition": "slide",
+        "dangerouslyHTMLString": true,
+        position: position
+      })
+
+    }
+
+
+  }
 })
 </script>
 

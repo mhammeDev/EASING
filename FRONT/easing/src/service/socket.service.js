@@ -2,7 +2,11 @@ import {io} from "socket.io-client"
 const API_URL = "http://localhost:3000"
 
 export function connectToSocket(){
-    let socket = io(API_URL);
+    let socket = io(API_URL, {
+        auth: {
+            token: localStorage.getItem("token"),
+        }
+        });
 
     socket.on("connect", () => {
         console.log("connected to the server with socket !")

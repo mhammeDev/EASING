@@ -3,9 +3,9 @@ const express = require("express");
 const socketEvents = require("./sockets/socketEvents");
 const {connectToDatabase} = require("./databaseConfig")
 const DaoRouter = require("./router/DaoRouter");
+const UserRouter = require("./router/userRouter");
+
 const cors = require("cors");
-
-
 
 const app = express();
 app.use(cors())
@@ -22,9 +22,10 @@ var io = require("socket.io")(server,{
 
 socketEvents(io);
 
-
 app.use(express.json());
+
 app.use("/db",DaoRouter)
+app.use("/user",UserRouter)
 
 
 connectToDatabase().then(() => {

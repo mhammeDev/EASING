@@ -1,14 +1,14 @@
 <script>
-import {defineComponent, onBeforeMount, ref, watch} from "vue";
+import {defineComponent, onMounted, ref, watch} from "vue";
 import HouseMap from "@/components/HouseMap.vue";
 import MenuSide from "@/components/MenuSide.vue";
 import ParamCard from "@/components/ParamCard.vue";
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
-import "vue3-toastify/dist/index.css";
-import {toast} from "vue3-toastify";
-import AssistantChat from "@/components/AssistantChat.vue";
 
+import AssistantChat from "@/components/AssistantChat.vue";
+import {useUserStore} from "@/store/user";
+import router from "@/router";
 
 
 export default defineComponent({
@@ -16,37 +16,31 @@ export default defineComponent({
   components: {AssistantChat, ParamCard, MenuSide, HouseMap},
   setup(){
     const store = useRoomsStore();
-    const{temperature, person, hours,security, external_luminosity, currentPiece} = storeToRefs(store)
-    const {updateSecurity, updateExternalLight, initializeSocket} = store
+    const{temperature, person, hours,security, external_luminosity, currentPiece, errorRequest} = storeToRefs(store)
+    const {updateSecurity, updateExternalLight, initializeSocket, resetError, setNotificationMessage} = store
 
-    onBeforeMount(async ()=>{
+    const store2 = useUserStore();
+    const {LogoutFromStore}= store2
+
+    onMounted(async ()=>{
       await initializeSocket();
     })
 
     const displayChat = ref(false);
 
-
     watch(
-        () => store.message,
-        (newMessage)=>{
-          if(newMessage){
-            showToat(newMessage.icon, newMessage.message, newMessage.style)
+        () => errorRequest.value,
+        async (value) => {
+          if(value === true){
+            LogoutFromStore();
+            resetError();
+            await router.push("/")
+            setNotificationMessage("❌", "Session has expired please log again", "error", "top-center")
+
           }
         }
     )
 
-
-    const showToat = (icon, message, style) => {
-      console.log(style)
-      toast(message, {
-        className: "adjust-box",
-        "icon" : icon,
-        "type": style,
-        "transition": "slide",
-        "dangerouslyHTMLString": true
-      })
-
-    }
 
     const updateDisplayChat = () => {
       displayChat.value = !displayChat.value
@@ -171,6 +165,14 @@ export default defineComponent({
   position: relative;
   z-index: 10;
 }
+
+@media (min-width: 1920px) {
+  .params{
+    width: 1700px;
+  }
+
+}
+
 @media (max-width: 1200px) {
 
   .container{

@@ -2,6 +2,7 @@
     import roomService from "../service/roomService";
     import {connectToSocket} from "@/service/socket.service"
 
+
     export const useRoomsStore = defineStore('rooms', {
         state: () => ({
             pieces : [],
@@ -21,7 +22,9 @@
             ],
             recommendations: [],
             actionsLogs: [],
-            zoom: 1
+            zoom: 1,
+            loading: false,
+            errorRequest: false,
         }),
         actions:{
             changeFloor(){
@@ -212,6 +215,8 @@
             },
             sendMessageToApi(content){
                 this.conversationChatBot.push({from: "user", content: content})
+                this.loading = true;
+                console.log("su")
                 this.socket.emit("chat-event", content)
             },
             setPerson(type){
@@ -263,16 +268,16 @@
                     console.log(data)
                     switch (data.result){
                         case "water-leak":
-                            this.setNotificationMessage("💦", "A water leak is detected !", "info");
+                            this.setNotificationMessage("💦", "A water leak is detected !", "info", "top-right");
                             break;
                         case "temp_down":
-                            this.setNotificationMessage("🌡️", "The temperature has decreased !", "error");
+                            this.setNotificationMessage("🌡️", "The temperature has decreased !", "error", "top-right");
                             break;
                         case "temp_up":
-                            this.setNotificationMessage("🌡️", "The temperature has increased !", "warning");
+                            this.setNotificationMessage("🌡️", "The temperature has increased !", "warning", "top-right");
                             break;
                         case "intrusion":
-                            this.setNotificationMessage("🔒️", "An intrusion has been detected !", "error");
+                            this.setNotificationMessage("🔒️", "An intrusion has been detected !", "error", "top-right");
                             break;
                         default:
                             console.log("erreur")
@@ -296,8 +301,15 @@
                     }
                 })
 
+                socket.on("error_connection", () => {
+                    console.error("Token error:");
+                    this.errorRequest = true;
+
+                });
+
                 socket.on("chat-action", data => {
                     try{
+                        this.loading = false;
                         this.conversationChatBot.push({from:"assistant", content: data.response})
                         console.log(data.response);
                         console.log(data.content)
@@ -313,12 +325,13 @@
                     }
 
                 })
-
-
                 this.socket = socket;
             },
-            setNotificationMessage(icon, message, style) {
-                this.message = {icon: icon, message : message, style: style};
+            setNotificationMessage(icon, message, style, position) {
+                this.message = {icon: icon, message : message, style: style, position: position};
+            },
+            resetError(){
+                this.errorRequest = false;
             },
             setZoom(factor){
                 let copy= this.zoom;

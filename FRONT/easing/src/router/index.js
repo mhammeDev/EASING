@@ -1,16 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {useUserStore} from "@/store/user";
+import {storeToRefs} from "pinia";
+
 import MaintPage from '../views/MainPage.vue'
 import UserView from "@/views/UserView.vue";
+
 
 const routes = [
 
   {
     path: '/',
+    meta: {requiresAuth: false},
     component: () => import('../views/LoginView.vue')
   },
     {
     path: '/user',
     component: UserView,
+      meta: {requiresAuth: true},
     children:[
       {
         path: '',
@@ -29,9 +35,36 @@ const routes = [
   },
 ]
 
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const store = useUserStore();
+  const { token, isLogged } = storeToRefs(store);
+  const {verifyToken} = store
+
+  if(token.value && !isLogged.value){
+   await verifyToken()
+  }
+
+
+  if (requiresAuth) {
+    if (token.value) {
+      next();
+    } else {
+      next('/');
+    }
+  } else {
+    if(token.value) {
+      next('/user')
+    }else
+    next();
+  }
+});
+
 
 export default router

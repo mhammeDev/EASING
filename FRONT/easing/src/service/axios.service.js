@@ -31,6 +31,16 @@ const axiosAgent = axios.create({
     baseURL: baseURL
 });
 
+axiosAgent.interceptors.request.use(function (config) {
+    //set token in header
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers['header-token'] = token;
+    }
+    return config;
+})
+
+
 function handleError(serviceName, err) {
     if (err.response) {
         // The request was received by the server but it returns a status != 2XX, indicating
@@ -70,6 +80,8 @@ function handleError(serviceName, err) {
         };
     }
 }
+
+
 
 
 /* Generic functions to send http requests

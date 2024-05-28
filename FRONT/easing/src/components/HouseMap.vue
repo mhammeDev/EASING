@@ -938,6 +938,11 @@ export default defineComponent({
 
         }
 
+        prevCoord.value.x = x
+        prevCoord.value.y = y
+
+
+
         // Mettre à jour la position
         stage.position({ x: prevCoord.value.x, y: prevCoord.value.y });
         stage.batchDraw();

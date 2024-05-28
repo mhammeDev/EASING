@@ -10,7 +10,7 @@ export default defineComponent({
   name: "AssistantChat",
   setup(){
     const store = useRoomsStore();
-    const {recommendations, conversationChatBot, actionsLogs} = storeToRefs(store)
+    const {recommendations, conversationChatBot, actionsLogs, loading} = storeToRefs(store)
     const {sendMessageToApi} = store
 
     const displayChat= ref(false);
@@ -49,7 +49,8 @@ export default defineComponent({
       actionsLogs,
       contentChat,
       sendMessage,
-      sendMessageToApi
+      sendMessageToApi,
+      loading
     }
 
   }
@@ -107,6 +108,17 @@ export default defineComponent({
                     <p class="message-send right">{{message.content}}</p>
                   </div>
                 </div>
+                <div style="display: flex; align-items: center; gap : 10px; padding-bottom: 10px ;overflow: hidden;" v-if="loading === true"   >
+                  <div  class="photo">
+                    <img style="width: 30px; height: 30px" src="@/assets/logo.png">
+                  </div>
+                  <div class="loading">
+                    <span class="loading__dot"></span>
+                    <span class="loading__dot"></span>
+                    <span class="loading__dot"></span>
+                  </div>
+                </div>
+
               </div>
               <div class="input-chat">
                 <input type="text" class="stylizedInput" placeholder="Enter your text" v-model="contentChat" @keyup.enter="sendMessage()">
@@ -385,6 +397,38 @@ export default defineComponent({
 {
   transform: translateY(50px);
   opacity: 0;
+}
+
+.loading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 60px;
+  margin-left: 5px;
+}
+
+.loading__dot {
+  animation: dot ease-in-out 1s infinite;
+  background-color: grey;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  border-radius:30px;
+
+}
+
+.loading__dot:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.loading__dot:nth-of-type(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dot {
+  0% { background-color: grey; transform: scale(1); }
+  50% { background-color: #067CB3; transform: scale(1.3); }
+  100% { background-color: grey; transform: scale(1); }
 }
 
 @media (max-width: 1200px){

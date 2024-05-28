@@ -1,15 +1,56 @@
 <script>
-import {defineComponent, ref} from "vue";
+import {defineComponent, ref, watch} from "vue";
+import {useUserStore} from "@/store/user";
+import router from "@/router";
 
 export default defineComponent({
   name:"LoginView",
   setup(){
-    const login = ref("");
-    const password = ref("");
+    const store = useUserStore();
 
+    const {LoginFromStore} = store
+
+    const error = ref(false)
+    const errorMessage =  ref("")
+    const colors = ref("#067CB3")
+
+    watch(
+        () => error.value,
+        (v)=>{
+          if(v === true){
+            colors.value = 'red'
+          } else {
+            colors.value = "#067CB3"
+          }
+        }
+    )
+
+    const tryToLogin = async () => {
+      try {
+        if (username.value !== "" && username.value !== "") {
+          const response = await LoginFromStore(username.value, password.value)
+          if(response.response){
+            router.push("/user")
+          } else {
+            error.value = true;
+            errorMessage.value = response.error.message;
+          }
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+
+    const username = ref("");
+    const password = ref("");
     return{
-      login,
-      password
+      username,
+      password,
+      tryToLogin,
+      error,
+      errorMessage,
+      colors
     }
   }
 })
@@ -34,18 +75,20 @@ export default defineComponent({
 
       <div class="input-container">
         <div class="input-group">
-          <p>Email</p>
+          <p>Username / Email</p>
           <div class="input-wrapper">
-            <input type="text" class="personalized-input" placeholder="Enter your email" v-model="login">
+            <input :style="{backgroundColor: error === true ? 'rgba(255,0,33,0.35)' : ''}" type="text" class="personalized-input" placeholder="Enter your email" v-model="username" @keyup.enter="tryToLogin">
           </div>
         </div>
 
         <div class="input-group">
           <p>Password</p>
           <div class="input-wrapper">
-            <input type="password" class="personalized-input" placeholder="Enter your password" v-model="password">
+            <input :style="{backgroundColor: error === true ? 'rgba(255,0,33,0.35)' : ''}" type="password" class="personalized-input" placeholder="Enter your password" v-model="password"  @keyup.enter="tryToLogin">
           </div>
         </div>
+
+        <span v-if="error" style="color: red">{{errorMessage}}</span>
       </div>
 
     <div class="aditionnal">
@@ -57,7 +100,7 @@ export default defineComponent({
     </div>
 
     <div class="button-group">
-      <p class="btn blue-solid">Log in</p>
+      <p class="btn blue-solid" @click="tryToLogin">Log in</p>
       <p class="btn blue-border">Inscription</p>
 
     </div>
@@ -74,6 +117,7 @@ export default defineComponent({
   display: flex;
   height: 100vh;
   font-family: Syne,serif;
+  overflow: hidden;
 }
 
 .left{
@@ -83,13 +127,12 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 5%;
 }
 
 .right{
   flex: 1;
   height: 100%;
-  margin: 3% 5%;
+  margin: 30px 50px;
   width: 100%;
 }
 
@@ -135,7 +178,6 @@ export default defineComponent({
 .input-container{
   display: flex;
   flex-direction: column;
-  gap: 30px;
 }
 
 .input-group{
@@ -153,9 +195,13 @@ export default defineComponent({
   padding: 8px 20px;
 }
 
+.input-wrapper{
+  position: relative;
+}
+
 .input-wrapper::before{
   content: "";
-  background-color: #067CB3;
+  background-color: v-bind(colors);
   width: 4px;
   height: 66px;
   display: flex;
@@ -164,6 +210,7 @@ export default defineComponent({
 
 .aditionnal{
   margin-top: 2%;
+  margin-right: 5%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -197,19 +244,15 @@ input[type="checkbox"]{
 }
 
 .button-group{
-  margin-top: 5%;
   font-family: "Dm sans",serif;
   font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
+  margin: 0 auto ;
 }
 
 .btn{
   font-size: 30px;
-  padding: 1.6% 10%;
-  width: 40%;
+  padding: 10px 15px;
+  width: 400px;
   text-align: center;
   border-radius: 30px;
 }
@@ -238,4 +281,86 @@ input[type="checkbox"]{
 
   color: #FFFF;
 }
+
+@media (max-width: 1200px) {
+
+  .content{
+    margin: 0 2%;
+  }
+
+  .personalized-input{
+    width: 85vw;
+  }
+  .container{
+    flex-direction: column;
+  }
+
+  .left{
+    display: none;
+  }
+
+
+}
+
+@media (max-width: 800px) {
+  .right{
+  }
+
+  .personalized-input{
+    width: 80vw;
+  }
+
+  .input-container{
+  }
+
+}
+
+@media (max-width: 500px) {
+  .container{
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  .right {
+    margin-left: 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+
+
+
+
+  .text h2{
+    font-size: 35px;
+  }
+
+  .text p {
+    font-size: 15px;
+  }
+
+  .right{
+  }
+
+  .personalized-input{
+    width: 76vw;
+  }
+
+  .aditionnal{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-container{
+  }
+
+  .btn{
+    padding: 10px 15px;
+    width: 240px;
+
+  }
+
+}
+
 </style>

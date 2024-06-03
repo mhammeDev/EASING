@@ -63,6 +63,7 @@ export default defineComponent({
     <img src="@/assets/logo_g.png" id="logo_image">
     <h1 id="title">EASING PROJECT</h1>
   </div>
+
   <div class="right">
     <div class="content">
       <div class="text">
@@ -115,9 +116,9 @@ export default defineComponent({
 <style scoped>
 .container{
   display: flex;
-  height: 100vh;
   font-family: Syne,serif;
   overflow: hidden;
+  overflow-y: auto;
 }
 
 .left{
@@ -127,16 +128,17 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .right{
   flex: 1;
   height: 100%;
-  margin: 30px 50px;
   width: 100%;
 }
 
 .content{
+  margin: 0 50px;
   height: 90%;
   display: flex;
   flex-direction: column;

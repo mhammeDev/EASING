@@ -1,12 +1,12 @@
 <template>
 <!--  <input type="button"  v-if="captorActioneurToAdd.length > 0" variant="tonal" @click="pushCaptorActionneur" color="primary">-->
 
-          <v-stage :config="{ width: 1430 * scaleFactor, height: 970 * scaleFactor }"
+          <v-stage :config="{ width: 1430 * scaleFactor, height: 970 * scaleFactor }" ref="stage"
                    @mousedown="setDragStart($event)"
                    @mouseup="setDragEnd()"
                    @mousemove="zoomFunction($event)">
            <v-layer  >
-             <v-rect :config="getGrasseConfig()"></v-rect>
+<!--             <v-rect :config="getGrasseConfig()"></v-rect> -->
 
              <v-group  v-for="piece in tabPiece" :key="piece.id"
            >
@@ -118,13 +118,14 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, computed, reactive, } from 'vue';
+import {defineComponent, onMounted, ref, computed, reactive} from 'vue';
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
 
 export default defineComponent({
   setup() {
 
+    //const stage = ref(null);
     const draggingStart = ref(false)
 
     const stageWidth = ref(window.innerWidth);
@@ -186,6 +187,7 @@ export default defineComponent({
 
     const getGrasseConfig= () =>{
       return  {
+        id:'Grass',
         x:0,
         y:0,
         width: 1430 * scaleFactor.value * zoom.value,
@@ -874,13 +876,13 @@ export default defineComponent({
 
     const setDragStart = (event)=> {
 
+      const stage = event.target.getStage();
+      const pointerPosition = stage.getPointerPosition();
+
       if(zoom.value > 1){
         document.body.style.cursor = 'grabbing';
 
         draggingStart.value = true
-        const stage = event.target.getStage();
-        const pointerPosition = stage.getPointerPosition();
-
 
         dragStartPosition.value = {
           pointerX: pointerPosition.x ,
@@ -888,6 +890,12 @@ export default defineComponent({
           x: stage.x(),
           y: stage.y()
         };
+      } else{
+          prevCoord.value.x = 0
+          prevCoord.value.y = 0
+
+          stage.position({ x: prevCoord.value.x, y: prevCoord.value.y });
+          stage.batchDraw();
       }
 
     }
@@ -902,7 +910,7 @@ export default defineComponent({
 
     const zoomFunction = (event) => {
       if (draggingStart.value === true && zoom.value > 1) {
-        const node = event.target;
+        /*const node = event.target;
         const box = node.getClientRect();
         const stage = node.getStage();
         const pointerPosition = stage.getPointerPosition();
@@ -945,45 +953,79 @@ export default defineComponent({
 
         // Mettre à jour la position
         stage.position({ x: prevCoord.value.x, y: prevCoord.value.y });
-        stage.batchDraw();
+        stage.batchDraw();*/
 
-
-        /*        const node = event.target;
-        const box = node.getClientRect();
+        const node = event.target;
         const stage = node.getStage();
         const pointerPosition = stage.getPointerPosition();
 
+        let x = pointerPosition.x * scaleFactor.value * zoom.value + (dragStartPosition.value.x - dragStartPosition.value.pointerX) * scaleFactor.value * zoom.value;
+        let y = pointerPosition.y + (dragStartPosition.value.y - dragStartPosition.value.pointerY);
+
+        /*
+
+
         const grassConfig = getGrasseConfig();
 
-        // Calculer les nouvelles positions basées sur le déplacement du pointeur
-        let x = dragStartPosition.value.x + (pointerPosition.x - dragStartPosition.value.pointerX);
-        let y = dragStartPosition.value.y + (pointerPosition.y - dragStartPosition.value.pointerY);
+
+
+
+        const grass = stage.find('#Grass')[0];
+
 
         // Calculer les limites
         const minX = grassConfig.x;
         const minY = grassConfig.y;
-        const maxX = grassConfig.x + grassConfig.width - box.width;
-        const maxY = grassConfig.y + grassConfig.height - box.height;
+        const maxX = (grassConfig.x + grassConfig.width) * scaleFactor.value;
+        const maxY = (grassConfig.y + grassConfig.height) * scaleFactor.value;
+
+        console.log(grass.attrs.x)
+
+        if(grass.attrs.x < maxX * zoom.value){
+          console.log("ntm")
+        }
+
 
         // Vérifier et ajuster la position si elle dépasse les limites
-        if (x < minX) {
-          x = minX;
-        } else if (x > maxX) {
-          x = maxX;
+       if (x < minX * zoom.value && -x < maxX * scaleFactor.value) {
+          prevCoord.value.x = x
         }
 
-        if (y > minY) {
-          y = minY;
-        } else if (y < maxY) {
-          y = maxY;
-        }
+        if (!(y * zoom.value > minY || -y > maxY)) {
+          prevCoord.value.y = y
+
+        }*/
+
+        prevCoord.value.x = x
+        prevCoord.value.y = y
+
+
+
+
+        //prevCoord.value.x = x
+        //prevCoord.value.y = y
+
+
 
         // Mettre à jour la position
-        stage.position({ x: x, y: y });
-        stage.batchDraw();*/
+        stage.position({ x: prevCoord.value.x, y: prevCoord.value.y });
+        stage.batchDraw();
+
 
       }
     };
+
+
+    /*watch(
+        () => zoom.value,
+        async (prev_value, new_value) => {
+          console.log(prev_value)
+          if(prev_value < new_value){
+            const stage = document.getElementById("stage")
+            console.log(stage)
+          }
+        }
+    )*/
 
 
 

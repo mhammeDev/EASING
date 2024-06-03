@@ -268,16 +268,16 @@
                     console.log(data)
                     switch (data.result){
                         case "water-leak":
-                            this.setNotificationMessage("💦", "A water leak is detected !", "info", "top-right");
+                            this.setNotificationMessage("💦", "A water leak is detected !", "info", "bottom-left");
                             break;
                         case "temp_down":
-                            this.setNotificationMessage("🌡️", "The temperature has decreased !", "error", "top-right");
+                            this.setNotificationMessage("🌡️", "The temperature has decreased !", "error", "bottom-left");
                             break;
                         case "temp_up":
-                            this.setNotificationMessage("🌡️", "The temperature has increased !", "warning", "top-right");
+                            this.setNotificationMessage("🌡️", "The temperature has increased !", "warning", "bottom-left");
                             break;
                         case "intrusion":
-                            this.setNotificationMessage("🔒️", "An intrusion has been detected !", "error", "top-right");
+                            this.setNotificationMessage("🔒️", "An intrusion has been detected !", "error", "bottom-left");
                             break;
                         default:
                             console.log("erreur")

@@ -86,7 +86,9 @@ export default defineComponent({
       </div>
 
       <div class="content">
-        <house-map></house-map>
+        <div class="grass" style="background-color: #12AE0F">
+          <house-map></house-map>
+        </div>
         <menu-side></menu-side>
       </div>
 
@@ -166,6 +168,10 @@ export default defineComponent({
   z-index: 10;
 }
 
+.grass{
+  border-radius: 20px 0 0 20px;
+}
+
 @media (min-width: 1920px) {
   .params{
     width: 1700px;
@@ -202,6 +208,10 @@ export default defineComponent({
   }
   .content{
     flex-direction: column;
+  }
+
+  .grass{
+    border-radius: 20px 20px 0 0;
   }
 
 }

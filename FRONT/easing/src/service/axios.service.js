@@ -21,7 +21,7 @@ These three cases are handled by a single handleError() function.
 */
 
 const baseURL =
-        'http://localhost:3000'
+        'http://localhost:3000/api/'
 
 
 

@@ -1,5 +1,5 @@
 <script>
-import {defineComponent, ref} from "vue";
+import {defineComponent, nextTick, ref, watch} from "vue";
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
 
@@ -17,11 +17,57 @@ export default defineComponent({
     const displayingScreen = ref(0);
     const contentChat = ref("")
 
+    const conversation = ref(null)
+
+    watch(
+        () => displayingScreen.value,
+         () => {
+           nextTick(() => {
+             if(conversation.value)
+             conversation.value.scrollTop =  conversation.value.scrollHeight;
+           });
+         })
+
+
+    // Watch recommendations
+    watch(
+        recommendations.value,
+        () => {
+          nextTick(() => {
+            if(conversation.value)
+              conversation.value.scrollTop = conversation.value.scrollHeight;
+          });
+        }
+    );
+
+    // Watch conversationChatBot
+    watch(
+        conversationChatBot.value,
+        () => {
+          nextTick(() => {
+            if(conversation.value)
+            conversation.value.scrollTop = conversation.value.scrollHeight;
+          });
+        }
+    );
+
+    // Watch actionsLogs
+    watch(
+        actionsLogs.value,
+        () => {
+          console.log("event")
+          if(conversation.value)
+            conversation.value.scrollTop = conversation.value.scrollHeight;
+        }
+    );
+
+
+
+
     const tableSelect = [
       {name: "Chat", value: 1, iconsName: "fa-regular fa-comments"},
       {name: "Recommendations", value: 2, iconsName: "fa-regular fa-lightbulb"},
       {name: "Logs", value: 3, iconsName: "fa-solid fa-book"}
-
     ]
 
     const  updateDisplayChat = async () => {
@@ -35,8 +81,8 @@ export default defineComponent({
     const sendMessage = () => {
      sendMessageToApi(contentChat.value)
       contentChat.value = "";
-
     }
+
 
     return{
       updateDisplayChat,
@@ -50,7 +96,8 @@ export default defineComponent({
       contentChat,
       sendMessage,
       sendMessageToApi,
-      loading
+      loading,
+      conversation
     }
 
   }
@@ -93,7 +140,7 @@ export default defineComponent({
               <i class="fa-solid fa-xmark cross" @click="updateDisplayChat"></i>
             </div>
             <div class="chat-body">
-              <div class="chat-content" >
+              <div class="chat-content" ref="conversation"> >
                 <p style="color: #000000" v-if="conversationChatBot.length === 0"> Nothing for now</p>
                 <div v-for="(message, index) in conversationChatBot" :key="index">
                   <div v-if="message.from === 'assistant'">
@@ -134,7 +181,7 @@ export default defineComponent({
               <i class="fa-solid fa-xmark cross" @click="updateDisplayChat"></i>
             </div>
             <div class="chat-body">
-              <div class="chat-content">
+              <div class="chat-content"  ref="conversation">
                 <p style="color: #000000" v-if="recommendations.length === 0"> Nothing for now</p>
 
                 <div v-for="(r, index) in recommendations" :key="index">
@@ -154,7 +201,7 @@ export default defineComponent({
               <i class="fa-solid fa-xmark cross" @click="updateDisplayChat"></i>
             </div>
             <div class="chat-body">
-              <div class="chat-content">
+              <div class="chat-content"  ref="conversation">
                 <p style="color: #000000" v-if="actionsLogs.length === 0"> Nothing for now</p>
                 <div v-for="(action, index) in actionsLogs" :key="index">
                   <div style="display: flex; flex-direction: column;align-items: center;">
@@ -284,8 +331,7 @@ export default defineComponent({
 }
 
 .chat-content{
-  overflow: auto;
-
+  overflow: scroll;
 }
 
 .message-send{

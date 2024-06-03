@@ -48,7 +48,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container">
+  <div class="container unselectable">
     <div class="navbar" :class="slide === true ? 'active' : ''">
       <div style="display:flex;flex-direction:column; align-items: center">
         <div class="navbar-content">

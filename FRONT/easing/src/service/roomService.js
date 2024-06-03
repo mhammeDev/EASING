@@ -34,7 +34,7 @@ async function getPieces(){
     let response = null;
     try{
         response = await getAllRoomsFromApi();
-     //   console.log(response)
+        console.log(response)
         return response.data
     }catch (e){
         console.error("Error while fetching rooms from API : " + e)

@@ -24,7 +24,7 @@ const train_1 = [
     {
         "cases": ["smart-connected-light", "connected-light"],
         "examples":[
-            {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "internal-light-sensor", "value": "low_luminosity"}, {"typeId": "sensor-presence", "value": false}], "actuators": [{"typeId": "connected-light"}, {"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
+            {"role": "user", "content": `{"name": "", "sensors": [{"typeId": "internal-light-sensor", "value": "high_luminosity"}, {"typeId": "sensor-presence", "value": false}], "actuators": [{"typeId": "connected-light"}, {"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], "actions": [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
             {"role": "assistant", "content": `[{"name": "connected-light", "action": "Turn off the light", "result" : "bulb_off"}, {"name": "smart-connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},      
         ]
 
@@ -119,7 +119,11 @@ const train_2 = [
         {"role":"asssistant", "content":`{"response" : "I can't there isn't a tv in the corridor"}`} 
         
         ,{"role": "user", "content": `[{"request":"Turn off the light and turn on the tv in the Dining room"}, {"rooms": [{"room":[{"name":"Dining room","actuators":[{"typeId":"connected-light"},{"typeId":"connected-tv"}, {"typeId":"motorized-blind"}, {"typeId":"motorized-blind"}, {"typeId":"motorized-blind"} ]}]}]},{"actions":{"actions":[{"action":"Turn on the light","type_action":"action","actuators":["connected-light","smart-connected-light"],"result":"bulb_on"}, {"action":"Turn on the tv","type_action":"action","actuators":["connected-tv"],"result":"tv_on"} ]}}]`},
-        {"role":"asssistant", "content":`{"response" : "I turned on the tv and I turned off the connected light in the dining room", "content" : [{"name" : "Dining room", "actuators" : [{"name" : "connected-light", "action" : "Turn off the light", "result" : "bulb_off"}, {"name" : "connected-tv", "action" : "Turn on the tv", "result" : "tv_on"} ] }]}`}    ,
+        {"role":"asssistant", "content":`{"response" : "I turned on the tv and I turned off the connected light in the dining room", "content" : [{"name" : "Dining room", "actuators" : [{"name" : "connected-light", "action" : "Turn off the light", "result" : "bulb_off"}, {"name" : "connected-tv", "action" : "Turn on the tv", "result" : "tv_on"} ] }]}`},
+
+
+        ,{"role": "user", "content": `[{"request":"Turn on the connected light in all room"}, {"rooms": [{"room":[{"name":"Dining room","actuators":[{"typeId":"connected-light"},{"typeId":"connected-tv"}, {"typeId":"motorized-blind"}, {"typeId":"motorized-blind"}, {"typeId":"motorized-blind"} ]}]}, {"room":[{"name":"Kitchen","actuators":[{"typeId":"connected-light"}]}]}, {"room":[{"name":"Corridor","actuators":[{"typeId":"connected-light"},{"typeId":"smart-connected-light"}  ]}]} ]},{"actions":{"actions":[{"action":"Turn on the light","type_action":"action","actuators":["connected-light","smart-connected-light"],"result":"bulb_on"} ]}}]`},
+        {"role":"asssistant", "content":`{"response" : "I turned on the connected light in each room who has it, so in the Dining room, the kitchen, and the Corridor", "content" : [{"name" : "Dining room", "actuators" : [{"name" : "connected-light", "action" : "Turn on the light", "result" : "bulb_on"}]} , {"name" : "Kitchen", "actuators" : [{"name" : "connected-light", "action" : "Turn on the light", "result" : "bulb_on"}]}, {"name" : "Corridor", "actuators" : [{"name" : "connected-light", "action" : "Turn on the light", "result" : "bulb_on"}]}  ] }`},
 
 ];
   module.exports = {

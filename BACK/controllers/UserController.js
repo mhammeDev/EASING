@@ -10,7 +10,7 @@ exports.login = async (req, res) => {
                 return res.status(500).json({error});
             } 
             else{
-                const token  = jwt.sign(result, process.env.jwtSecret, {expiresIn: "1h"})
+                const token  = jwt.sign(result, process.env.jwtSecret, {expiresIn: "5h"})
                 return res.status(200).json({data: result, token})
             }
         })

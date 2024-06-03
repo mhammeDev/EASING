@@ -28,7 +28,7 @@ async function getActionFromPromptWithOpenAI(content, rooms,action, callback){
         // at first we filter action's value and only rooms who we uses it
         filteredRoom.push({
             "role": "system",
-            "content": `Given a JSON table, analyze the request to return only the room mentioned (filter only by the room's exact name field in the request, without considering actions or actuators). If the room doesn't exist in the provided table, include it as a blank object ({}). Return responses in JSON format including only the mentionned rooms with actuators ({rooms: [{...}, ...]}, be logic and follow the instruction to give the right result).`
+            "content": `Given a JSON table, analyze the request to return only the room mentioned (filter only by the room's exact name field in the request, without considering actions or actuators). If the room doesn't exist in the provided table, include it as a blank object ({}). Return responses in JSON format including only the mentionned rooms with actuators ({response: ..., content: [{...}, ...]}, be logic and follow the instruction to give the right result).`
         })  
 
           filteredRoom.push({request : content});

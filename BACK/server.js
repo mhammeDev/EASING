@@ -24,8 +24,8 @@ socketEvents(io);
 
 app.use(express.json());
 
-app.use("/db",DaoRouter)
-app.use("/user",UserRouter)
+app.use("/api/db",DaoRouter)
+app.use("/api/user",UserRouter)
 
 
 connectToDatabase().then(() => {

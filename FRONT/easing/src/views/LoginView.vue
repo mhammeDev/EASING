@@ -68,10 +68,7 @@ export default defineComponent({
     <div class="content">
       <div class="text">
         <h2>Login Account</h2>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it to
-          make a type. </p>
+        <p>Welcome to the Easing project  a research project</p>
       </div>
 
       <div class="input-container">
@@ -114,8 +111,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
+
 .container{
   display: flex;
+  align-items: center;
   font-family: Syne,serif;
   overflow: hidden;
   overflow-y: auto;
@@ -126,20 +125,20 @@ export default defineComponent({
   background-color: #067CB3;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 100vh;
 }
 
 .right{
   flex: 1;
-  height: 100%;
+  height: 100vh;
   width: 100%;
 }
 
 .content{
   margin: 0 50px;
-  height: 90%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -150,7 +149,7 @@ export default defineComponent({
   font-family: Goldman,serif;
   font-size: 70px;
   text-align: center;
-  margin-top: -6%;
+  margin-top: -3%;
   font-weight: 100;
 }
 
@@ -161,7 +160,6 @@ export default defineComponent({
 
 .text{
   text-align: center;
-  margin: 0 50px;
   display: flex;
   flex-direction: column;
 }
@@ -173,8 +171,7 @@ export default defineComponent({
 
 .text p {
   color: #B6B6B6;
-  font-size: 17px;
-  margin-top: -3%;
+  font-size: 23px;
 }
 
 .input-container{
@@ -282,6 +279,22 @@ input[type="checkbox"]{
   border: 3px solid #FFFF;
 
   color: #FFFF;
+}
+
+@media (max-width: 1890px){
+
+
+  .btn{
+    font-size: 25px;
+    padding: 10px 15px;
+    width: 400px;
+  }
+
+  .text p{
+    margin-top: -5%;
+  }
+
+
 }
 
 @media (max-width: 1200px) {

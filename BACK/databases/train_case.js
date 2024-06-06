@@ -16,8 +16,8 @@ const train_1 = [
             {"role": "user", "content": `{"name": "", "actuators": [{"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}, {"typeId": "connected-tv", "dependencies": [{"typeId": "smart-socket", "value": false}]}], actions: [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action" : "Turn on the television", "result": "tv_on"}, {"action" : "Turn off the television", "result" : "tv_off"}]}`},
             {"role": "assistant", "content": `[{"name": "smart-connected-light", "action": "Turn on the light", "result" : "bulb_on"}, {"name": "connected-tv", "action": "Turn off the television", "result": "tv_off"}]`},      
 
-            {"role": "user", "content": `{"name": "", "actuators": [{"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}], actions: [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}]}`},
-            {"role": "assistant", "content": `[{"name": "smart-connected-light", "action": "Turn on the light", "result" : "bulb_on"}]`},
+            {"role": "user", "content": `{"name": "", "actuators": [{"typeId": "smart-connected-light", "dependencies": [{"typeId": "smart-socket", "value": true}]}, {"typeId": "connected-tv", "dependencies": [{"typeId": "smart-socket", "value": true}]}], actions: [{"action" : "Turn on the light", "result": "bulb_on"}, {"action" : "Turn off the light", "result" : "bulb_off"}, {"action" : "Turn on the television", "result": "tv_on"}, {"action" : "Turn off the television", "result" : "tv_off"}]}`},
+            {"role": "assistant", "content": `[{"name": "smart-connected-light", "action": "Turn on the light", "result" : "bulb_on"}, , {"name": "connected-tv", "action": "Turn on the television", "result": "tv_on"}]`},
         ]
 
     },

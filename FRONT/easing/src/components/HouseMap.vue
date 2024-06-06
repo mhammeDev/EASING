@@ -581,7 +581,7 @@ export default defineComponent({
 
       // And with the precedent function we see if the stickman was dropped in a room
       const droppedOnPiece = tabPiece.value.find(piece => {
-        return pointInPolygon({x: pointerPosition.x * zoom.value, y: pointerPosition.y * zoom.value}, piece.position.points);
+        return pointInPolygon({x: pointerPosition.x, y: pointerPosition.y}, piece.position.points);
       });
 
       //if this is the case we update the captor for the room
@@ -894,7 +894,10 @@ export default defineComponent({
           prevCoord.value.x = 0
           prevCoord.value.y = 0
 
-          stage.position({ x: prevCoord.value.x, y: prevCoord.value.y });
+        //bonhmXPos.value =  0;
+        //bonhmYPos.value =  0;
+        //stage.children[1].children[0].position({x:0,y:0})
+        stage.position({ x: prevCoord.value.x, y: prevCoord.value.y });
           stage.batchDraw();
       }
 

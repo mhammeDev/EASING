@@ -179,6 +179,17 @@ export default defineComponent({
 
 }
 
+@media (max-width: 1890px) {
+  .params{
+    width: 1400px;
+  }
+
+  .icons-params{
+    margin-top: 10%;
+  }
+
+}
+
 @media (max-width: 1200px) {
 
   .container{

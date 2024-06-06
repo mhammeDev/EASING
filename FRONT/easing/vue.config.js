@@ -1,6 +1,8 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path');
 const webpack = require('webpack')
+const backendDistPath = path.join(__dirname, '../../BACK/dist');
+
 
 
 
@@ -9,10 +11,10 @@ module.exports = defineConfig({
 
 //     publicPath: process.env.NODE_ENV === 'production' ? '/easing/' : '/',
 
-    outputDir: 'dist',
+    outputDir: backendDistPath,
     assetsDir: 'assets',
 
-   /* devServer: {
+   devServer: {
         proxy: {
             '/api': {
                 target: 'http://localhost:3000',
@@ -20,7 +22,7 @@ module.exports = defineConfig({
                 pathRewrite: { '^/api': '' },
             }
         }
-    },*/
+    },
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({

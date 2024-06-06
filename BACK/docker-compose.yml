@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  mongodb:
+    container_name: easing-database_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  app:
+    build: .
+    container_name: easing_app
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      aiEndpoint: ${aiEndpoint}
+      apiKey: ${apiKey}
+      aiApiDeploymentName: ${aiApiDeploymentName}
+      model: ${model}
+      jwtSecret: easing_secret123
+      salt_rounds: 10
+      MONGODB_URI: mongodb://mongodb:27017
+      MONGODB_DB: db_stage_docker
+    depends_on:
+      - mongodb
+    volumes:
+      - node_modules:/usr/src/app/node_modules
+      - .:/usr/src/app
+
+volumes:
+  mongo_db: {}
+  node_modules: {}

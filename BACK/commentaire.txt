@@ -1,0 +1,70 @@
+nvm use 18
+npm init -y
+
+npm install express mongodb dotenv socket.io @langchain/azure-openai
+
+npm run install:frontend
+npm run build:frontend
+npm start
+
+mettre dans le docker file et run avec -e
+
+--env-file=./.env
+
+
+_________ commande initialisé docker projet
+
+1) sudo docker build -t easing_project .
+-t name
+.
+
+
+2) docker run --rm -it -p 3000:3000 --name easing_project --env-file=./.env  easing_project
+-p le port 
+it --> interactif mode
+rm --> supprimer quand c'est fini
+--env-file=./.env
+--name --> nom du server
+-v --> spécifier un endroit
+
+dernier easing_projet nom projet
+
+docker run --name db_stage -d -p 27018:27017 mongo
+
+__________
+sudo docker run -d -p 27018:27017 -v ~/Documents/BUT_INFORMATIQUE/Stage/EASING/BACK/docker-mongo:/data/db --name easing_database mongo:latest
+sudo docker exec -it easing_database bash
+mongosh
+
+
+________________ le vrai ________________
+
+sudo docker build -t easing_project .
+sudo docker run --rm -it -p 3000:3000 --name easing_project --env-file=./.env  easing_project
+sudo docker network create -d bridge backend-network
+
+sudo docker run --rm -d -v easing:/data/db --name easing_server --network backend-network mongo
+sudo docker run --rm -it -p 3000:3000 --name easing_project --network backend-network -v ~/Documents/BUT_INFORMATIQUE/Stage/EASING/BACK:/app --env-file=./.env easing_project
+sudo docker run --rm -it -p 3000:3000 --name easing_project --network backend-network --env-file=./.env easing_project
+
+__________________________________
+
+docker build -t mongodb-image -f Dockerfile.mongodb .
+docker run -d --name mongodb-container -p 27017:27017 mongodb-image
+
+
+
+_________________________________________________________
+
+docker build -t mongodb-image -f Dockerfile.mongodb .
+docker build -t easing_project .
+
+
+sudo docker run --rm -it -p 3000:3000 --name easing_project --network backend-network -v ~/Documents/BUT_INFORMATIQUE/Stage/EASING/BACK:/app --env-file=./.env easing_project
+
+
+sudo docker system prune
+sudo docker rmi id_image
+sudo docker-compose down
+sudo docker-compose rm
+sudo docker exec -it easing-database_container bash

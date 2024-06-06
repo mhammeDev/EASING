@@ -1,0 +1,45 @@
+[
+    {
+        "_id": "sensor-presence",
+        "name": "Presence sensor",
+        "type_value": "boolean",
+        "description": "Détecte la présence dans la pièce",
+        "show": false
+    },
+    {
+        "_id": "sensor-water-leak",
+        "name": "Water leak sensor",
+        "type_value": "boolean",
+        "description": "Détecte les fuites d'eau",
+        "show": true,
+        "img": "water-leak.png"
+    },
+    {
+        "_id": "external-light-sensor",
+        "name": "External light sensor",
+        "type_value": "numeric",
+        "description": "Détecle la luminosité",
+        "show": false
+    },
+    {
+        "_id": "temperature-sensor",
+        "name": "Temperature sensor",
+        "type_value": "numeric",
+        "description": "Détecte les variations de température",
+        "show": false
+    },
+    {
+        "_id": "internal-light-sensor",
+        "name": "Internal light sensor",
+        "type_value": "numeric",
+        "description": "Détecte la luminosité dans la pièce",
+        "show": false
+    },
+    {
+        "_id": "smart-socket",
+        "name": "Smart socket",
+        "type_value": "boolean",
+        "description": "Etat de la prise",
+        "show": false
+    }
+]

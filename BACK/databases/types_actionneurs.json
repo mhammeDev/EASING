@@ -1,0 +1,53 @@
+[
+    {
+        "_id": "connected-light",
+        "name": "Connected light",
+        "dependecies": [
+            "sensor-presence",
+            "internal-light-sensor"
+        ],
+        "description": "Contrôle l'éclairage de la pièce",
+        "show": true,
+        "img": "connected-light_off.png"
+    },
+    {
+        "_id": "smart-connected-light",
+        "name": "Smart connected light",
+        "dependecies": [
+            "smart-socket"
+        ],
+        "description": "Contrôle l'éclairage de la pièce",
+        "show": true,
+        "img": "smart-light_off.png"
+    },
+    {
+        "_id": "connected-tv",
+        "name": "Connected tv",
+        "dependecies": [
+            "smart-socket"
+        ],
+        "description": "Permet de contrôler les appareils électriques",
+        "show": true,
+        "img": "tv_off.png"
+    },
+    {
+        "_id": "motorized-blind",
+        "name": "Motorized blind",
+        "dependecies": [
+            "external-light-sensor"
+        ],
+        "description": "Contrôle l'ouverture et la fermeture des stores",
+        "show": true,
+        "img": "blind_down.png"
+    },
+    {
+        "_id": "heating",
+        "name": "Heating",
+        "dependecies": [
+            "temperature"
+        ],
+        "description": "Contrôle le chauffage",
+        "show": true,
+        "img": "heating_off.png"
+    }
+]

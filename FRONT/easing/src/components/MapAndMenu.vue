@@ -1,5 +1,5 @@
 <script>
-import {defineComponent, onMounted, ref, watch} from "vue";
+import {defineComponent, onMounted, ref, /*watch*/} from "vue";
 import HouseMap from "@/components/HouseMap.vue";
 import MenuSide from "@/components/MenuSide.vue";
 import ParamCard from "@/components/ParamCard.vue";
@@ -7,8 +7,8 @@ import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
 
 import AssistantChat from "@/components/AssistantChat.vue";
-import {useUserStore} from "@/store/user";
-import router from "@/router";
+//import {useUserStore} from "@/store/user";
+//import router from "@/router";
 
 
 export default defineComponent({
@@ -16,11 +16,11 @@ export default defineComponent({
   components: {AssistantChat, ParamCard, MenuSide, HouseMap},
   setup(){
     const store = useRoomsStore();
-    const{temperature, person, hours,security, external_luminosity, currentPiece, errorRequest} = storeToRefs(store)
-    const {updateSecurity, updateExternalLight, initializeSocket, resetError, setNotificationMessage} = store
+    const{temperature, person, hours,security, external_luminosity, currentPiece, /*errorRequest*/} = storeToRefs(store)
+    const {updateSecurity, updateExternalLight, initializeSocket, /*resetError, setNotificationMessage*/} = store
 
-    const store2 = useUserStore();
-    const {LogoutFromStore}= store2
+   // const store2 = useUserStore();
+   // const {LogoutFromStore}= store2
 
     onMounted(async ()=>{
       await initializeSocket();
@@ -28,7 +28,7 @@ export default defineComponent({
 
     const displayChat = ref(false);
 
-    watch(
+   /* watch(
         () => errorRequest.value,
         async (value) => {
           if(value === true){
@@ -39,7 +39,7 @@ export default defineComponent({
 
           }
         }
-    )
+    )*/
 
 
     const updateDisplayChat = () => {

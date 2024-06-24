@@ -115,6 +115,7 @@
             },
 
             /*
+            This function doesn't take anything in parameter and return a void
             This function update internal light sensor when an actuators "gave" light
              */
 
@@ -122,11 +123,10 @@
                 let result = this.pieces;
 
                 result.forEach(piece => {
-
+                    // We check for each pieces to auto update the brithness
                     let currentRoom = this.pieces.findIndex(p => p.name === piece.name);
                     if(currentRoom !== -1){
                         let result = 'low_luminosity'
-
                         piece.actuators.forEach(act => {
                             //The actuators who interact with the brightness are the light and the blind
                             // so we check if something raise the brightness
@@ -134,12 +134,13 @@
                                 result = 'high_luminosity';
                             }
                         })
-
+                        // finally we update it
                         piece.captors.forEach(captor => {
                             if(captor.typeId === 'internal-light-sensor'){
                                 captor.value = result
                             }
                         })
+                        // We update the tablz
                         this.pieces.splice(currentRoom, 1, piece);
                     }
                 })

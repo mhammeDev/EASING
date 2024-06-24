@@ -1,14 +1,14 @@
 <script>
 import {defineComponent, ref} from "vue";
-import {useUserStore} from "@/store/user";
-import router from "@/router";
+// import {useUserStore} from "@/store/user";
+//import router from "@/router";
 
 
 export default defineComponent({
   name: "NavBar",
   setup(){
-    const store = useUserStore();
-    const {LogoutFromStore} = store;
+   // const store = useUserStore();
+   // const {LogoutFromStore} = store;
     const display = ref(false);
     const scroll = ref(0);
     const slide = ref(false);
@@ -17,8 +17,9 @@ export default defineComponent({
 
     const logout = async () => {
       try{
-        await  LogoutFromStore();
-        await router.push('/')
+        console.log("To logout active service in the code !");
+        //await  LogoutFromStore();
+        //await router.push('/')
       } catch (e){
         console.log(e)
       }

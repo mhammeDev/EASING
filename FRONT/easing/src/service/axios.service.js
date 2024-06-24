@@ -31,7 +31,7 @@ const axiosAgent = axios.create({
     baseURL: baseURL
 });
 
-axiosAgent.interceptors.request.use(function (config) {
+/*axiosAgent.interceptors.request.use(function (config) {
     //set token in header
     const token = localStorage.getItem('token');
     if (token) {
@@ -39,6 +39,8 @@ axiosAgent.interceptors.request.use(function (config) {
     }
     return config;
 })
+
+*/
 
 
 function handleError(serviceName, err) {

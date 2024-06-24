@@ -47,10 +47,11 @@
              </template>
             </v-layer>
             <v-layer>
-              <v-group :draggable="true"
+              <v-group :draggable="isDown === false"
                        @dragstart="dragStart"
                        @dragmove="dragMove"
-                      @dragend="dragEnd">
+                      @dragend="dragEnd"
+                      ref="bonhGroup">
 
                 <v-circle :config="headConfig()"></v-circle>
                 <v-rect :config="bodyConfig()"></v-rect>
@@ -118,7 +119,7 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, ref, computed, reactive} from 'vue';
+import {defineComponent, onMounted, ref, computed, reactive, watch} from 'vue';
 import {useRoomsStore} from "@/store/rooms";
 import {storeToRefs} from "pinia";
 
@@ -131,10 +132,12 @@ export default defineComponent({
     const stageWidth = ref(window.innerWidth);
     const stageHeight = ref(window.innerHeight);
 
+    const bonhGroup = ref(null)
+
 
     const scaleFactor = ref(0); // we need this variable for responsive, and because we need to keep the same space between point that why we need it
     const store = useRoomsStore();
-    const{pieces, currentFloor, captorActionneur, zoom} = storeToRefs(store)
+    const{pieces, currentFloor, captorActionneur, zoom,isDown} = storeToRefs(store)
     const {getPieces, getCaptorandSensor, SensorEvent/* addCaptorActionneur, pushCaptorActionneur*/, UpdatePresenceSensor, UpdateSocketSensor, setCurrentRoom } = store;
 
     const menuX = ref(1250 ); // right menu
@@ -503,13 +506,17 @@ export default defineComponent({
       document.body.style.cursor = 'grabbing';
 
 
-      limbsState.armRotation = 80; // little animation
-      limbsState.legRotation = -20;
+      if(isDown.value === false) {
 
 
-      if (name.value !== null) { // when we drop a stickman in a room the room's name is save, but we see the pointer position and not
-        // the stickman so sometimes when we drop the stickman and take with the cursor but the cursor is in the limit with an other room the sensor-presence of the room stiil in true
-        await UpdatePresenceSensor(name.value, false)
+        limbsState.armRotation = 80; // little animation
+        limbsState.legRotation = -20;
+
+
+        if (name.value !== null) { // when we drop a stickman in a room the room's name is save, but we see the pointer position and not
+          // the stickman so sometimes when we drop the stickman and take with the cursor but the cursor is in the limit with an other room the sensor-presence of the room stiil in true
+          await UpdatePresenceSensor(name.value, false)
+        }
       }
     }
 
@@ -522,25 +529,27 @@ export default defineComponent({
       const box = node.getClientRect();
       const stage = node.getStage();
 
-      let x = event.target.x() ; // we already take every last position of the stickman
-      let y = event.target.y()
+      if(isDown.value === false){
+        let x = event.target.x() ; // we already take every last position of the stickman
+        let y = event.target.y()
 
-      // Here we see if it's trying to go beyond the limit of the drawing, if this the case the last position become
-      // the stickman's position here for the X and under for the Y
-      if (box.x < 0 || box.x + box.width > stage.width() || box.x + box.width > stage.children[0].hitCanvas.width) {
-        x = bonhmXPos.value;
-      } else {
-        bonhmXPos.value = event.target.x();
+        // Here we see if it's trying to go beyond the limit of the drawing, if this the case the last position become
+        // the stickman's position here for the X and under for the Y
+        if (box.x < 0 || box.x + box.width > stage.width() || box.x + box.width > stage.children[0].hitCanvas.width) {
+          x = bonhmXPos.value;
+        } else {
+          bonhmXPos.value = event.target.x();
+        }
+
+        if(box.y < 0 || box.y + box.height > stage.height()){
+          y = bonhmYPos.value;
+        }else{
+          bonhmYPos.value = event.target.y();
+        }
+
+        // We fix the position of the stickman
+        node.position({ x, y });
       }
-
-      if(box.y < 0 || box.y + box.height > stage.height()){
-        y = bonhmYPos.value;
-      }else{
-        bonhmYPos.value = event.target.y();
-      }
-
-      // We fix the position of the stickman
-      node.position({ x, y });
     };
 
     /*
@@ -704,6 +713,7 @@ export default defineComponent({
         y: (YHead.value *  scaleFactor.value + 6  * scaleFactor.value) *zoom.value,
         width: 20 * scaleFactor.value * zoom.value,
         height: 30 * scaleFactor.value * zoom.value,
+        rotation: limbsState.bodyRotation,
         cornerRadius: [15, 15, 10, 10],
         fill: '#ED7F10'
 
@@ -714,7 +724,9 @@ export default defineComponent({
     this is the rotation of leg and arm of the stickman and this will allow us the animate the stickman
      */
     const limbsState = reactive({
+
       armRotation: 0,
+      bodyRotation : 0,
       legRotation: 0
     });
 
@@ -1030,6 +1042,34 @@ export default defineComponent({
         }
     )*/
 
+    watch(
+        () => isDown.value,
+        async (new_value) => {
+          console.log(new_value)
+          if(new_value=== true){
+      //      limbsState.armRotation = 45;
+        //    limbsState.legRotation = 90;
+          //  limbsState.bodyRotation= 90;
+
+           // console.log(bonhGroup.value)
+           // let x =             bonhGroup.value.getNode().x
+           // let y = bonhGroup.value.getNode().y
+
+            console.log(bonhGroup.value.getNode())
+            limbsState.armRotation = 120;
+            limbsState.legRotation = -30;
+
+            //bonhGroup.value.getNode().rotation(12.5)
+          } else {
+            bonhGroup.value.getNode().rotation(0)
+            limbsState.armRotation = 0;
+            limbsState.legRotation = 0;
+
+
+
+          }
+        }
+    )
 
 
 
@@ -1071,7 +1111,9 @@ export default defineComponent({
       setCurrentRoom,
       setDragStart,
       setDragEnd,
-      zoomFunction
+      zoomFunction,
+      bonhGroup,
+      isDown
     };
   }
 });

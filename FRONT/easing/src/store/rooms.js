@@ -16,6 +16,7 @@
             temperature: 20,
             currentPiece: null,
             person: "Visually Imparaired",
+            isDown: false,
             message:'',
             conversationChatBot:[
                 {from: "assistant", content: "Hi, I'm your assistant, I'm here to do what you ask of me"}
@@ -195,6 +196,17 @@
 
                 }
             },
+            async setDown(){
+                const delay = t => new Promise(r => setTimeout(r, t))
+                this.isDown = !this.isDown;
+                if(this.isDown === true){
+                    await delay(1500)
+                    this.setNotificationMessage("🙅🏼‍♂️", "The person falled, an notification is sended.", "error", "bottom-left")
+
+
+                }
+            }
+            ,
             setHours(hour){
                 this.hours = hour;
             },

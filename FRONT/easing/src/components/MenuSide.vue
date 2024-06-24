@@ -42,8 +42,8 @@ export default defineComponent({
 <template>
   <div class="container">
     <div class="zoom">
-      <i style="border-radius: 10px 0 0 10px" class="fa-solid fa-plus zoom-content" @click="setZoom(1.1)"></i>
-      <i style="border-radius: 0 10px 10px 0" class="fa-solid fa-minus zoom-content" @click="setZoom(0.9)"></i>
+<!--      <i style="border-radius: 10px 0 0 10px" class="fa-solid fa-plus zoom-content" @click="setZoom(1.1)"></i>
+      <i style="border-radius: 0 10px 10px 0" class="fa-solid fa-minus zoom-content" @click="setZoom(0.9)"></i>-->
 
     </div>
     <div class="floor unselectable">

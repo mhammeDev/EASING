@@ -16,8 +16,8 @@ export default defineComponent({
   components: {AssistantChat, ParamCard, MenuSide, HouseMap},
   setup(){
     const store = useRoomsStore();
-    const{temperature, person, hours,security, external_luminosity, currentPiece, /*errorRequest*/} = storeToRefs(store)
-    const {updateSecurity, updateExternalLight, initializeSocket, /*resetError, setNotificationMessage*/} = store
+    const{temperature, person, hours,security, external_luminosity, currentPiece,isDown /*errorRequest*/} = storeToRefs(store)
+    const {updateSecurity, updateExternalLight, initializeSocket, setDown /*resetError, setNotificationMessage*/} = store
 
    // const store2 = useUserStore();
    // const {LogoutFromStore}= store2
@@ -27,6 +27,7 @@ export default defineComponent({
     })
 
     const displayChat = ref(false);
+
 
    /* watch(
         () => errorRequest.value,
@@ -57,7 +58,9 @@ export default defineComponent({
       external_luminosity,
       displayChat,
       updateDisplayChat,
-      currentPiece
+      currentPiece,
+      setDown,
+      isDown,
     }
   }})
 
@@ -78,6 +81,8 @@ export default defineComponent({
 
       <div class="icons-params unselectable">
           <i :class="security=== true ? 'fa-solid fa-lock icons param-icon sec' : 'fa-solid fa-unlock icons param-icon sec' " :style="{backgroundColor: security ? '#00C208' : 'red'}" @click="updateSecurity(!security)"></i>
+        <i class="fa-solid fa-person-falling icons param-icon" v-if="!isDown" @click="setDown" style="background-color: orange"></i>
+        <i class="fa-solid fa-person icons param-icon" v-if="isDown" @click="setDown" style="background-color: green"></i>
         <div class="brightness-icon unselectable">
           <i :style="{opacity: external_luminosity=== 'high_luminosity' ? 1 : 0.4}" class="fa-solid fa-sun icons param-icon" @click="updateExternalLight('high_luminosity')"></i>
           <i :style="{opacity: external_luminosity=== 'medium_luminosity' ? 1 : 0.4}" class="fa-solid fa-cloud icons  param-icon " @click="updateExternalLight('medium_luminosity')"></i>
@@ -186,6 +191,7 @@ export default defineComponent({
 
   .icons-params{
     margin-top: 10%;
+
   }
 
 }

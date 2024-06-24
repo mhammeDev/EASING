@@ -112,7 +112,7 @@ const train_1 = [
   ];
 
 const train_2 = [
-        {"role": "user", "content": `[{"request":"Turn on the light in the kitchen"}, {"rooms": [{"room":[{"name":"Kitchen","actuators":[{"typeId":"connected-light"}]}]}]},{"actions":{"actions":[{"action":"Turn on the light","type_action":"action","actuators":["connected-light","smart-connected-light"],"result":"bulb_on"}]}}]`},
+        {"role": "user", "content": `[{"request":"Turn on the light in the d"}, {"rooms": [{"room":[{"name":"Kitchen","actuators":[{"typeId":"connected-light"}]}]}]},{"actions":{"actions":[{"action":"Turn on the light","type_action":"action","actuators":["connected-light","smart-connected-light"],"result":"bulb_on"}]}}]`},
         {"role":"asssistant", "content":`{"response" : "I turned on the light in the kitchen", "content" : [{"name" : "Kitchen", "actuators" : [{"name" : "connected-light", "action" : "Turn on the light", "result" : "bulb_on"}] }]}`}    ,
 
         {"role": "user", "content": `[{"request":"Turn on the tv in the corridor"}, {"rooms": [{"room":[{"name":"Corridor","actuators":[{"typeId":"connected-light"},{"typeId":"smart-connected-light"}  ]}]}]},{"actions":{"actions":[{"action":"Turn on the tv","type_action":"action","actuators":["connected-tv"],"result":"tv_on"}]}}]`},

@@ -17,7 +17,11 @@ const model = new AzureChatOpenAI({
 });
 
 
-
+/*
+* This function allow you in first case to make you prompt
+including data, actions and train_cases and format it in the right format
+after you return the result of the AI
+*/
 async function getInstructionFromOpenAI(content, actions, train_1) {
 
     try {
@@ -25,9 +29,9 @@ async function getInstructionFromOpenAI(content, actions, train_1) {
             "role": "user", 
             "content": `${JSON.stringify(content)}, actions: ${JSON.stringify(actions)}`
         };
+        // we add the current case at the end of training
         train_1.push(current_case)
         const prompt = await train_1.map(p => `${p.role}: ${p.content}`).join("\n");
-        // const prompt = JSON.stringify(train_1)
         const res = await model.invoke(prompt)
         console.log(train_1)
         try{
@@ -45,6 +49,11 @@ async function getInstructionFromOpenAI(content, actions, train_1) {
         throw error;
     }
 }
+
+/*
+* This function allow you in first case to make you prompt
+including data, actions, rooms and trian_cases and to return the result
+*/
 
 async function getInstructionFromChatOpenAI(content, train) {
 
@@ -74,6 +83,8 @@ async function getInstructionFromChatOpenAI(content, train) {
   }
 }
 
+// THis method is used for the chat in the first times we filter all actions and train cases
+// thanks to the AI
 async function getFilteredInstructions(content) {
 
   try {
@@ -94,6 +105,8 @@ async function getFilteredInstructions(content) {
   }
 }
 
+
+// Take the choice of action from the AI
 async function getRecommendationFromOPenAI(content){
   try {
     let train_1 = [];

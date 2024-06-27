@@ -35,6 +35,7 @@ module.exports = function(io) {
 };
 
 async function handleEventWithTokenValidation(socket, data, handlerFunction, event) {
+   // at first we check the token and we execute the function
     const token = socket.handshake.auth.token;
     if (await isValidToken(token)) {
         await handlerFunction(data, event, socket);
@@ -93,6 +94,7 @@ async function OpenAIText(data, event, socket) {
     });
 }
 
+// This function check the token to only doing request when you are login
 function isValidToken(token) {
     return new Promise((resolve, reject) => {
         resolve(true)

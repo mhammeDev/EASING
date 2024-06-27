@@ -68,9 +68,18 @@
                 roomService.addCaptorActionneur(this.captorActioneurToAdd)
                 this.captorActioneurToAdd = [];
             }, */
+
+
+            /*
+            This method allow you to update the sensor value in a room in first time
+            And after to sent the room with sensor and actuator to the API
+
+             */
+
             async UpdatePresenceSensor(nom, etat) {
                 const IndexPiece = this.pieces.findIndex(p => p.name === nom);
                 if (IndexPiece !== -1) {
+                    // at first we update the current room with presence and splice it to detect changement
                     const updatedPiece = { ...this.pieces[IndexPiece] };
                     updatedPiece.captors.forEach(capteur => {
                         if (capteur.typeId === "sensor-presence") {
@@ -82,12 +91,14 @@
                             let actuators = [];
                             let sensors = [];
 
+                            // after we make the JSON to send it to the API, we put in 2 tables actuators and sensor to send it
                             await updatedPiece.captors.forEach(sensor => {
                                 sensors.push({typeId: sensor.typeId, value: sensor.value});
                             })
                             if(this.security === true ) sensors.push({typeId: "security", value: this.security});
 
                             await updatedPiece.actuators.forEach(actuator => {
+                                // We doesn't put blind and heating because theses actuators is not linked to one room but all the houses
                                 if (actuator.typeId.toString() !== "motorized-blind" && actuator.typeId.toString() !== "heating") {
                                     if(actuator.dependencies && actuator.dependencies.length > 0){
                                         actuators.push({typeId :actuator.typeId, dependencies:JSON.stringify(actuator.dependencies)});
@@ -100,6 +111,7 @@
                             this.SensorEvent(prompt)
                         }
 
+                        //We send onluy the room with actuator, or when the security is on we sent to the room with the security because there is a presence
                     else if(this.security === true ){
                         let sensors = [];
                         await updatedPiece.captors.forEach(sensor => {
@@ -119,7 +131,6 @@
             This function doesn't take anything in parameter and return a void
             This function update internal light sensor when an actuators "gave" light
              */
-
             async updateBrightness() {
                 let result = this.pieces;
 

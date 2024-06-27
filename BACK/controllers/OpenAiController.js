@@ -1,6 +1,7 @@
 const OpenAiService = require('../services/OpenAiService');
 const {train_1, train_2} = require("../databases/train_case");
 
+// This function is when a socket is emit from the map
 async function getInstructionFromOpenAi(content, actions, callback){
     let table = [];
     let new_actions = [];
@@ -10,7 +11,9 @@ async function getInstructionFromOpenAi(content, actions, callback){
         return;
     }
     try{
+        // We get all actions and case filtered and we sent to our service
         new_actions = await getActionsList(actions, content);
+        // same for the train case
         let train_case = await getRightCase(content);
         const result = await OpenAiService.getInstructionFromOpenAI(content, new_actions, train_case);
         const recommendation = await OpenAiService.getRecommendationFromOPenAI(content)
@@ -65,8 +68,10 @@ async function getActionFromPromptWithOpenAI(content, rooms,action, callback){
 
 async function getActionsList(actions, content){
     let new_actions = [];
+    // This allow us to get only the usefull action to reduce the prompt
     actions.forEach(a => {
         let state = false;
+        // at first we took the action linked with present actuators
            if(a.actuators && content.actuators){
                a.actuators.forEach(s => {
                    if(content.actuators.some(ax => ax.typeId === s)){
@@ -75,6 +80,7 @@ async function getActionsList(actions, content){
                })
            }
 
+           // same for sensors 
            else if(a.sensors && content.sensors){
                    a.sensors.forEach(s => {
                        if(content.sensors.some(ax => ax.typeId === s)){

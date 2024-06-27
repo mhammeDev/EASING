@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// this file allows to initialize the database when the application
+// is launched with docker
+
 class InitMongo {
   static actions;
   static rooms;

@@ -17,32 +17,11 @@
               </v-group>
              <template v-for="piece in tabPiece" :key="piece._id">
                <template v-for="(pieces, index) in [...piece.captors, ...piece.actuators]" :key="index">
-                <!-- <v-circle v-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'circle'"
-                           :config="getHomeItemSquareConfig(index, pieces, pieces.points)">
-                 </v-circle>
-
-                 <v-rect v-else-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'rect'"
-                         :config="getHomeItemSquareConfig(index, pieces, pieces.points)">
-
-                 </v-rect>
-
-                 <v-regular-polygon v-else-if="getHomeItemSquareConfig(index, pieces, pieces.points).shape === 'regularPolygon'"
-                                    :config="getHomeItemSquareConfig(index, pieces, pieces.points)"
-                                    @mouseover="BeforecaptorEvent($event,pieces)"
-                                    @mouseout="AfterCaptorEvent($event, pieces)"
-                                    @click="captorEvent($event,pieces)">
-                   >
-                 </v-regular-polygon>
-                 -->
                  <v-image
                      :config="getHomeIcons(pieces,pieces.points)"
                      @click="IconsAction(piece.name,pieces)"
                      @mouseover="buttonCheck(pieces)"
                      @mouseout="buttonUnCheck()"></v-image>
-
-
-
-
                </template>
              </template>
             </v-layer>
@@ -50,8 +29,7 @@
               <v-group :draggable="isDown === false"
                        @dragstart="dragStart"
                        @dragmove="dragMove"
-                      @dragend="dragEnd"
-                      ref="bonhGroup">
+                      @dragend="dragEnd">
 
                 <v-circle :config="headConfig()"></v-circle>
                 <v-rect :config="bodyConfig()"></v-rect>
@@ -67,54 +45,6 @@
               </v-group>
             </v-layer>
 
-
-         <!--   <v-layer>
-              <v-rect :config="menuConfig">
-              </v-rect>
-              <v-text  v-for="(item, index) in captorActionneur.filter(e => e.show === true)" :key="item._id" :config="getMenuItemConfig(item,index)"></v-text>
-              <template v-for="(item, index) in captorActionneur.filter(e => e.show === true)" :key="index">
-                <v-circle v-if="getMenuItemSquareConfig(index, item).shape === 'circle'"
-                          :config="getMenuItemSquareConfig(index, item)"
-                          :draggable="mode === 2"
-                          @dragstart="startMenu($event, index, item)"
-                          @dragend="endMenu($event, item)">
-                </v-circle>
-
-                <v-rect v-else-if="getMenuItemSquareConfig(index, item).shape === 'rect'"
-                        :config="getMenuItemSquareConfig(index, item)"
-                        :draggable="mode === 2"
-                        @dragstart="startMenu($event, index, item)"
-                        @dragend="endMenu($event, item)">
-
-                </v-rect>
-
-                <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, item).shape === 'regularPolygon'"
-                                   :config="getMenuItemSquareConfig(index, item)"
-                                   :draggable="mode === 2"
-                                   @dragstart="startMenu($event, index, item)"
-                                   @dragend="endMenu($event, item)">
-                </v-regular-polygon>
-              </template>
-
-              <template v-if="mode === 2">
-                <template v-for="(item, index) in captAdd" :key="index">
-
-                  <v-circle v-if="getMenuItemSquareConfig(index, item, item.points, 'red').shape === 'circle'"
-                            :config="getMenuItemSquareConfig(index, item,  item.points, 'red')">
-                  </v-circle>
-
-                  <v-rect v-else-if="getMenuItemSquareConfig(index, item,  item.points, 'red').shape === 'rect'"
-                          :config="getMenuItemSquareConfig(index, item,  item.points, 'red')">
-
-                  </v-rect>
-
-                  <v-regular-polygon v-else-if="getMenuItemSquareConfig(index, item, item.points, 'red').shape === 'regularPolygon'"
-                                     :config="getMenuItemSquareConfig(index, item,  item.points, 'red')">
-                  </v-regular-polygon>
-                </template>
-              </template>
-            </v-layer>
-            -->
           </v-stage>
 </template>
 
@@ -132,18 +62,11 @@ export default defineComponent({
     const stageWidth = ref(window.innerWidth);
     const stageHeight = ref(window.innerHeight);
 
-    const bonhGroup = ref(null)
-
-
     const scaleFactor = ref(0); // we need this variable for responsive, and because we need to keep the same space between point that why we need it
     const store = useRoomsStore();
     const{pieces, currentFloor, captorActionneur, zoom,isDown} = storeToRefs(store)
     const {getPieces, getCaptorandSensor, SensorEvent/* addCaptorActionneur, pushCaptorActionneur*/, UpdatePresenceSensor, UpdateSocketSensor, setCurrentRoom } = store;
 
-    const menuX = ref(1250 ); // right menu
-    const menuY =ref(0);
-
-    const mode = ref(2); // mode 1 is view mode and 2 edit mode
 
     const XHead = ref(600); //
     const YHead = ref(700); // xhead and yhead is the start point of the stickman to keep always the same shape
@@ -160,34 +83,6 @@ export default defineComponent({
     let prevCoord = ref({x:0, y:0})
 
 
-
-    /*
-    * This is the configuration of the right menu, but the size and position is intiialise in 'setSize'
-     */
-    const menuConfig = computed(() => ({
-      x: menuX.value,
-      y: menuY.value,
-      width: 600,
-      height: captorActionneur.value.filter(e => e.show === true).length * 100 *scaleFactor.value,
-      fill: 'transparent',
-      stroke: 'black',
-      strokeWidth: 1,
-    }));
-
-
-    /*
-    * This is the legends of differents devices, the text is linked to a shape
-    * THe first parameter is the item, the current room
-    * and the index is usefull for the space between each eleme,ts
-     */
-    const getMenuItemConfig = (item, index) => ({
-      text: item.name,
-      fontSize: 25 * scaleFactor.value,
-      x: menuX.value + 50 * scaleFactor.value,
-      y: menuY.value + 25 *scaleFactor.value + (index * 60) *  scaleFactor.value,
-      fill: 'black'
-    });
-
     const getGrasseConfig= () =>{
       return  {
         id:'Grass',
@@ -199,94 +94,6 @@ export default defineComponent({
         cornerRadius:cornerRect.value,
       }
     }
-    /*
-    * Same than the methode under but this time this is for the shape
-    * The first parameter allow to us for the space between each elements
-    * The second is the room
-    * The thirst parameter allow us to use the same method even if we have parameter or no, for the menu or the map
-    * And the last parameter allow us tu put a color if we want
-     */
-    const getMenuItemSquareConfig = (index, item, coord, color) => {
-      let shapeConfig;
-      let x =menuX.value + 25 * scaleFactor.value; // like we can see for the menu the position is calculated at the beginning
-      let y =menuY.value + 35 *scaleFactor.value + (index * 60) *  scaleFactor.value;
-      let c = 'black'
-      let strockWidth = 1
-
-      if(color !== undefined){
-        c = color
-        strockWidth = 2;
-      }
-
-      if(coord !== undefined){
-        x = coord.x * scaleFactor.value; // And if we have position we take it
-        y = coord.y * scaleFactor.value;
-      }
-
-      const itemId = item._id || item.typeId; // For the rooms the devices id are like foreign key, so the name is different
-
-      // and the form depend of the type of devices so each devices had different form
-      switch (itemId) {
-        case 'connected-light':
-          shapeConfig = {
-            shape: 'circle',
-            fill: 'yellow',
-            strokeWidth: 1,
-            stroke: c,
-            shadowColor: item.value ? 'orange' : 'transparent',
-            shadowBlur: item.value ? 20 : 0,
-            shadowOffset: { x: 0, y: 0 },
-            shadowOpacity: item.value ? 0.8 : 0
-          };
-          break;
-        case "smart-connected-light":
-          shapeConfig = {
-            shape: 'circle',
-            fill: 'orange',
-            strokeWidth: 1,
-            stroke: c,
-            shadowColor: item.value ? 'orange' : 'transparent',
-            shadowBlur: item.value ? 20 : 0,
-            shadowOffset: { x: 0, y: 0 },
-            shadowOpacity: item.value ? 0.8 : 0
-          };
-          break;
-        case 'connected-tv':
-          shapeConfig = {
-            shape: 'circle',
-            fill: 'lightblue'
-          };
-          break;
-        case 'motorized-blind':
-          shapeConfig = {
-            shape: 'regularPolygon',
-            sides: 6,
-            fill: 'pink'
-          };
-          break;
-        case 'sensor-water-leak':
-          shapeConfig = {
-            shape: 'regularPolygon',
-            sides: 4,
-            rotation:45,
-            fill: 'blue'
-          };
-          break;
-        default:
-          shapeConfig = null;
-          break;
-      }
-
-      return {
-        x: x,
-        y: y,
-        stroke: c,
-        strokeWidth: strockWidth,
-        width: 33 * scaleFactor.value,
-        height: 33 * scaleFactor.value,
-        ...shapeConfig
-      };
-    };
 
     /**
      * This methods allowed you to place icons in the map
@@ -350,140 +157,30 @@ export default defineComponent({
 
     }
 
-    const getHomeItemSquareConfig = (index, item, coord) => {
-      let shapeConfig;
-      let x =menuX.value + 25 * scaleFactor.value; // like we can see for the menu the position is calculated at the beginning
-      let y =menuY.value + 35 *scaleFactor.value + (index * 60) *  scaleFactor.value;
-      let c = 'black'
-      let strockWidth = 1
-
-
-      if(coord !== undefined){
-        x = coord.x * scaleFactor.value; // And if we have position we take it
-        y = coord.y * scaleFactor.value;
-      }
-
-      const itemId = item._id || item.typeId; // For the rooms the devices id are like foreign key, so the name is different
-
-      // and the form depend of the type of devices so each devices had different form
-      switch (itemId) {
-        case 'connected-light':
-          shapeConfig = {
-            shape: 'circle',
-            fill: 'yellow',
-            strokeWidth: 1,
-            stroke: c,
-            shadowColor: item.value ? 'orange' : 'transparent',
-            shadowBlur: item.value ? 20 : 0,
-            shadowOffset: { x: 0, y: 0 },
-            shadowOpacity: item.value ? 0.8 : 0
-          };
-          break;
-        case "smart-connected-light":
-          shapeConfig = {
-            shape: 'circle',
-            fill: 'orange',
-            strokeWidth: 1,
-            stroke: c,
-            shadowColor: item.value ? 'orange' : 'transparent',
-            shadowBlur: item.value ? 20 : 0,
-            shadowOffset: { x: 0, y: 0 },
-            shadowOpacity: item.value ? 0.8 : 0
-          };
-          break;
-        case 'connected-tv':
-          shapeConfig = {
-            shape: 'circle',
-            fill: 'lightblue'
-          };
-          break;
-        case 'motorized-blind':
-          shapeConfig = {
-            shape: 'regularPolygon',
-            sides: 6,
-            fill: 'pink'
-          };
-          break;
-        case 'sensor-water-leak':
-          shapeConfig = {
-            shape: 'regularPolygon',
-            sides: 4,
-            rotation:45,
-            fill: 'blue'
-          };
-          break;
-        default:
-          shapeConfig = null;
-          break;
-      }
-
-      return {
-        x: x,
-        y: y,
-        stroke: c,
-        strokeWidth: strockWidth,
-        width: 33 * scaleFactor.value,
-        height: 33 * scaleFactor.value,
-        ...shapeConfig
-      };
-    };
-
-
-    /*
-    * This function is to always update the size of the righht menu for the responsivity
-     */
-    const setMenusSizeAndPos = () =>{
-      menuConfig.value.x = menuX.value;
-      menuConfig.value.y = menuY.value;
-      menuConfig.value.width *= scaleFactor.value;
-      menuConfig.value.height = captorActionneur.value
-          .filter(e => !e.show=== true).length * 100 *scaleFactor.value + 40 * scaleFactor.value; // the height depend of the number of elements but all elements are not necessarly visible
-    }
-
     /*
     * We fix some different size of screen and for each the size differ
-    * So we always update the scale factor to resize and replace elements, and we update too the right menu
+    * So we always update the scale factor to resize and replace elements
      */
     const setSize = () =>{
       if(window.innerWidth < 501){
         scaleFactor.value = 0.25
         cornerRect.value = [0,0,0,0]
 
-        setMenusSizeAndPos();
       } else if(window.innerWidth < 700){
         scaleFactor.value = 0.30;
-        menuX.value = 0;
-        menuY.value = 300;
         cornerRect.value = [0,0,0,0]
-        setMenusSizeAndPos();
       } else if(window.innerWidth < 1200){
         scaleFactor.value = 0.45;
-        menuX.value = 630;
-        menuY.value = 25;
         cornerRect.value = [0,0,0,0]
-
-        setMenusSizeAndPos()
       } else if(window.innerWidth < 1600){
         scaleFactor.value = 0.70;
-        menuX.value = 980;
-        menuY.value = 25;
         cornerRect.value = [20,0,0,20]
-
-        setMenusSizeAndPos()
       } else if(window.innerWidth < 1920) {
         scaleFactor.value = 0.75;
-        menuX.value = 1050;
-        menuY.value =25;
         cornerRect.value = [20,0,0,20]
-
-        setMenusSizeAndPos()
       } else{
         scaleFactor.value = 0.95;
-        menuX.value = 1050;
         cornerRect.value = [20,0,0,20]
-
-        menuY.value =25;
-
       }
     }
 
@@ -766,95 +463,7 @@ export default defineComponent({
       };
     };
 
-
-    /*
-    * This is for the event when we start drag an element and place it (mode 2)
-    * event is the event
-    * index is to place back with a clone the current element because we drag it
-    * and item is the current room
-    const startMenu = (event, index, item) => {
-      const node = event.target;
-      const layer = node.getLayer();
-
-      const clone = node.clone({
-        draggable: true
-      }); // we clone the current element that we drag
-
-      clone.on('dragstart', (e) => {
-        startMenu(e, index, item);
-      }); // we affect it on dragstart this method to repeat the process
-
-      clone.on('dragend', (e) => {
-        console.log(e)
-        endMenu(e, item);
-      }) // same for the end
-
-      const { x, y } = getMenuItemSquareConfig(index, item); // we get his position again thanks to the index and item
-
-
-      clone.position({ x : x , y: y }); // and we plave it
-
-      layer.add(clone);
-      layer.draw(); // and draw in the layer
-    };
-         */
-
-
-
-    /*
-    * When we end dragging an eleement
-    * event is the event of end dragging
-    * and item the current room
-    const endMenu = async (event, item) => {
-      console.log(event.currentTarget)
-
-      try{
-        console.log(event.target.getStage())
-
-        // we try to see if the element is dropped in a room thanks to pointInpolygon
-        const droppedOnPiece = tabPiece.value.find( p => {
-          return pointInPolygon({x: event.target.getStage().getPointerPosition().x,
-            y:event.target.getStage().getPointerPosition().y} ,p.position.points) // x and y are the pointer position
-        });
-
-        if(droppedOnPiece) {
-          // if an element is dropped in a room we add the
-          await addCaptorActionneur({"name": droppedOnPiece.name,
-            "_id": item._id, "type" : droppedOnPiece.type,"floor": droppedOnPiece.floor,
-            "points":{"x": event.target.getStage().getPointerPosition().x / scaleFactor.value,
-              'y':event.target.getStage().getPointerPosition().y / scaleFactor.value
-            }}) // we add the drag's device in our state table
-          event.target.destroy()
-        } else{
-          event.target.destroy()
-          // and we destroy it to display only these who in the store
-        }
-      }catch(er){
-        console.log(event.target)
-      }
-    }
-         */
-
-
-
-    /*const BeforecaptorEvent = (event, piece) => {
-      if(piece.typeId === "sensor-water-leak"){
-        document.body.style.cursor = 'pointer';
-        console.log(event.target)
-
-      }
-
-    }
-
-    const captorEvent = (event, pieces) =>{
-      console.log(event + pieces)
-    }
-
-    const AfterCaptorEvent = (event, pieces) =>{
-      console.log(event, pieces)
-      document.body.style.cursor = 'default';
-    }*/
-
+    // When we put the mouse hover an clickable icon can click on it
     const buttonCheck = (piece) => {
       if(piece.typeId === "sensor-water-leak" || piece.typeId === "smart-connected-light" || piece.typeId === "connected-tv" )
         document.body.style.cursor = 'pointer';
@@ -865,6 +474,7 @@ export default defineComponent({
 
     }
 
+    // Icons has specific actions so send the good methode for Icons
     const IconsAction = (roomName,piece) => {
       console.log(roomName)
       switch (piece.typeId){
@@ -1047,21 +657,10 @@ export default defineComponent({
         async (new_value) => {
           console.log(new_value)
           if(new_value=== true){
-      //      limbsState.armRotation = 45;
-        //    limbsState.legRotation = 90;
-          //  limbsState.bodyRotation= 90;
-
-           // console.log(bonhGroup.value)
-           // let x =             bonhGroup.value.getNode().x
-           // let y = bonhGroup.value.getNode().y
-
-            console.log(bonhGroup.value.getNode())
             limbsState.armRotation = 120;
             limbsState.legRotation = -30;
 
-            //bonhGroup.value.getNode().rotation(12.5)
           } else {
-            bonhGroup.value.getNode().rotation(0)
             limbsState.armRotation = 0;
             limbsState.legRotation = 0;
 
@@ -1086,17 +685,7 @@ export default defineComponent({
       dragStart,
       dragEnd,
       dragMove,
-      mode,
-      menuConfig,
-      getMenuItemConfig,
-      getMenuItemSquareConfig,
-      getHomeItemSquareConfig,
       captorActionneur,
-    //  startMenu,
-    //  endMenu,
-     // captAdd,
-     // pushCaptorActionneur,
-     // captorActioneurToAdd,
       bodyConfig,
       armConfig,
       legConfig,
@@ -1112,7 +701,6 @@ export default defineComponent({
       setDragStart,
       setDragEnd,
       zoomFunction,
-      bonhGroup,
       isDown
     };
   }
